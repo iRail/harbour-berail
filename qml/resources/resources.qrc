@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/icon-translate.png</file>
+        <file>icons/icon-paypal.png</file>
+        <file>icons/icon-github.png</file>
+        <file>icons/icon-fontawesome.png</file>
+        <file>icons/icon-code.png</file>
+        <file>resources.qrc</file>
+        <file>icons/icon-irail.png</file>
+    </qresource>
+</RCC>
