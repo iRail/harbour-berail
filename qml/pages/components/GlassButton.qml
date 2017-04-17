@@ -7,11 +7,28 @@ BackgroundItem {
     property string iconText
     property real itemScale: 1.0
     property bool show: true
+    property int type: 0
 
     width: parent.width
     height: Theme.itemSizeLarge*1.2*itemScale
     anchors { left: parent.left; right: parent.right }
-    onClicked: Qt.openUrlExternally(link);
+    onClicked: {
+        switch(type) {
+        case 0:
+            Qt.openUrlExternally(link);
+            break;
+        case 1:
+            var _page = pageStack.push(link);
+            _page.finished.connect(function(station) {
+                console.debug(JSON.stringify(station))
+                iconText = station;
+            });
+            break;
+        case 2:
+            pageStack.replace(link);
+            break;
+        }
+    }
     enabled: link.length
     visible: iconText.length && show
 

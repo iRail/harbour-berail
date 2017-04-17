@@ -47,7 +47,14 @@ DISTFILES += \
     qml/resources/icons/icon-fontawesome.png \
     qml/resources/icons/icon-code.png \
     qml/pages/components/TextLabel.qml \
-    qml/pages/components/GlassButton.qml
+    qml/pages/components/GlassButton.qml \
+    qml/pages/js/station.js \
+    qml/pages/StationListPage.qml \
+    qml/pages/js/util.js \
+    qml/pages/DatePickerPage.qml \
+    qml/pages/TripPage.qml \
+    qml/pages/components/TripItem.qml \
+    qml/pages/js/trip.js
 
 RESOURCES += \
     qml/resources/resources.qrc

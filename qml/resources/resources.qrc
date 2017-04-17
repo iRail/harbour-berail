@@ -7,5 +7,8 @@
         <file>icons/icon-code.png</file>
         <file>resources.qrc</file>
         <file>icons/icon-irail.png</file>
+        <file>icons/icon-train.png</file>
+        <file>icons/icon-switch.png</file>
+        <file>icons/icon-change.png</file>
     </qresource>
 </RCC>
