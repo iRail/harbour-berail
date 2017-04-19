@@ -10,5 +10,6 @@
         <file>icons/icon-train.png</file>
         <file>icons/icon-switch.png</file>
         <file>icons/icon-change.png</file>
+        <file>icons/icon-announcement.png</file>
     </qresource>
 </RCC>

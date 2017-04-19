@@ -106,6 +106,13 @@
     </message>
 </context>
 <context>
+    <name>TripDetailPage</name>
+    <message>
+        <source>Trip detail</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TripItem</name>
     <message>
         <source>Track %1</source>

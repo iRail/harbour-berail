@@ -25,15 +25,28 @@ Page {
                     ListElement { fruit: "lychee" }
                     ListElement { fruit: "apricots" }
                 }
-                delegate: TripItem {
+                delegate: ListItem {
                     width: ListView.view.width
-                    departStation: "Vilvoorde"
-                    departTime: "23:24"
-                    arriveStation: "MECHELEN"
-                    arriveTime: "23:59"
-                    changes: [2]
-                    changesDelays: [5]
-                    train: "IC5379"
+                    contentHeight: item.height
+                    TripItem {
+                        id: item
+                        departStation: "Vilvoorde"
+                        departTime: "23:24"
+                        arriveStation: "MECHELEN"
+                        arriveTime: "23:59"
+                        changes: [2]
+                        changesDelays: [5]
+                        announcements: ["From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid"]
+                        showAnnouncement: false
+                        train: "IC5379"
+                        expanded: false
+                    }
+                    onClicked: {
+                        if(!item.trainCanceled) {
+                            //expanded? expanded=false: expanded=true
+                            pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
+                        }
+                    }
                 }
             }
         }

@@ -2,7 +2,7 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "../js/trip.js" as Trip
 
-BackgroundItem {
+Item { // Reuse it for TripDetailPage and TripDetail
     width: parent.width
     height: tripColumn.height + Theme.paddingLarge //Extra margins
 
@@ -19,19 +19,15 @@ BackgroundItem {
     property int currentStop: 2
     property bool trainCanceled: Math.random() > 0.9
     property bool expanded: false
+    property bool showAnnouncement: true
     property var changes
     property var changesDelays
+    property var announcements
 
     // Internal variables
     property var _hasDelay: [departDelay > 0, arriveDelay > 0]
     property int _changeIndex
     property bool _hasAnnouncement: Math.random() > 0.9
-
-    onClicked: {
-        if(!trainCanceled) {
-            expanded? expanded=false: expanded=true
-        }
-    }
 
     Column {
         id: tripColumn
@@ -51,12 +47,8 @@ BackgroundItem {
                 scale: expanded? 1.0: 0.9
                 radius: width/7
                 color: "#43a047"
-                Behavior on height {
-                    NumberAnimation { duration: 500 }
-                }
-                Behavior on width {
-                    NumberAnimation { duration: 500 }
-                }
+                Behavior on height { NumberAnimation { duration: 750 } }
+                Behavior on width { NumberAnimation { duration: 750 } }
 
                 Label {
                     id: departTimeLabel
@@ -93,13 +85,13 @@ BackgroundItem {
             // Train & journey information
             Item {
                 width: Theme.itemSizeMedium
-                height: width
+                height: childrenRect.height
                 anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin }
                 visible: changes.length > 0
 
                 // Train name
                 Label {
-                    id: trainName;
+                    id: trainName
                     width: parent.width
                     wrapMode: Text.WordWrap
                     truncationMode: TruncationMode.Fade
@@ -108,16 +100,36 @@ BackgroundItem {
 
                 // #Changes
                 Label {
-                    id: changeLabel;
+                    id: changeLabel
                     anchors { top: trainName.bottom; topMargin: Theme.paddingMedium }
                     text: changes.length
+                    visible: changes.length > 0
+                }
+
+                Image {
+                    id: changeIcon
+                    width: Theme.iconSizeSmall
+                    height: width
+                    anchors { verticalCenter: changeLabel.verticalCenter; left: changeLabel.right; leftMargin: Theme.paddingMedium }
+                    source: "qrc:///icons/icon-change.png"
+                    visible: changeLabel.visible
+                    asynchronous: true
+                }
+
+                // Announcements
+                Label {
+                    id: announcementLabel;
+                    anchors { top: changeIcon.bottom; topMargin: Theme.paddingMedium }
+                    text: announcements.length
+                    visible: announcements.length
                 }
 
                 Image {
                     width: Theme.iconSizeSmall
                     height: width
-                    anchors { verticalCenter: changeLabel.verticalCenter; left: changeLabel.right; leftMargin: Theme.paddingMedium }
-                    source: "qrc:///icons/icon-change.png"
+                    anchors { verticalCenter: announcementLabel.verticalCenter; left: announcementLabel.right; leftMargin: Theme.paddingMedium }
+                    source: "qrc:///icons/icon-announcement.png"
+                    visible: announcementLabel.visible
                     asynchronous: true
                 }
             }
@@ -130,12 +142,8 @@ BackgroundItem {
             width: parent.width
             height: expanded? Trip.calculateTraject(5): 0
             opacity: expanded? 1.0: 0.0
-            Behavior on opacity {
-                FadeAnimation { duration: expanded? 100: 500} // Overlap with animation when closing
-            }
-            Behavior on height {
-                NumberAnimation { duration: 333 }
-            }
+            Behavior on opacity { FadeAnimation { duration: expanded? 200: 750} } // Overlap with animation when closing
+            Behavior on height { NumberAnimation { duration: 500 } }
 
             // Traject indicator + progress
             Rectangle {
@@ -151,9 +159,7 @@ BackgroundItem {
                     width: Theme.itemSizeSmall/4
                     height: expanded? Trip.calculateProgress(currentStop): 0
                     color: Theme.highlightColor
-                    Behavior on height {
-                        NumberAnimation { duration: 333 }
-                    }
+                    Behavior on height { NumberAnimation { duration: 500 } }
                 }
 
                 // Progress indicator stops
@@ -188,12 +194,8 @@ BackgroundItem {
                                 radius: width/7
                                 color: "#f9a825"
                                 visible: changes[0] == index
-                                Behavior on height {
-                                    NumberAnimation { duration: 500 }
-                                }
-                                Behavior on width {
-                                    NumberAnimation { duration: 500 }
-                                }
+                                Behavior on height { NumberAnimation { duration: 750 } }
+                                Behavior on width { NumberAnimation { duration: 750 } }
 
                                 // Change time
                                 Label {
@@ -241,14 +243,8 @@ BackgroundItem {
                 scale: expanded? 1.0: 0.9
                 radius: width/7
                 color: "#f44336"
-
-
-                Behavior on height {
-                    NumberAnimation { duration: 500 }
-                }
-                Behavior on width {
-                    NumberAnimation { duration: 500 }
-                }
+                Behavior on height { NumberAnimation { duration: 750 } }
+                Behavior on width { NumberAnimation { duration: 750 } }
 
                 Label {
                     id: arriveTimeLabel
@@ -282,8 +278,8 @@ BackgroundItem {
                 font.pixelSize: Theme.fontSizeTiny*1.2
             }
         }
-        SectionHeader { text: qsTr("Announcement"); opacity: _hasAnnouncement? 1.0: 0.0; visible: !opacity==0.0 }
-        TextLabel { opacity: _hasAnnouncement? 1.0: 0.0; visible: !opacity==0.0; labelText: "From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid" }
+        SectionHeader { text: qsTr("Announcement"); opacity: _hasAnnouncement && showAnnouncement? 1.0: 0.0; visible: !opacity==0.0 }
+        TextLabel { opacity: _hasAnnouncement && showAnnouncement? 1.0: 0.0; visible: !opacity==0.0; labelText: announcements[0] }
     }
 
     // Train canceled overlay
@@ -295,7 +291,7 @@ BackgroundItem {
         // Nice background
         Rectangle {
             anchors { fill: parent }
-            opacity: 0.75
+            opacity: 0.70
             gradient: Gradient {
                     GradientStop { position: 0.0; color: Theme.highlightBackgroundColor }
                     GradientStop { position: 0.33; color: Theme.highlightDimmerColor }

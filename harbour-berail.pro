@@ -54,7 +54,8 @@ DISTFILES += \
     qml/pages/DatePickerPage.qml \
     qml/pages/TripPage.qml \
     qml/pages/components/TripItem.qml \
-    qml/pages/js/trip.js
+    qml/pages/js/trip.js \
+    qml/pages/TripDetailPage.qml
 
 RESOURCES += \
     qml/resources/resources.qrc
