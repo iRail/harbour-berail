@@ -53,6 +53,13 @@
     </message>
 </context>
 <context>
+    <name>CancelOverlay</name>
+    <message>
+        <source>canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>BeRail</source>
@@ -97,6 +104,10 @@
         <source>To</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Liveboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StationListPage</name>
@@ -120,10 +131,6 @@
     </message>
     <message>
         <source>Announcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>canceled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

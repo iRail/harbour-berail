@@ -37,9 +37,20 @@ ApplicationWindow
     id: app
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
-    allowedOrientations: defaultAllowedOrientations
+    allowedOrientations: Orientation.All
+    _defaultPageOrientations: Orientation.All
 
     readonly property string name: "BeRail"
     readonly property string version: "V0.1"
+
+    // Colors
+    readonly property string blue: "#2196f3"
+    readonly property string red: "#f44336"
+    readonly property string green: "#43a047"
+    readonly property string orange: "#f9a825"
+    readonly property string yellow: "#ffeb3b"
+    readonly property string grey: "#37474f"
+    readonly property string black: "#263238"
+    readonly property string white: "#fffde7"
 }
 

@@ -55,7 +55,11 @@ DISTFILES += \
     qml/pages/TripPage.qml \
     qml/pages/components/TripItem.qml \
     qml/pages/js/trip.js \
-    qml/pages/TripDetailPage.qml
+    qml/pages/TripDetailPage.qml \
+    qml/pages/StationLiveboardPage.qml \
+    qml/pages/components/LiveBoardItem.qml \
+    qml/pages/components/CancelOverlay.qml \
+    qml/pages/js/liveboard.js
 
 RESOURCES += \
     qml/resources/resources.qrc

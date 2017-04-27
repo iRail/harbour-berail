@@ -20,6 +20,11 @@ Page {
                 text: qsTr("About")
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
+
+            MenuItem {
+                text: qsTr("Liveboard")
+                onClicked: pageStack.push(Qt.resolvedUrl("StationLiveboardPage.qml"))
+            }
         }
 
         Column {

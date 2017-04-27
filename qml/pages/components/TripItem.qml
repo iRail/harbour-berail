@@ -46,7 +46,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 height: Theme.itemSizeSmall
                 scale: expanded? 1.0: 0.9
                 radius: width/7
-                color: "#43a047"
+                color: app.green
                 Behavior on height { NumberAnimation { duration: 750 } }
                 Behavior on width { NumberAnimation { duration: 750 } }
 
@@ -192,7 +192,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                                 height: changeStopDelayLabel.visible? Theme.itemSizeSmall/2 + changeStopDelayLabel.height: Theme.itemSizeSmall/2
                                 scale: expanded? 1.0: 0.0 // Animate size: 0 <-> full size
                                 radius: width/7
-                                color: "#f9a825"
+                                color: app.orange
                                 visible: changes[0] == index
                                 Behavior on height { NumberAnimation { duration: 750 } }
                                 Behavior on width { NumberAnimation { duration: 750 } }
@@ -242,7 +242,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 height: Theme.itemSizeSmall
                 scale: expanded? 1.0: 0.9
                 radius: width/7
-                color: "#f44336"
+                color: app.red
                 Behavior on height { NumberAnimation { duration: 750 } }
                 Behavior on width { NumberAnimation { duration: 750 } }
 
@@ -282,32 +282,5 @@ Item { // Reuse it for TripDetailPage and TripDetail
         TextLabel { opacity: _hasAnnouncement && showAnnouncement? 1.0: 0.0; visible: !opacity==0.0; labelText: announcements[0] }
     }
 
-    // Train canceled overlay
-    Item {
-        width: parent.width
-        height: parent.height
-        visible: trainCanceled
-
-        // Nice background
-        Rectangle {
-            anchors { fill: parent }
-            opacity: 0.70
-            gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.highlightBackgroundColor }
-                    GradientStop { position: 0.33; color: Theme.highlightDimmerColor }
-                    GradientStop { position: 0.66; color: Theme.highlightDimmerColor }
-                    GradientStop { position: 1.0; color: Theme.highlightBackgroundColor }
-                }
-        }
-
-        // Canceled text
-        Label {
-            anchors { centerIn: parent }
-            text: qsTr("canceled") + " :-("
-            color: Theme.highlightColor
-            font.bold: true
-            font.capitalization: Font.AllUppercase
-            font.pixelSize: Theme.fontSizeLarge
-        }
-    }
+    CancelOverlay { visible: trainCanceled }
 }
