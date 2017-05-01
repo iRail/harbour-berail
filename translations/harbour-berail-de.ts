@@ -142,6 +142,17 @@
     </message>
 </context>
 <context>
+    <name>harbour-berail</name>
+    <message>
+        <source>Network down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network recovered</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>util</name>
     <message>
         <source>Jan</source>

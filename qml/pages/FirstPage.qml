@@ -11,6 +11,10 @@ Page {
     property bool readyToPlan: departure.iconText != departureText && destination.iconText != destinationText // Enable when the user added his stations
     property bool hasAnnoucement: true
 
+    /*Component.onCompleted: python.call("app.stations.get_list", [], function(result) {
+            console.log(JSON.stringify(result))
+        });*/
+
     SilicaFlickable {
         anchors { fill: parent }
         contentHeight: column.height
