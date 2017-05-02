@@ -1,3 +1,7 @@
+/*
+Thanks to Jolla Sailfish OS SDK examples for this nice search page
+*/
+
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 
@@ -64,7 +68,7 @@ Page {
                     color: searchString.length > 0 ? (highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor)
                                                    : (highlighted ? Theme.highlightColor : Theme.primaryColor)
                     textFormat: Text.StyledText
-                    text: Theme.highlightText(model.text, searchString, Theme.highlightColor)
+                    text: Theme.highlightText(model.name, searchString, Theme.highlightColor)
                 }
             }
 
@@ -82,73 +86,34 @@ Page {
     ListModel {
         id: listModel
 
-        // copied under creative commons license from Wikipedia
-        // http://en.wikipedia.org/wiki/List_of_sovereign_states
-        property var countries: ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola",
-            "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
-            "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
-            "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
-            "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei",
-            "Bulgaria", "Burkina Faso", "Burma", "Burundi", "Cambodia",
-            "Cameroon", "Canada", "Cape Verde", "Central African Republic", "Chad",
-            "Chile", "China", "Colombia", "Comoros", "Costa Rica",
-            "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark",
-            "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador",
-            "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia",
-            "Ethiopia", "Fiji", "Finland", "France", "Gabon",
-            "Gambia", "Georgia", "Germany", "Ghana", "Greece",
-            "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
-            "Haiti", "Honduras", "Hungary", "Iceland", "India",
-            "Indonesia", "Iran", "Iraq", "Ireland", "Israel",
-            "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan",
-            "Kenya", "Kiribati", "Korea North", "Korea South", "Kuwait",
-            "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho",
-            "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
-            "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives",
-            "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius",
-            "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia",
-            "Montenegro", "Morocco", "Mozambique", "Namibia", "Nauru",
-            "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger",
-            "Nigeria", "Norway", "Oman", "Pakistan", "Palau",
-            "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines",
-            "Poland", "Portugal", "Qatar", "Romania", "Russia",
-            "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa",
-            "San Marino", "Saudi Arabia", "Senegal", "Serbia", "Seychelles",
-            "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands",
-            "Somalia", "South Africa", "South Sudan", "Spain", "Sri Lanka",
-            "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland",
-            "Syria", "Tajikistan", "Tanzania", "Thailand", "Togo",
-            "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan",
-            "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom",
-            "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City",
-            "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe",
-            "Abkhazia", "Cook Islands", "Kosovo", "Nagorno-Karabakh", "Niue",
-            "Northern Cyprus", "Palestine", "SADR", "Somaliland", "South Ossetia",
-            "Taiwan"]
+        // Localisation needs to be done
+        // Static is needed to avoid load times
+        property var stations: ['Aachen Hbf', 'Aalst', 'Aalst-Kerrebroek', 'Aalter', 'Aarschot', 'Aarsele', 'Acren', 'Agde', 'Aime-la-Plagne', 'Aiseau', 'Aix-en-Provence TGV', 'Albertville', 'Alken', 'Amay', 'Ampsin', 'Amsterdam CS', 'Andenne', 'Angleur', 'Annappes', 'Ans', 'Anseremme', 'Antibes', 'Antoing', 'Antwerp-Berchem', 'Antwerp-Central', 'Antwerp-East', 'Antwerp-Haven', 'Antwerp-Luchtbal', 'Antwerp-Noorderdokken', 'Antwerp-South', 'Anzegem', 'Appelterre', 'Arcaden/Arcades', 'Archennes', 'Arlon', 'Ascq', 'Asse', 'Assesse', 'Ath', 'Athus', 'Aubange', 'Auvelais', 'Avignon TGV', 'Aye', 'Aywaille', 'Aéroport Charles-de-Gaulle TGV', 'Baasrode-Zuid', 'Baisieux', 'Balegem-Dorp', 'Balegem-Zuid', 'Balen', 'Bambrugge', 'Barvaux', 'Bas-Oha', 'Basel', 'Basse-Wavre', 'Bastogne-Nord', 'Bastogne-Sud', 'Beauraing', 'Beernem', 'Beersel', 'Beervelde', 'Begijnendijk', 'Beignée', 'Bellem', 'Belsele', 'Beringen', 'Berlaar', 'Bertrange Strassen', 'Bertrix', 'Berzée', 'Beuzet', 'Beveren', 'Beverlo', 'Bierges-Walibi', 'Bierset-Awans', 'Bilzen', 'Binche', 'Bissegem', 'Blankenberge', 'Blanmont', 'Blaton', 'Bleret', 'Bockstael', 'Boechout', 'Bokrijk', 'Bomal', 'Booischot', 'Boom', 'Boondaal/Boondael', 'Boortmeerbeek', 'Bordet', 'Bornem', 'Bosvoorde/Boitsfort', 'Bourg-Saint-Maurice', 'Boussu', 'Bouwel', 'Bracquegnies', "Braine-l'Alleud", 'Braine-le-Comte', 'Bressoux', 'Brugelette', 'Brugge', 'Brugge-Sint-Pieters', 'Brussels Airport - Zaventem', 'Brussels-Central', 'Brussels-Chapelle/Brussels-Kapellekerk', 'Brussels-Congres', 'Brussels-Luxemburg/Brussels-Luxembourg', 'Brussels-North', 'Brussels-Schuman', 'Brussels-South/Brussels-Midi', 'Brussels-West', 'Buda', 'Buggenhout', 'Buizingen', 'Burst', 'Béziers', 'Callenelle', 'Cambron-Casteau', 'Cannes', 'Capellen', 'Carlsbourg', 'Carnieres', 'Ceroux-Mousty', 'Chambéry-Challes-les-Eaux', 'Chapelle-Dieu', 'Chapois', 'Charleroi-Ouest', 'Charleroi-Sud', 'Chastre', 'Château-de-Seilles', 'Châtelet', 'Chênée', 'Ciney', 'Clervaux', 'Colmar', 'Comblain-la-Tour', 'Comines', 'Coo', 'Couillet', 'Cour-sur-Heure', 'Courcelles-Motte', 'Courrière', 'Court-Saint-Étienne', 'Couvin', 'Croix Wasquehal', "Croix l'Allumette", 'Dave-Saint-Martin', 'De Hoek', 'De Panne', 'De Pinte', 'Deinze', 'Delta', 'Den Haag HS', 'Denderleeuw', 'Dendermonde', 'Diegem', 'Diepenbeek', "Diesdelle/Vivier d'Oie", 'Diest', 'Diksmuide', 'Dilbeek', 'Dinant', 'Dolhain-Gileppe', 'Dordrecht', 'Dortmund Hbf', 'Drauffelt', 'Drongen', 'Duffel', 'Duinbergen', 'Duisburg Hbf', 'Düsseldorf Flughafen Hbf', 'Düsseldorf Hbf', 'Ebbsfleet International', 'Ede', 'Eeklo', 'Eichem', 'Eijsden', 'Eine', 'Eke-Nazareth', 'Ekeren', 'Enghien', 'Engis', 'Eppegem', 'Erbisoeul', 'Erembodegem', 'Ernage', 'Erpe-Mere', 'Erps-Kwerps', 'Erquelinnes', 'Erquelinnes-Village', 'Esneux', 'Essen', 'Essen Hbf', 'Essene-Lombeek', 'Ettelbréck', 'Etterbeek', 'Eupen', 'Evere', 'Evergem', 'Ezemaal', 'Familleureux', 'Farciennes', 'Faux', 'Fexhe-le-Haut-Clocher', 'Flawinne', 'Flemalle-Grande', 'Flemalle-Haute', 'Fleurus', 'Floreffe', 'Florenville', 'Florival', 'Florée', 'Fontaine-Valmont', 'Forchies', 'Forrières', 'Fraipont', 'Frameries', 'Franchimont', 'Franière', 'Frankfurt am Main Airport', 'Frankfurt am Main Hbf', 'Froyennes', 'Galmaarden', 'Gastuche', 'Gavere-Asper', 'Gedinne', 'Geel', 'Gembloux', 'Gendron-Celles', 'Genk', 'Genly', 'Gentbrugge', 'Genval', 'Geraardsbergen', 'Ghent-Dampoort', 'Ghent-Sint-Pieters', 'Ghlin', 'Glons', 'Godarville', 'Godinne', 'Gontrode', 'Gouvy', 'Gouy-lez-Pieton', 'Graide', 'Groenendaal', 'Groot-Bijgaarden', 'Grupont', 'Haacht', 'Haaltert', 'Habay', 'Hainin', 'Halanzy', 'Halle', 'Ham-sur-Heure', 'Ham-sur-Sambre', 'Hambos', 'Hamoir', 'Hamont', 'Hansbeke', 'Harchies', 'Harelbeke', 'Haren', 'Haren-Sud/Haren-Zuid', 'Hasselt', 'Haute-Flône', 'Haute-Picardie TGV', 'Haversin', 'Havre', 'Heide', 'Heist', 'Heist-op-den-Berg', 'Heizijde', 'Hellemmes', 'Hemiksem', 'Hennuyères', 'Herent', 'Herentals', 'Hergenrath', 'Herne', 'Herseaux', 'Herstal', 'Herzele', 'Heusden', 'Hever', 'Heverlee', 'Hillegem', 'Hoboken-Polder', 'Hoeilaart', 'Hofstade', 'Holleken', 'Hony', 'Houraing', 'Hourpes', 'Houyet', 'Hove', 'Huizingen', 'Huy', 'Iddergem', 'Idegem', 'Ieper', 'Ingelmunster', 'Izegem', 'Jambes', 'Jambes-Est', 'Jamioulx', 'Jemappes', 'Jemelle', 'Jemeppe-sur-Meuse', 'Jemeppe-sur-Sambre', 'Jette', 'Jurbeke', 'Juslenville', 'Kalmthout', 'Kapelle-op-den-Bos', 'Kapellen', 'Kautebaach', 'Kessel', 'Kiewit', 'Kijkuit', 'Klengbetten', 'Knokke', 'Koksijde', 'Kontich', 'Kortemark', 'Kortenberg', 'Kortrijk', 'Kwatrecht', 'Köln Hbf', 'La Hulpe', 'La Louvière-Centre', 'La Louvière-Sud', 'La Roche (Brabant)', 'Labuissière', 'Landegem', 'Landelies', 'Landen', 'Landry', 'Landskouter', 'Langdorp', 'Le Campinaire', 'Lebbeke', 'Lede', 'Leignon', 'Leman', 'Lembeek', 'Lens', 'Leopoldsburg', 'Les Arcs - Draguignan', 'Lessines', 'Leuven', 'Leuze', 'Leval', 'Lezennes', 'Libramont', 'Lichtervelde', 'Liedekerke', 'Lier', 'Lierde', 'Liers', 'Ligny', 'Lille Europe', 'Lille Flandres', 'Lillois', 'Limal', 'Limburg Süd', 'Linkebeek', 'Lissewege', 'Liège-Guillemins', 'Liège-Jonfosse', 'Liège-Palais', 'Lobbes', 'Lodelinsart', 'Lokeren', 'Lommel', 'Londerzeel', 'London Saint Pancras International', 'Lonzée', 'Lot', 'Louvain-la-Neuve-Université', 'Lustin', 'Luttre', 'Lyon Part Dieu TGV', 'Lyon-Perrache TGV', 'Lyon-Saint Exupéry TGV', 'Lëtzebuerg', 'Maastricht', 'Maastricht Randwyck', 'Maffle', 'Malderen', 'Mamer', 'Mamer-Lycée', 'Manage', 'Marbehan', 'Marche-en-Famenne', 'Marche-les-Dames', 'Marche-lez-Écaussinnes', 'Marchienne-Zone', 'Marchienne-au-Pont', 'Maria-Aalter', 'Mariembourg', 'Marloie', 'Marne-la-Vallée - Chessy', 'Marseille-Saint-Charles', 'Masnuy-Saint-Pierre', 'Maubray', 'Mazy', 'Mechelen', 'Mechelen-Nekkerspoel', 'Meiser', 'Melkouwen', 'Melle', 'Melreux-Hotton', 'Melsele', 'Menen', 'Merchtem', 'Merelbeke', 'Merode', 'Mersch', 'Messancy', 'Metz', 'Mevergnies-Attre', 'Michelau', 'Milmort', 'Moensberg', 'Mol', 'Mollem', 'Momalle', 'Mons', 'Mont-Saint-Guibert', 'Montpellier', 'Moortsele', 'Morlanwelz', 'Mortsel', 'Mortsel-Deurnesteenweg', 'Mortsel-Liersesteenweg', 'Mortsel-Oude God', 'Mouscron', 'Moustier', 'Mouterij', 'Moûtiers-Salins-Brides-les-Bai', 'Muizen', 'Mulhouse', 'Munkzwalm', 'Méry', 'Namur', 'Namêche', 'Naninne', 'Narbonne', 'Natoye', 'Neerpelt', 'Neerwinden', 'Nessonvaux', 'Neufchâteau', 'Neufvilles', 'Nice Ville', 'Niel', 'Nieuwkerken-Waas', 'Nijlen', 'Nimy', 'Ninove', 'Nivelles', 'Noorderkempen', 'Nossegem', 'Nîmes', 'Obaix-Buzet', 'Obourg', 'Okegem', 'Olen', 'Oostende', 'Oostkamp', 'Opwijk', 'Ottignies', 'Oud-Heverlee', 'Oudegem', 'Oudenaarde', 'Overpelt', 'Paliseul', 'Papignies', 'Paris Nord', 'Pepinster', 'Pepinster-Cité', 'Perpignan', 'Philippeville', 'Piéton', 'Poix-Saint-Hubert', 'Pont de Bois', 'Pont-de-Seraing', 'Pont-à-Celles', 'Poperinge', 'Poulseur', 'Profondsart', 'Pry', 'Puurs', 'Pécrot', 'Péruwelz', 'Quaregnon', 'Quevy', 'Quievrain', 'Rebaix', 'Remicourt', 'Rhisnes', 'Rivage', 'Rixensart', 'Rodange', 'Roeselare', 'Ronet', 'Ronse', 'Roosendaal', 'Rotterdam CS', 'Roubaix', 'Roux', 'Ruisbroek', 'Ruisbroek-Sauvegarde', 'Saint-Denis-Bovesse', 'Saint-Ghislain', 'Saint-Louis-Haut-Rhin', 'Saint-Raphaël-Valescure', 'Sart-Bernard', 'Saverne', 'Schaarbeek/Schaerbeek', 'Scheldewindeke', 'Schelle', 'Schellebelle', 'Schendelbeke', 'Schiphol', 'Schoonaarde', 'Schulen', 'Sclaigneaux', 'Sclessin', 'Selestat', 'Serskamp', 'Siegburg', 'Silly', 'Simonis', 'Sinaai', 'Sint-Agatha-Berchem/Berchem-Sainte-Agathe', 'Sint-Denijs-Boekel', 'Sint-Genesius-Rode', 'Sint-Gillis-Dendermonde', 'Sint-Job', 'Sint-Joris-Weert', 'Sint-Katelijne-Waver', 'Sint-Mariaburg', 'Sint-Martens-Bodegem', 'Sint-Niklaas', 'Sint-Truiden', 'Sleidinge', 'Soignies', 'Solre-sur-Sambre', 'Spa', 'Spa-Géronstère', 'Statte', 'Stockem', 'Strasbourg', 'Sy', 'Sète', 'Tamines', 'Temse', 'Terhagen', 'Ternat', 'Testelt', 'Theux', 'Thieu', 'Thionville', 'Thuin', 'Thulin', 'Thurn en Taxis', 'Tielen', 'Tielt', 'Tienen', 'Tilff', 'Tilly', 'Tollembeek', 'Tongeren', 'Torhout', 'Toulon', 'Tourcoing', 'Tournai', 'Trois-Ponts', 'Troisvierges', 'Trooz', 'Tubize', 'Turnhout', 'Ukkel-Kalevoet/Uccle-Calevoet', 'Ukkel-Stalle/Uccle-Stalle', 'Valence TGV', 'Veltem', 'Vertrijk', 'Verviers-Central', 'Verviers-Palais', 'Veurne', 'Viane-Moerbeke', 'Vichte', 'Vielsalm', 'Vijfhuizen', 'Ville-Pommerœul', 'Villers-la-Ville', 'Vilvoorde', 'Virton', 'Visé', 'Viville', 'Voroux', 'Vorst-Oost/Forest-Est', 'Vorst-Zuid/Forest-Midi', 'Waarschoot', 'Walcourt', 'Waregem', 'Waremme', 'Waterloo', 'Watermaal/Watermael', 'Wavre', 'Weerde', 'Welkenraedt', 'Welle', 'Wervik', 'Wespelaar-Tildonk', 'Wetteren', 'Wevelgem', 'Wezemaal', 'Wichelen', 'Wijgmaal', 'Wildert', 'Willebroek', 'Wilwerwiltz', 'Wolfstee', 'Wondelgem', 'Yves-Gomezée', 'Yvoir', 'Zandbergen', 'Zaventem', 'Zedelgem', 'Zeebrugge-Dorp', 'Zeebrugge-Strand', 'Zele', 'Zellik', 'Zichem', 'Zingem', 'Zolder', 'Zonhoven', 'Zottegem', 'Zwankendamme', 'Zwijndrecht', 'Ecaussinnes']
+
 
         function update() {
-            var filteredCountries = countries.filter(function (country) { return country.toLowerCase().indexOf(searchString) !== -1 })
+            var filteredStations = stations.filter(function (station) { return station.toLowerCase().indexOf(searchString) !== -1 })
 
-            var country
+            var station
             var found
             var i
 
             // helper objects that can be quickly accessed
-            var filteredCountryObject = new Object
-            for (i = 0; i < filteredCountries.length; ++i) {
-                filteredCountryObject[filteredCountries[i]] = true
+            var filteredStationObject = new Object
+            for (i = 0; i < filteredStations.length; ++i) {
+                filteredStationObject[filteredStations[i]] = true
             }
-            var existingCountryObject = new Object
+            var existingStationObject = new Object
             for (i = 0; i < count; ++i) {
-                country = get(i).text
-                existingCountryObject[country] = true
+                station = get(i).text
+                existingStationObject[station] = true
             }
 
             // remove items no longer in filtered set
             i = 0
             while (i < count) {
-                country = get(i).text
-                found = filteredCountryObject.hasOwnProperty(country)
+                station = get(i).text
+                found = filteredStationObject.hasOwnProperty(station)
                 if (!found) {
                     remove(i)
                 } else {
@@ -157,12 +122,12 @@ Page {
             }
 
             // add new items
-            for (i = 0; i < filteredCountries.length; ++i) {
-                country = filteredCountries[i]
-                found = existingCountryObject.hasOwnProperty(country)
+            for (i = 0; i < filteredStations.length; ++i) {
+                station = filteredStations[i]
+                found = existingStationObject.hasOwnProperty(station)
                 if (!found) {
                     // for simplicity, just adding to end instead of corresponding position in original list
-                    append({ "text": country})
+                    append({ "name": station})
                 }
             }
         }

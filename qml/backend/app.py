@@ -14,8 +14,9 @@ class _Stations(object):
     def __init__(self):
         pass
     
-    def get_list(self): #OK
-        return network.connection.send("/stations?alerts=true&format=json&lang=" + language.lang)
+    def get_info(self): #BeRail 1.X
+        #return network.connection.send("/stations?alerts=true&format=json&lang=" + language.lang)
+        pass
         
 class _Liveboard(object):
     def __init__(self):

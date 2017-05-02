@@ -75,9 +75,6 @@ ApplicationWindow
 
                     importModule("app", function() {}); // Import "app" after we imported our platform specific modules
                     pythonReady = true
-                    call("app.stations.get_list", [], function(result) {
-                                console.log(JSON.stringify(result))
-                            })
                 });
 
                 //Notify user of the current network state
