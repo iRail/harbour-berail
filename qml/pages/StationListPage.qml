@@ -53,7 +53,7 @@ Page {
 
             delegate: BackgroundItem {
                 id: backgroundItem
-                onClicked: finished(model.text)
+                onClicked: finished(model.name)
 
                 ListView.onAdd: AddAnimation {
                     target: backgroundItem
@@ -105,14 +105,14 @@ Page {
             }
             var existingStationObject = new Object
             for (i = 0; i < count; ++i) {
-                station = get(i).text
+                station = get(i).name
                 existingStationObject[station] = true
             }
 
             // remove items no longer in filtered set
             i = 0
             while (i < count) {
-                station = get(i).text
+                station = get(i).name
                 found = filteredStationObject.hasOwnProperty(station)
                 if (!found) {
                     remove(i)

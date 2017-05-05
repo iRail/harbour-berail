@@ -9,20 +9,21 @@ Item { // Reuse it for TripDetailPage and TripDetail
     //Properties
     property string departTime
     property string departStation
-    property int departTrack: 1
-    property int departDelay: 20
+    property string departTrain
+    property int departTrack
+    property int departDelay
     property string arriveTime
     property string arriveStation
-    property string train
-    property int arriveTrack: 5
-    property int arriveDelay: 2
-    property int currentStop: 2
-    property bool trainCanceled: Math.random() > 0.9
-    property bool expanded: false
-    property bool showAnnouncement: true
-    property var changes
+    property string arriveTrain
+    property int arriveTrack
+    property int arriveDelay
+    property int currentStop
+    property bool canceled
+    property bool expanded
+    property bool showAlerts: true
+    property var vias
     property var changesDelays
-    property var announcements
+    property var alerts
 
     // Internal variables
     property var _hasDelay: [departDelay > 0, arriveDelay > 0]
@@ -87,7 +88,6 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 width: Theme.itemSizeMedium
                 height: childrenRect.height
                 anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin }
-                visible: changes.length > 0
 
                 // Train name
                 Label {
@@ -95,33 +95,33 @@ Item { // Reuse it for TripDetailPage and TripDetail
                     width: parent.width
                     wrapMode: Text.WordWrap
                     truncationMode: TruncationMode.Fade
-                    text: train
+                    text: departTrain //train
                 }
 
-                // #Changes
+                // #Vias
                 Label {
-                    id: changeLabel
+                    id: viasLabel
                     anchors { top: trainName.bottom; topMargin: Theme.paddingMedium }
-                    text: changes.length
-                    visible: changes.length > 0
+                    text: vias
+                    visible: vias
                 }
 
                 Image {
                     id: changeIcon
                     width: Theme.iconSizeSmall
                     height: width
-                    anchors { verticalCenter: changeLabel.verticalCenter; left: changeLabel.right; leftMargin: Theme.paddingMedium }
+                    anchors { verticalCenter: viasLabel.verticalCenter; left: viasLabel.right; leftMargin: Theme.paddingMedium }
                     source: "qrc:///icons/icon-change.png"
-                    visible: changeLabel.visible
+                    visible: vias
                     asynchronous: true
                 }
 
-                // Announcements
+                // Alerts
                 Label {
                     id: announcementLabel;
                     anchors { top: changeIcon.bottom; topMargin: Theme.paddingMedium }
-                    text: announcements.length
-                    visible: announcements.length
+                    text: alerts.length
+                    visible: alerts.length
                 }
 
                 Image {
@@ -180,26 +180,26 @@ Item { // Reuse it for TripDetailPage and TripDetail
                                 height: width
                                 anchors { horizontalCenter: parent.horizontalCenter }
                                 radius: width/2
-                                visible: !changeStopBullet.visible
+                                visible: !viaStopBullet.visible
                                 color: index > currentStop? Theme.highlightDimmerColor: Theme.highlightColor
                             }
 
                             // Change required stop
                             Rectangle {
-                                id: changeStopBullet
-                                y: changeStopDelayLabel.visible? -height/4: 0 //Use the space in both directions if bigger then other items
+                                id: viaStopBullet
+                                y: viaStopDelayLabel.visible? -height/4: 0 //Use the space in both directions if bigger then other items
                                 width: Theme.itemSizeSmall
-                                height: changeStopDelayLabel.visible? Theme.itemSizeSmall/2 + changeStopDelayLabel.height: Theme.itemSizeSmall/2
+                                height: viaStopDelayLabel.visible? Theme.itemSizeSmall/2 + viaStopDelayLabel.height: Theme.itemSizeSmall/2
                                 scale: expanded? 1.0: 0.0 // Animate size: 0 <-> full size
                                 radius: width/7
                                 color: app.orange
-                                visible: changes[0] == index
+                                visible: true //changes == index TO DO
                                 Behavior on height { NumberAnimation { duration: 750 } }
                                 Behavior on width { NumberAnimation { duration: 750 } }
 
                                 // Change time
                                 Label {
-                                    id: changeStopTimeLabel
+                                    id: viaStopTimeLabel
                                     anchors { horizontalCenter: parent.horizontalCenter }
                                     text: "23:48"//changes.time[_changeIndex]
                                     font.pixelSize: Theme.fontSizeSmall
@@ -208,8 +208,8 @@ Item { // Reuse it for TripDetailPage and TripDetail
 
                                 // Delay
                                 Label {
-                                    id: changeStopDelayLabel
-                                    anchors { top: changeStopTimeLabel.bottom; horizontalCenter: parent.horizontalCenter }
+                                    id: viaStopDelayLabel
+                                    anchors { top: viaStopTimeLabel.bottom; horizontalCenter: parent.horizontalCenter }
                                     text: Trip.formatDelay(changesDelays[0])
                                     visible: changesDelays[0] > 0
                                     font.pixelSize: Theme.fontSizeTiny
@@ -219,7 +219,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
 
                             // Stop name
                             Label {
-                                anchors { left: changeStopBullet.visible? changeStopBullet.right: stopBullet.right; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingMedium; verticalCenter: parent.verticalCenter }
+                                anchors { left: viaStopBullet.visible? viaStopBullet.right: stopBullet.right; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingMedium; verticalCenter: parent.verticalCenter }
                                 font.capitalization: Font.SmallCaps
                                 text: "Eppegem " + index
                             }
@@ -277,10 +277,26 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 text: qsTr("Track %1").arg(arriveTrack)
                 font.pixelSize: Theme.fontSizeTiny*1.2
             }
+
+            Item {
+                width: Theme.itemSizeMedium
+                height: childrenRect.height
+                anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin }
+                visible: expanded // Only show when enough space is allocated
+
+                // Train name
+                Label {
+                    id: trainNameArrive
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                    truncationMode: TruncationMode.Fade
+                    text: arriveTrain //train
+                }
+            }
         }
-        SectionHeader { text: qsTr("Announcement"); opacity: _hasAnnouncement && showAnnouncement? 1.0: 0.0; visible: !opacity==0.0 }
-        TextLabel { opacity: _hasAnnouncement && showAnnouncement? 1.0: 0.0; visible: !opacity==0.0; labelText: announcements[0] }
+        SectionHeader { text: qsTr("Announcement"); opacity: _hasAnnouncement && showAlerts? 1.0: 0.0; visible: !opacity==0.0 }
+        TextLabel { opacity: _hasAnnouncement && showAlerts? 1.0: 0.0; visible: !opacity==0.0; labelText: alerts[0] }
     }
 
-    CancelOverlay { visible: trainCanceled }
+    CancelOverlay { visible: canceled }
 }

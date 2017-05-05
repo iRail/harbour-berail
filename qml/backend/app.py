@@ -14,7 +14,7 @@ class _Stations(object):
     def __init__(self):
         pass
     
-    def get_info(self): #BeRail 1.X
+    def get_info(self): #BeRail 1.X information returned about station
         #return network.connection.send("/stations?alerts=true&format=json&lang=" + language.lang)
         pass
         
@@ -29,13 +29,16 @@ class _Route(object):
     def __init__(self):
         pass
     
-    def get_route(self, fromStation, toStation, time, date, departFromGivenTime=True): #time format: 1403 (14h 3 min) and date format: 010115 (1 jan 2015) OK
-        timeSel = "arrive"        
-        if departFromGivenTime:
-            timeSel = "depart"
+    def get_route(self, fromStation, toStation, time, date, arriveFromGivenTime=False): #time format: 1403 (14h 3 min) and date format: 010115 (1 jan 2015) OK
+        timeSel = "depart" 
+        if arriveFromGivenTime:
+            timeSel = "arrive"
             
-        return network.connection.send("/connections?to=" + toStation + "&from=" + fromStation + "&date=" + date + "&time=" + time + "&timeSel=" + timeSel + "&alerts=true&format=json&lang=" + language.lang)
-        
+        route = network.connection.send("/connections?to=" + toStation + "&from=" + fromStation + "&date=" + str(date) + "&time=" + str(time) + "&timeSel=" + timeSel + "&alerts=true&format=json&lang=" + language.lang)
+        if route: #Valid connection found
+            return route["connection"]
+        return False
+     
 class _Vehicle(object): #OK
     def __init__(self):
         pass
@@ -65,3 +68,5 @@ route = _Route()
 vehicle = _Vehicle()
 connection = _Connection()
 language = _Language()
+
+#print(route.get_route("Vilvoorde", "Mechelen", "1954", "030517"))

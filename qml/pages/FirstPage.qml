@@ -71,7 +71,7 @@ Page {
                     id: date
                     width: parent.width/1.75
                     label: qsTr("Date")
-                    value: Util.getDay() + " " + Util.getMonth() + " " + Util.getYear()
+                    value: Util.getDay(true) + " " + Util.getMonth() + " " + Util.getYear().toString().substr(2,2) //Get last 2 digits of the year
                     onClicked: {
                         var dialog = pageStack.push(Qt.resolvedUrl("DatePickerPage.qml"), {})
 
@@ -103,7 +103,12 @@ Page {
                 anchors { horizontalCenter: parent.horizontalCenter }
                 text: qsTr("Plan my trip")
                 enabled: readyToPlan
-                onClicked: pageStack.push(Qt.resolvedUrl("TripPage.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("TripPage.qml"), {
+                                          from: departure.iconText,
+                                          to: destination.iconText,
+                                          time: time.value,
+                                          date: date.value
+                                          })
             }
 
             ListModel {

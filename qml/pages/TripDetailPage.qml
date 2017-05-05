@@ -21,10 +21,11 @@ Page {
                 departTime: "23:24"
                 arriveStation: "MECHELEN"
                 arriveTime: "23:59"
-                changes: [2]
+                vias: [2]
                 changesDelays: [5]
-                announcements: ["From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid"]
-                train: "IC5379"
+                alerts: ["From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid"]
+                arriveTrain: "IC5379"
+                departTrain: "P2647"
                 Component.onCompleted: expanded = true // Expand when ready
             }
         }

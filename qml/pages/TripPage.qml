@@ -1,42 +1,69 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "./components"
+import "./js/trip.js" as Trip
 
 Page {
+    property string from
+    property string to
+    property string time
+    property string date
+    property bool succes: true //Wait until changed
+    Component.onCompleted: Trip.load(from, to, time, date)
 
     SilicaListView {
         width: parent.width; height: parent.height
         header: PageHeader { title: qsTr("Trip planner") }
-        model: ListModel {
-            ListElement { fruit: "jackfruit" }
-            ListElement { fruit: "orange" }
-            ListElement { fruit: "lemon" }
-            ListElement { fruit: "lychee" }
-            ListElement { fruit: "apricots" }
-            ListElement { fruit: "lychee" }
-            ListElement { fruit: "apricots" }
-        }
+        model: tripModel
         delegate: ListItem {
             width: ListView.view.width
             contentHeight: item.height
             TripItem {
                 id: item
-                departStation: "Vilvoorde"
-                departTime: "23:24"
-                arriveStation: "MECHELEN"
-                arriveTime: "23:59"
-                changes: [2]
+                departStation: model.depart.station
+                departTime: model.depart.time.time
+                departDelay: model.depart.delay
+                departTrain: model.depart.train
+                arriveStation: model.arrival.station
+                arriveTime: model.arrival.time.time
+                arriveDelay: model.arrival.delay
+                arriveTrain: model.depart.train
+                canceled: model.depart.canceled || model.arrival.canceled? true: false //When arrive or depart is canceled then this connection is not valid
+                vias: model.vias.number
                 changesDelays: [5]
-                announcements: ["From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid"]
-                showAnnouncement: false
-                train: "IC5379"
+                alerts: [] //["From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid"]
+                showAlerts: false
                 expanded: false
             }
             onClicked: {
-                if(!item.trainCanceled) {
+                if(!item.canceled) {
                     pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
                 }
             }
         }
+
+        ViewPlaceholder {
+            enabled: !succes
+            text: qsTr("No connections found")
+            hintText: qsTr("Try another station") + "..."
+        }
+    }
+
+    BusyIndicator {
+        id: loadingIndicator
+        anchors { centerIn: parent }
+        running: Qt.application.active && tripModel.count==0 && succes
+        size: BusyIndicatorSize.Large
+    }
+
+    Label {
+        opacity: tripModel.count==0 && succes? 1.0: 0.0
+        anchors { top: loadingIndicator.bottom; topMargin: Theme.paddingLarge; horizontalCenter: parent.horizontalCenter }
+        text: qsTr("Loading") + "..."
+        Behavior on opacity { FadeAnimation{} }
+    }
+
+    ListModel {
+        id: tripModel
     }
 }
