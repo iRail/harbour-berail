@@ -18,27 +18,28 @@ Page {
         delegate: ListItem {
             width: ListView.view.width
             contentHeight: item.height
+            enabled: !item.canceled // Disable TripDetailPage when train is canceled
+            onClicked: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
             TripItem {
                 id: item
                 departStation: model.depart.station
                 departTime: model.depart.time.time
                 departDelay: model.depart.delay
                 departTrain: model.depart.train
+                departTrack: model.depart.platform
+                departTrackChanged: model.depart.platformChanged
                 arriveStation: model.arrival.station
                 arriveTime: model.arrival.time.time
                 arriveDelay: model.arrival.delay
-                arriveTrain: model.depart.train
-                canceled: model.depart.canceled || model.arrival.canceled? true: false //When arrive or depart is canceled then this connection is not valid
+                arriveTrain: model.arrival.train
+                arriveTrack: model.arrival.platform
+                arriveTrackChanged: model.arrival.platformChanged
+                canceled: model.depart.canceled || model.arrival.canceled? true: false // When arrive or depart is canceled then this connection is not valid
                 vias: model.vias.number
                 changesDelays: [5]
                 alerts: [] //["From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid"]
                 showAlerts: false
                 expanded: false
-            }
-            onClicked: {
-                if(!item.canceled) {
-                    pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
-                }
             }
         }
 

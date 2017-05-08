@@ -10,12 +10,14 @@ Item { // Reuse it for TripDetailPage and TripDetail
     property string departTime
     property string departStation
     property string departTrain
-    property int departTrack
+    property string departTrack
+    property bool departTrackChanged
     property int departDelay
     property string arriveTime
     property string arriveStation
     property string arriveTrain
-    property int arriveTrack
+    property string arriveTrack
+    property bool arriveTrackChanged
     property int arriveDelay
     property int currentStop
     property bool canceled
@@ -78,9 +80,22 @@ Item { // Reuse it for TripDetailPage and TripDetail
 
             // Track number
             Label {
+                id: departTrackLabel
+                z: 1
                 anchors { top: departStationLabel.bottom; left: departTimeItem.right; leftMargin: Theme.paddingLarge }
-                text: qsTr("Track %1").arg(departTrack)
+                text: departTrack.length > 0? qsTr("Track %1").arg(departTrack): qsTr("Track ???") // Placeholder when unknown
+                visible: true //settings.showUnknownTrackLabel
                 font.pixelSize: Theme.fontSizeTiny*1.2
+            }
+
+            Rectangle {
+                width: departTrackLabel.width*1.25
+                height: departTrackLabel.height*1.05
+                radius: width/4
+                opacity: Theme.highlightBackgroundOpacity
+                anchors { centerIn: departTrackLabel }
+                color: app.yellow
+                visible: departTrackChanged
             }
 
             // Train & journey information
@@ -273,9 +288,22 @@ Item { // Reuse it for TripDetailPage and TripDetail
 
             // Track number
             Label {
+                id: arriveTrackLabel
+                z: 1
                 anchors { top: arriveStationLabel.bottom; left: arriveTimeItem.right; leftMargin: Theme.paddingLarge }
-                text: qsTr("Track %1").arg(arriveTrack)
+                text: arriveTrack.length > 0? qsTr("Track %1").arg(arriveTrack): qsTr("Track ???")
+                visible: true //settings.showUnknownTrackLabel
                 font.pixelSize: Theme.fontSizeTiny*1.2
+            }
+
+            Rectangle {
+                width: arriveTrackLabel.width*1.25
+                height: arriveTrackLabel.height*1.05
+                anchors { centerIn: arriveTrackLabel }
+                radius: width/4
+                opacity: Theme.highlightBackgroundOpacity
+                color: app.yellow
+                visible: arriveTrackChanged
             }
 
             Item {
