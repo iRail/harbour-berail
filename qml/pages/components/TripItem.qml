@@ -26,6 +26,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
     property var vias
     property var changesDelays
     property var alerts
+    property var stopsModel
 
     // Internal variables
     property var _hasDelay: [departDelay > 0, arriveDelay > 0]
@@ -73,7 +74,9 @@ Item { // Reuse it for TripDetailPage and TripDetail
             // Depart station name
             Label {
                 id: departStationLabel
+                width: parent.width - departTimeItem.width - journeyInformation.width - 2*Theme.paddingLarge
                 anchors { left: departTimeItem.right; leftMargin: Theme.paddingLarge }
+                truncationMode: TruncationMode.Fade
                 font.capitalization: Font.AllUppercase
                 text: departStation
             }
@@ -100,6 +103,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
 
             // Train & journey information
             Item {
+                id: journeyInformation
                 width: Theme.itemSizeMedium
                 height: childrenRect.height
                 anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin }
@@ -183,7 +187,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                     spacing: Theme.paddingLarge*2
                     Repeater {
                         id: stopsProgress
-                        model: 5
+                        model: stopsModel
                         Item {
                             width: Theme.itemSizeSmall
                             height: Theme.itemSizeSmall/2
@@ -216,7 +220,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                                 Label {
                                     id: viaStopTimeLabel
                                     anchors { horizontalCenter: parent.horizontalCenter }
-                                    text: "23:48"//changes.time[_changeIndex]
+                                    text: model.time
                                     font.pixelSize: Theme.fontSizeSmall
                                     font.bold: true
                                 }
@@ -226,7 +230,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                                     id: viaStopDelayLabel
                                     anchors { top: viaStopTimeLabel.bottom; horizontalCenter: parent.horizontalCenter }
                                     text: Trip.formatDelay(changesDelays[0])
-                                    visible: changesDelays[0] > 0
+                                    visible: model.delay
                                     font.pixelSize: Theme.fontSizeTiny
                                     font.bold: true
                                 }
@@ -236,7 +240,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                             Label {
                                 anchors { left: viaStopBullet.visible? viaStopBullet.right: stopBullet.right; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingMedium; verticalCenter: parent.verticalCenter }
                                 font.capitalization: Font.SmallCaps
-                                text: "Eppegem " + index
+                                text: model.station
                             }
                         }
                     }
@@ -281,7 +285,9 @@ Item { // Reuse it for TripDetailPage and TripDetail
             // Arrive station name
             Label {
                 id: arriveStationLabel
+                width: parent.width - arriveTimeItem.width - journeyInformation.width - 2*Theme.paddingLarge
                 anchors { left: arriveTimeItem.right; leftMargin: Theme.paddingLarge }
+                truncationMode: TruncationMode.Fade
                 font.capitalization: Font.AllUppercase
                 text: arriveStation
             }

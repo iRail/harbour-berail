@@ -31,15 +31,12 @@ class _Connection(object):
         connman_data = sfos.connman.read()
         self._current_network = ""
         self._session = requests.Session()
-        """if connman_data["NetworkState"][0] == "connected":
-            self._current_network = connman_data["NetworkType"][0]
-            self._session = requests.Session()
-            self._session.headers.update(constants.tinder.HEADERS)
-            logger.log_to_file.debug("Connected, starting requests session...")
+        if connman_data["NetworkState"][0] == "connected":
+            logger.log_to_file.debug("Connected!")
         else:
             sfos.connection_manager.launch_connection_dialog()
             logger.log_to_file.debug("Not connected, launch connection dialog")
-        logger.log_to_file.debug("Init Connection class")"""
+        logger.log_to_file.debug("Init Connection class")
         
     
     """

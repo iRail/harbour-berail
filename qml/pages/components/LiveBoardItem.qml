@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
+import "../js/liveboard.js" as LiveBoard
 
 Item {
     width: parent.width
@@ -9,8 +10,9 @@ Item {
     property string trainType
     property string delay
     property string departTime
-    property bool trackChanged: Math.random() > 0.8
-    property bool trainCanceled: Math.random() > 0.8
+    property bool trackChanged
+    property bool trainCanceled
+    property bool modelHasDelay
     property int track
     property var announcements
 
@@ -32,7 +34,7 @@ Item {
 
         Label {
             id: trainLabel
-            width: parent.width-departLabel.width-typeLabel.width-trackLabel.width-delayLabel.width-liveboardRow.spacing*4
+            width: parent.width-departLabel.width-typeLabel.width-trackLabel.width-liveboardRow.spacing*4 - (modelHasDelay? delayLabel.width: 0)
             anchors { verticalCenter: parent.verticalCenter }
             truncationMode: TruncationMode.Fade
             font.bold: true
@@ -46,7 +48,7 @@ Item {
             truncationMode: TruncationMode.Fade
             font.bold: true
             color: app.yellow
-            text: trainType
+            text: page.isPortrait? trainType.substring(0,2): trainType
         }
 
         Rectangle {
@@ -70,7 +72,8 @@ Item {
             truncationMode: TruncationMode.Fade
             font.bold: true
             color: app.red
-            text: delay
+            visible: delay > 0
+            text: LiveBoard.formatDelay(delay)
         }
     }
 

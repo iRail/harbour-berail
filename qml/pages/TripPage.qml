@@ -18,7 +18,7 @@ Page {
         delegate: ListItem {
             width: ListView.view.width
             contentHeight: item.height
-            enabled: !item.canceled // Disable TripDetailPage when train is canceled
+            enabled: false //Temp disabled TripDetailPage until we figured out how to show intermediate stops //!item.canceled // Disable TripDetailPage when train is canceled
             onClicked: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
             TripItem {
                 id: item
@@ -50,18 +50,8 @@ Page {
         }
     }
 
-    BusyIndicator {
-        id: loadingIndicator
-        anchors { centerIn: parent }
-        running: Qt.application.active && tripModel.count==0 && succes
-        size: BusyIndicatorSize.Large
-    }
-
-    Label {
-        opacity: tripModel.count==0 && succes? 1.0: 0.0
-        anchors { top: loadingIndicator.bottom; topMargin: Theme.paddingLarge; horizontalCenter: parent.horizontalCenter }
-        text: qsTr("Loading") + "..."
-        Behavior on opacity { FadeAnimation{} }
+    LoadIndicator {
+        show: tripModel.count==0 && succes
     }
 
     ListModel {

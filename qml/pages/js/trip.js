@@ -19,30 +19,30 @@ function formatDelay(delay) {
     }
 }
 
-function load(from, to, time, date) {
+function load(from, to, time, date, detail) {
     python.call("app.route.get_route", [from, to, formatTimeForAPI(time), formatDateForAPI(date)], function(trip) {
         console.log(JSON.stringify(trip))
         if(trip) { // Valid trip is TRUE
             for(var i=0; i < Object.keys(trip).length; i++) { // Run through whole connection object
                 tripModel.append({
                                      "depart": { "station": trip[i].departure.station,
+                                         "stationinfo": trip[i].departure.stationinfo,
                                          "time": formatUnixTimeToUTC(trip[i].departure.time, true),
                                          "delay": trip[i].departure.delay,
                                          "canceled": parseInt(trip[i].departure.canceled) !== 0, //C onvert to int first then to boolean
                                          "platform": trip[i].departure.platform.length === 0? trip[i].departure.platforminfo.name: trip[i].departure.platform, // Fallback when platform is missing
                                          "platformChanged": parseInt(trip[i].departure.platforminfo.normal) !== 1, // Convert to boolean
-                                         "stationinfo": trip[i].departure.stationinfo,
                                          "vehicleId": trip[i].departure.vehicle,
                                          "direction": trip[i].departure.direction,
                                          "train": trip[i].departure.vehicle.split(".")[2] // BE.NMBS.TRAINID
                                      },
                                      "arrival": { "station": trip[i].arrival.station,
+                                         "stationinfo": trip[i].arrival.stationinfo,
                                          "time": formatUnixTimeToUTC(trip[i].arrival.time, true),
                                          "delay": trip[i].arrival.delay,
                                          "canceled": parseInt(trip[i].arrival.canceled) !== 0, // Convert to int first and then to boolean
                                          "platform": trip[i].arrival.platform.length === 0? trip[i].arrival.platforminfo.name: trip[i].arrival.platform, // Fallback when platform is missing
                                          "platformChanged": parseInt(trip[i].arrival.platforminfo.normal) !== 1, // Convert to boolean
-                                         "stationinfo": trip[i].arrival.stationinfo,
                                          "vehicleId": trip[i].arrival.vehicle,
                                          "direction": trip[i].arrival.direction,
                                          "train": trip[i].arrival.vehicle.split(".")[2] // BE.NMBS.TRAINID
@@ -52,7 +52,8 @@ function load(from, to, time, date) {
                                          "via": trip[i].hasOwnProperty("vias")? buildViaModel(trip[i]): []
                                      },
                                      "alerts": trip[i].hasOwnProperty("alerts")? true: false, // TO DO
-                                     "duration": formatDuration(trip[i].duration)
+                                     "duration": formatDuration(trip[i].duration),
+                                     //"stops": detail? buildStopsModel(): undefined;
                                  });
             }
         }
@@ -61,6 +62,24 @@ function load(from, to, time, date) {
         }
     });
 }
+
+//BUILD ALERTS MODEL
+/*
+"alerts":{
+                "alert":[
+                    {
+                        "description":"Situation back to normal. Delays may still occur.",
+                        "header":"Mechelen - Antwerpen-Centraal: Signal failure.",
+                        "id":"0"
+                    },
+                    {
+                        "description":"Due to an IT problem it isn&#39;t possible to get real time train information via the real time information search engine. Please listen to the announcements made in the train or in the train station.",
+                        "header":"IT problem",
+                        "id":"1"
+                    }
+                ],
+                "number":"2"
+            },*/
 
 function buildViaModel(trip) {
     var viaArray = [];

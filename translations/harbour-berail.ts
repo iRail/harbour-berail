@@ -110,9 +110,31 @@
     </message>
 </context>
 <context>
+    <name>LoadIndicator</name>
+    <message>
+        <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StationListPage</name>
     <message>
         <source>Stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StationLiveboardPage</name>
+    <message>
+        <source>Change station</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oops!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -142,10 +164,6 @@
     <name>TripPage</name>
     <message>
         <source>Trip planner</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

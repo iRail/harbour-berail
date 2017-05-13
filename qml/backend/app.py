@@ -68,5 +68,3 @@ route = _Route()
 vehicle = _Vehicle()
 connection = _Connection()
 language = _Language()
-
-#print(route.get_route("Vilvoorde", "Mechelen", "1954", "030517"))

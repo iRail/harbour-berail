@@ -457,7 +457,8 @@ DISTFILES += \
     qml/backend/lib/i486/requests/sessions.py \
     qml/backend/lib/i486/requests/status_codes.py \
     qml/backend/lib/i486/requests/structures.py \
-    qml/backend/lib/i486/requests/utils.py
+    qml/backend/lib/i486/requests/utils.py \
+    qml/pages/components/LoadIndicator.qml
 
 RESOURCES += \
     qml/resources/resources.qrc
