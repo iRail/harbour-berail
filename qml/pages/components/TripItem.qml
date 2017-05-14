@@ -25,13 +25,13 @@ Item { // Reuse it for TripDetailPage and TripDetail
     property bool showAlerts: true
     property var vias
     property var changesDelays
-    property var alerts
+    property var alertsModel
     property var stopsModel
 
     // Internal variables
     property var _hasDelay: [departDelay > 0, arriveDelay > 0]
     property int _changeIndex
-    property bool _hasAnnouncement: Math.random() > 0.9
+    property bool _hasAlert: alertsModel.count > 0
 
     Column {
         id: tripColumn
@@ -137,18 +137,18 @@ Item { // Reuse it for TripDetailPage and TripDetail
 
                 // Alerts
                 Label {
-                    id: announcementLabel;
+                    id: alertsLabel;
                     anchors { top: changeIcon.bottom; topMargin: Theme.paddingMedium }
-                    text: alerts.length
-                    visible: alerts.length
+                    text: alerts.count
+                    visible: alerts.count
                 }
 
                 Image {
                     width: Theme.iconSizeSmall
                     height: width
-                    anchors { verticalCenter: announcementLabel.verticalCenter; left: announcementLabel.right; leftMargin: Theme.paddingMedium }
+                    anchors { verticalCenter: alertsLabel.verticalCenter; left: alertsLabel.right; leftMargin: Theme.paddingMedium }
                     source: "qrc:///icons/icon-announcement.png"
-                    visible: announcementLabel.visible
+                    visible: alertsLabel.visible
                     asynchronous: true
                 }
             }
@@ -328,8 +328,10 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 }
             }
         }
-        SectionHeader { text: qsTr("Announcement"); opacity: _hasAnnouncement && showAlerts? 1.0: 0.0; visible: !opacity==0.0 }
-        TextLabel { opacity: _hasAnnouncement && showAlerts? 1.0: 0.0; visible: !opacity==0.0; labelText: alerts[0] }
+
+        DisturbancesView {
+            model: alertsModel
+        }
     }
 
     CancelOverlay { visible: canceled }

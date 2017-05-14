@@ -16,37 +16,55 @@ function getTimeString() {
 }
 
 function load(station) {
-    liveboardModel.clear() // Make model empty
+    liveboardModel.clear(); // Make model empty
+    alertsModel.clear();
     succes = true; // Reset
 
     python.call("app.liveboard.get_liveboard", [station], function(liveboard) {
-        if("empty" in liveboard) { // No data available
-            succes = false;
-            return false;
-        }
-        else if(liveboard) { // Valid liveboard is TRUE
+        if(liveboard) { // Valid liveboard is TRUE
             var _hasDelay = false;
-            for(var i=0; i < Object.keys(liveboard.departures.departure).length; i++) { // Detect if we have a delay in this data
-                if(liveboard.departures.departure[i].delay > 0) {
+
+            if("empty" in liveboard) { // No data available
+                succes = false;
+                return false;
+            }
+
+            for(var i=0; i < Object.keys(liveboard.departures.departure).length; i++) {
+
+                if(liveboard.departures.departure[i].delay > 0) { // Detect if we have a delay in this data
                     _hasDelay = true;
-                    break;
+                }
+
+                if(liveboard.departures.departure[i].hasOwnProperty("alerts")) { // Detect if we have alerts in this data
+                    console.log("FOUND")
+                    for(var j=0; j < alerts.length; j++) {
+                        if(alertsModel.get(j).description == liveboard.departures.departure[i].alerts.alert.description && alertsModel.get(j).header == liveboard.departures.departure[i].alerts.alert.header) { //Multiple train can be affected by 1 disturbance
+                            console.log("SAME")
+                            break;
+                        }
+                        else if(j == alerts.length-1) { // Unique alert, add it to the model
+                            console.log("NEW")
+                            alertsModel.append(liveboard.departures.departure[i].alerts.alert);
+                        }
+                    }
+                    console.log(JSON.stringify(alertsModel));
                 }
             }
 
-            for(var i=0; i < Object.keys(liveboard.departures.departure).length; i++) { // Run through whole connection object
+            for(var i=0; i < Object.keys(liveboard.departures.departure).length; i++) { // Build liveboardModel
                 liveboardModel.append({
                                           "depart": { "station": liveboard.departures.departure[i].station,
                                               "stationinfo": liveboard.departures.departure[i].stationinfo,
                                               "time": formatUnixTimeToUTC(liveboard.departures.departure[i].time, true),
                                               "delay": liveboard.departures.departure[i].delay,
-                                              "canceled": parseInt(liveboard.departures.departure[i].canceled) !== 0, //C onvert to int first then to boolean
+                                              "canceled": parseInt(liveboard.departures.departure[i].canceled) !== 0, // Convert to int first then to boolean
                                               "platform": liveboard.departures.departure[i].platform.length === 0? liveboard.departures.departure[i].platforminfo.name: liveboard.departures.departure[i].platform, // Fallback when platform is missing
                                               "platformChanged": parseInt(liveboard.departures.departure[i].platforminfo.normal) !== 1, // Convert to boolean
                                               "vehicleId": liveboard.departures.departure[i].vehicle,
                                               "train": liveboard.departures.departure[i].vehicle.split(".")[2] // BE.NMBS.TRAINID
                                           },
-                                          "hasDelay": _hasDelay
-                                          //"alerts": liveboard[i].hasOwnProperty("alerts")? true: false, // TO DO
+                                          "hasDelay": _hasDelay,
+                                          "alerts": liveboard.departures.departure[i].hasOwnProperty("alerts")? liveboard.departures.departure[i].alerts.alert: []
                                       });
             }
         }

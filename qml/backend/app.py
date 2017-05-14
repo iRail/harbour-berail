@@ -46,6 +46,13 @@ class _Vehicle(object): #OK
     def get_vehicle(self, vehicle_id):
         return network.connection.send("/vehicle/?id=" + vehicle_id + "&alerts=true&format=json")
         
+class _Disturbances(object):
+    def __init__(self):
+        pass
+    
+    def get_disturbances(self):
+        return network.connection.send("/disturbances?format=json&lang=" + language.lang)
+        
 class _Connection(object):
     def __init__(self):
         pass
@@ -68,3 +75,4 @@ route = _Route()
 vehicle = _Vehicle()
 connection = _Connection()
 language = _Language()
+disturbances = _Disturbances()

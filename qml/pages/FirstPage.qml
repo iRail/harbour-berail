@@ -2,6 +2,7 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "./components"
 import "./js/util.js" as Util
+import "./js/disturbances.js" as Disturbances
 
 Page {
     id: page
@@ -10,6 +11,12 @@ Page {
     property string destinationText: qsTr("To")
     property bool readyToPlan: departure.iconText != departureText && destination.iconText != destinationText // Enable when the user added his stations
     property bool hasAnnoucement: true
+    property bool succes: true
+
+    Connections {
+        target: app
+        onPythonReadyChanged: pythonReady? Disturbances.load(): undefined
+    }
 
     SilicaFlickable {
         anchors { fill: parent }
@@ -23,7 +30,7 @@ Page {
 
             MenuItem {
                 text: qsTr("Liveboard")
-                onClicked: pageStack.push(Qt.resolvedUrl("StationLiveboardPage.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("LiveboardPage.qml"))
             }
         }
 
@@ -104,21 +111,20 @@ Page {
                 text: qsTr("Plan my trip")
                 enabled: readyToPlan
                 onClicked: pageStack.push(Qt.resolvedUrl("TripPage.qml"), {
-                                          from: departure.iconText,
-                                          to: destination.iconText,
-                                          time: time.value,
-                                          date: date.value
+                                              from: departure.iconText,
+                                              to: destination.iconText,
+                                              time: time.value,
+                                              date: date.value
                                           })
             }
 
-            ListModel {
-                id: announcementsModel
-                ListElement {
-                    text: "hello"
-                }
+            DisturbancesView {
+                model: alertsModel
             }
-            SectionHeader { text: announcementsModel.count==1? qsTr("Announcement"):qsTr("Announcements"); opacity: hasAnnoucement? 1.0: 0.0 }
-            TextLabel { opacity: hasAnnoucement? 1.0: 0.0; labelText: "From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid" }
+
+            ListModel {
+                id: alertsModel
+            }
         }
     }
 }

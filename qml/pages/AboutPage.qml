@@ -25,7 +25,7 @@ Page {
 
             SectionHeader { text: qsTr("Developer & source code") }
             GlassButton { link: "https://github.com/modulebaan"; iconSource: "qrc:///icons/icon-github.png"; iconText: "Dylan Van Assche"; itemScale: 0.75 }
-            GlassButton { link: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XTDV5P8JQTHT4"; iconSource: "qrc:///icons/icon-paypal.png"; iconText: qsTr("Donate with Paypal"); itemScale: 0.75 }
+            GlassButton { link: "https://paypal.me/minitreintje"; iconSource: "qrc:///icons/icon-paypal.png"; iconText: qsTr("Donate with Paypal"); itemScale: 0.75 }
             GlassButton { link: "https://github.com/iRail/harbour-berail"; iconSource: "qrc:///icons/icon-code.png"; iconText: qsTr("Source code"); itemScale: 0.75 }
             TextLabel { labelText: "BeRail " + qsTr("can be translated into your language but for that we need your help! You can translate this app on") + " Transifex:" }
             GlassButton { link: "https://www.transifex.com/dylanvanassche/harbour-berail"; iconSource: "qrc:///icons/icon-translate.png"; iconText: "Transifex " + qsTr("project"); itemScale: 0.75 }

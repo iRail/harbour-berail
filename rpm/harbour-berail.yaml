@@ -1,6 +1,6 @@
 Name: harbour-berail
 Summary: BeRail
-Version: 0.1
+Version: 1.0
 Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
@@ -11,8 +11,7 @@ License: LICENSE
 # Usually this line does not need to be modified.
 Sources:
 - '%{name}-%{version}.tar.bz2'
-Description: |
-  Short description of my Sailfish OS Application
+Description: BeRail is a Sailfish OS application to plan your journeys on the Belgian railroad.
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution

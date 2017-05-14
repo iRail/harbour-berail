@@ -37,7 +37,7 @@ Page {
                 canceled: model.depart.canceled || model.arrival.canceled? true: false // When arrive or depart is canceled then this connection is not valid
                 vias: model.vias.number
                 changesDelays: [5]
-                alerts: [] //["From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid"]
+                alertsModel: model.alerts
                 showAlerts: false
                 expanded: false
             }

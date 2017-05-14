@@ -13,7 +13,7 @@ Name:       harbour-berail
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    BeRail
-Version:    0.1
+Version:    1.0
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
@@ -28,8 +28,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-Short description of my Sailfish OS Application
-
+BeRail is a Sailfish OS application to plan your journeys on the Belgian railroad.
 
 %prep
 %setup -q -n %{name}-%{version}

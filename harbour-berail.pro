@@ -19,7 +19,6 @@ SOURCES += src/harbour-berail.cpp
 OTHER_FILES += qml/harbour-berail.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
-    rpm/harbour-berail.changes.in \
     rpm/harbour-berail.spec \
     rpm/harbour-berail.yaml \
     translations/*.ts \
@@ -56,7 +55,6 @@ DISTFILES += \
     qml/pages/components/TripItem.qml \
     qml/pages/js/trip.js \
     qml/pages/TripDetailPage.qml \
-    qml/pages/StationLiveboardPage.qml \
     qml/pages/components/LiveBoardItem.qml \
     qml/pages/components/CancelOverlay.qml \
     qml/pages/js/liveboard.js \
@@ -458,7 +456,11 @@ DISTFILES += \
     qml/backend/lib/i486/requests/status_codes.py \
     qml/backend/lib/i486/requests/structures.py \
     qml/backend/lib/i486/requests/utils.py \
-    qml/pages/components/LoadIndicator.qml
+    qml/pages/components/LoadIndicator.qml \
+    qml/pages/LiveboardPage.qml \
+    rpm/harbour-berail.changes \
+    qml/pages/js/disturbances.js \
+    qml/pages/components/DisturbancesView.qml
 
 RESOURCES += \
     qml/resources/resources.qrc

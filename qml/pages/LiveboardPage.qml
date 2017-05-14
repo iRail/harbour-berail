@@ -21,6 +21,7 @@ Page {
     }
 
     SilicaListView {
+        id: departureList
         width: parent.width; height: parent.height
         model: liveboardModel
         header: Rectangle {
@@ -28,6 +29,7 @@ Page {
             width: parent.width
             height: Theme.itemSizeHuge*1.1
 
+            // Station name
             Label {
                 id: stationLabel
                 width: parent.width
@@ -39,12 +41,31 @@ Page {
                 text: station
             }
 
+            // Time
             Label {
                 anchors { left: parent.left; leftMargin: Theme.horizontalPageMargin; bottom: parent.bottom; bottomMargin: Theme.paddingMedium }
                 font.bold: true
                 truncationMode: TruncationMode.Fade
                 horizontalAlignment: Text.AlignLeft
                 text: currentTime
+            }
+
+            // Alerts
+            Label {
+                id: alertsLabel;
+                anchors { right: alertsIcon.left; rightMargin: Theme.paddingMedium; bottom: parent.bottom; bottomMargin: Theme.paddingMedium }
+                text: alertsModel.count
+                visible: alertsModel.count
+            }
+
+            Image {
+                id: alertsIcon
+                width: Theme.iconSizeSmall
+                height: width
+                anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin; verticalCenter: alertsLabel.verticalCenter}
+                source: "qrc:///icons/icon-announcement.png"
+                visible: alertsLabel.visible
+                asynchronous: true
             }
         }
 
@@ -97,11 +118,20 @@ Page {
         }
     }
 
+    DisturbancesView {
+        anchors { top: departureList.bottom; topMargin: Theme.paddingLarge }
+        model: alertsModel
+    }
+
     LoadIndicator {
         show: liveboardModel.count==0 && succes
     }
 
     ListModel {
         id: liveboardModel
+    }
+
+    ListModel {
+        id: alertsModel
     }
 }

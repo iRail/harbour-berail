@@ -85,14 +85,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Announcements</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Announcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Plan my trip</source>
         <translation type="unfinished"></translation>
     </message>
@@ -106,6 +98,21 @@
     </message>
     <message>
         <source>Liveboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LiveboardPage</name>
+    <message>
+        <source>Change station</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oops!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -124,21 +131,6 @@
     </message>
 </context>
 <context>
-    <name>StationLiveboardPage</name>
-    <message>
-        <source>Change station</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Oops!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No data available</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>TripDetailPage</name>
     <message>
         <source>Trip detail</source>
@@ -149,10 +141,6 @@
     <name>TripItem</name>
     <message>
         <source>Track %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Announcement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
