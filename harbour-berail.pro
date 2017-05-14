@@ -460,7 +460,8 @@ DISTFILES += \
     qml/pages/LiveboardPage.qml \
     rpm/harbour-berail.changes \
     qml/pages/js/disturbances.js \
-    qml/pages/components/DisturbancesView.qml
+    qml/pages/components/DisturbancesView.qml \
+    translations/harbour-berail-nl.ts
 
 RESOURCES += \
     qml/resources/resources.qrc

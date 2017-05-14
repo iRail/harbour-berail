@@ -11,7 +11,7 @@ License: LICENSE
 # Usually this line does not need to be modified.
 Sources:
 - '%{name}-%{version}.tar.bz2'
-Description: BeRail is a Sailfish OS application to plan your journeys on the Belgian railroad.
+Description: BeRail is a Sailfish OS application to plan your journeys on the Belgian railway.
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution
