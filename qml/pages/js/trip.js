@@ -51,7 +51,10 @@ function load(from, to, time, date, detail) {
                                          "number": trip[i].hasOwnProperty("vias")? trip[i].vias.number: 0, // When no vias are available then write 0 and an empty array to create the same model for vias and non vias connections
                                          "via": trip[i].hasOwnProperty("vias")? buildViaModel(trip[i]): []
                                      },
-                                     "alerts": trip[i].hasOwnProperty("alerts")? trip[i].alerts.alert: [],
+                                     "alerts": {
+                                         "alert": trip[i].hasOwnProperty("alerts")? trip[i].alerts.alert: [],
+                                         "number":  trip[i].hasOwnProperty("alerts")? trip[i].alerts.number: 0
+                                     },
                                      "duration": formatDuration(trip[i].duration),
                                      //"stops": detail? buildStopsModel(): undefined;
                                  });

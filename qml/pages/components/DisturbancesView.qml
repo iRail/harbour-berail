@@ -7,11 +7,13 @@ SilicaListView {
     height: childrenRect.height
     delegate: ListItem {
         width: ListView.view.width
-        contentHeight: item.height
+        contentHeight: item.height*1.1
+        onClicked: model.hasOwnProperty("link")? Qt.openUrlExternally(model.link): undefined // If model has link then open it when user clicks on the item
         Column {
             id: item
             width: parent.width
-            spacing: Theme.paddingLarge
+            anchors { centerIn: parent }
+            spacing: Theme.paddingSmall
             SectionHeader { text: model.header }
             TextLabel { labelText: model.description }
         }

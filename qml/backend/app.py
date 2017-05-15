@@ -52,6 +52,9 @@ class _Disturbances(object):
     
     def get_disturbances(self):
         return network.connection.send("/disturbances?format=json&lang=" + language.lang)
+        #import json
+       # jsonstr = '{"disturbance":[{"description":"Delayed train traffic. Disruption for an undetermined amount of time. Listen to the announcements in the train station.","id":"0","link":"http://www.belgianrail.be/jp/sncb-nmbs-routeplanner/help.exe/en?tpl=showmap_external&messageID=20051&channelFilter=timetable,twitter,rss_line_10,livemap&","timestamp":"1494785563","title":"Ottignies - Rixensart: Persons on the tracks."}],"timestamp":"1494786106","version":"1.1"}'
+        #return json.loads(jsonstr)
         
 class _Connection(object):
     def __init__(self):

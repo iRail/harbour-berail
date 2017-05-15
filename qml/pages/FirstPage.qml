@@ -15,7 +15,11 @@ Page {
 
     Connections {
         target: app
-        onPythonReadyChanged: pythonReady? Disturbances.load(): undefined
+        onPythonReadyChanged: {
+            var _result
+            pythonReady? _result = Disturbances.load(): undefined
+            _result? loader_DisturbancesView =component_DisturbancesView: undefined
+        }
     }
 
     SilicaFlickable {
@@ -118,9 +122,24 @@ Page {
                                           })
             }
 
+            // TODO: Move position bindings from the component to the Loader.
+            //       Check all uses of 'parent' inside the root element of the component.
+            /*Component {
+                id: component_DisturbancesView
+                DisturbancesView {
+                    model: alertsModel
+                }
+            }
+            Loader {
+                id: loader_DisturbancesView
+                sourceComponent: component_DisturbancesView
+                asynchronous: true
+            }*/
+
             DisturbancesView {
                 model: alertsModel
             }
+
 
             ListModel {
                 id: alertsModel

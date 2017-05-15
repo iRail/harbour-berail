@@ -27,4 +27,4 @@ https://www.transifex.com/dylanvanassche/harbour-berail/
 - [iRail API](https://api.irail.be)
 
 ## Screenshots
-<img src="https://raw.githubusercontent.com/modulebaan/harbour-berail/master/store/screenshots.jpg" alt="Screenshots" style="width: 100%;"/>
+<img src="https://raw.githubusercontent.com/iRail/harbour-berail/master/store/screenshots.jpg" alt="Screenshots" style="width: 100%;"/>

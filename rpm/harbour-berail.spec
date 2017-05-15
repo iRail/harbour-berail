@@ -28,7 +28,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-BeRail is a Sailfish OS application to plan your journeys on the Belgian railroad.
+BeRail is a Sailfish OS application to plan your journeys on the Belgian railway.
 
 %prep
 %setup -q -n %{name}-%{version}

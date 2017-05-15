@@ -37,16 +37,20 @@ function load(station) {
 
                 if(liveboard.departures.departure[i].hasOwnProperty("alerts")) { // Detect if we have alerts in this data
                     console.log("FOUND")
-                    for(var j=0; j < alerts.length; j++) {
+                    if(alertsModel.count == 0) { // Init model
+                        alertsModel.append(liveboard.departures.departure[0].alerts.alert);
+                    }
+
+                    /*for(var j=0; j < alertsModel.count; j++) { // TODO: filter double alerts
                         if(alertsModel.get(j).description == liveboard.departures.departure[i].alerts.alert.description && alertsModel.get(j).header == liveboard.departures.departure[i].alerts.alert.header) { //Multiple train can be affected by 1 disturbance
                             console.log("SAME")
                             break;
                         }
-                        else if(j == alerts.length-1) { // Unique alert, add it to the model
+                        else if(j == alertsModel.count-1) { // Unique alert, add it to the model
                             console.log("NEW")
                             alertsModel.append(liveboard.departures.departure[i].alerts.alert);
                         }
-                    }
+                    }*/
                     console.log(JSON.stringify(alertsModel));
                 }
             }
