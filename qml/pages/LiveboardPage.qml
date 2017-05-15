@@ -5,7 +5,7 @@ import "./js/liveboard.js" as LiveBoard
 
 Page {
     id: page
-    property string station: "Vilvoorde"
+    property string station: "Leuven"
     property string currentTime: LiveBoard.getTimeString()
     property bool succes: true
 
@@ -50,7 +50,7 @@ Page {
                 text: currentTime
             }
 
-            // Alerts
+            // Alerts indicator
             Label {
                 id: alertsLabel;
                 anchors { right: alertsIcon.left; rightMargin: Theme.paddingMedium; bottom: parent.bottom; bottomMargin: Theme.paddingMedium }
@@ -81,6 +81,7 @@ Page {
             }
         }
 
+        // Error occured
         ViewPlaceholder {
             enabled: !succes
             text: qsTr("Oops!")
@@ -116,11 +117,13 @@ Page {
                 }
             }
         }
-    }
 
-    DisturbancesView {
-        anchors { top: departureList.bottom; topMargin: Theme.paddingLarge }
-        model: alertsModel
+        // Show detailed list of all alerts for this station
+        DisturbancesView { // TO DO: Move to seperate page or something
+            id: alertsView
+            anchors { top: departureList.bottom; topMargin: Theme.paddingLarge }
+            model: alertsModel
+        }
     }
 
     LoadIndicator {

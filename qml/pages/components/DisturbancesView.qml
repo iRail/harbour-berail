@@ -8,7 +8,8 @@ SilicaListView {
     delegate: ListItem {
         width: ListView.view.width
         contentHeight: item.height*1.1
-        onClicked: model.hasOwnProperty("link")? Qt.openUrlExternally(model.link): undefined // If model has link then open it when user clicks on the item
+        enabled: model.hasOwnProperty("link")
+        onClicked: Qt.openUrlExternally(model.link) // If model has link then open it when user clicks on the item
         Column {
             id: item
             width: parent.width

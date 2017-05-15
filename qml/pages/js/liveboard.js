@@ -24,38 +24,41 @@ function load(station) {
         if(liveboard) { // Valid liveboard is TRUE
             var _hasDelay = false;
 
-            if("empty" in liveboard) { // No data available
+            // No data available
+            if("empty" in liveboard) {
                 succes = false;
                 return false;
             }
 
+            // Build AlertsModel with all alerts for a certain station
             for(var i=0; i < Object.keys(liveboard.departures.departure).length; i++) {
 
-                if(liveboard.departures.departure[i].delay > 0) { // Detect if we have a delay in this data
+                if(_hasDelay == false && liveboard.departures.departure[i].delay > 0) { // Detect if we have a delay in this data, improve performance by skipping this test if _hasDelay is already 'true'
                     _hasDelay = true;
                 }
 
                 if(liveboard.departures.departure[i].hasOwnProperty("alerts")) { // Detect if we have alerts in this data
-                    console.log("FOUND")
-                    if(alertsModel.count == 0) { // Init model
-                        alertsModel.append(liveboard.departures.departure[0].alerts.alert);
+                    console.log("Alerts available")
+                    for(var j=0; j < Object.keys(liveboard.departures.departure[i].alerts.alert).length; j++) {
+                        alertsModel.append({
+                                               "header": liveboard.departures.departure[i].alerts.alert[j].header,
+                                               "description": liveboard.departures.departure[i].alerts.alert[j].description
+                                           });
                     }
-
-                    /*for(var j=0; j < alertsModel.count; j++) { // TODO: filter double alerts
-                        if(alertsModel.get(j).description == liveboard.departures.departure[i].alerts.alert.description && alertsModel.get(j).header == liveboard.departures.departure[i].alerts.alert.header) { //Multiple train can be affected by 1 disturbance
-                            console.log("SAME")
-                            break;
-                        }
-                        else if(j == alertsModel.count-1) { // Unique alert, add it to the model
-                            console.log("NEW")
-                            alertsModel.append(liveboard.departures.departure[i].alerts.alert);
-                        }
-                    }*/
-                    console.log(JSON.stringify(alertsModel));
                 }
             }
 
-            for(var i=0; i < Object.keys(liveboard.departures.departure).length; i++) { // Build liveboardModel
+            // Remove duplicates from AlertsModel
+            for(var i=0; i < alertsModel.count; i++) {
+                for(var j=i; j < alertsModel.count; j++) { // Only check for the same elements after the current one
+                    if(alertsModel.get(i).header == alertsModel.get(j).header) {
+                        alertsModel.remove(j);
+                    }
+                }
+            }
+
+            // Build liveboardModel
+            for(var i=0; i < Object.keys(liveboard.departures.departure).length; i++) {
                 liveboardModel.append({
                                           "depart": { "station": liveboard.departures.departure[i].station,
                                               "stationinfo": liveboard.departures.departure[i].stationinfo,

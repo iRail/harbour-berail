@@ -54,10 +54,8 @@ class _Connection(object):
     """    
     def status(self, dialog=True):
         connman_data = sfos.connman.read()
-        return True
         if self._current_network != connman_data["NetworkType"][0]:
             self._session = requests.Session()
-            self._session.headers.update(constants.tinder.HEADERS)
             
         if connman_data["NetworkState"][0] == "connected":
             return True

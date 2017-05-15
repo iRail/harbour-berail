@@ -131,12 +131,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="86"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="87"/>
         <source>Oops!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="87"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="88"/>
         <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>

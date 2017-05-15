@@ -10,10 +10,10 @@ Item {
     property string trainType
     property string delay
     property string departTime
+    property string track
     property bool trackChanged
     property bool trainCanceled
     property bool modelHasDelay
-    property int track
     property var announcements
 
     Row {
