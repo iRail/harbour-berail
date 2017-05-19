@@ -12,6 +12,7 @@ Page {
     property bool readyToPlan: departure.iconText != departureText && destination.iconText != destinationText // Enable when the user added his stations
     property bool hasAnnoucement: true
     property bool succes: true
+    property bool _loading: alertsModel.count==0 && succes
 
     Connections {
         target: app
@@ -27,6 +28,8 @@ Page {
         contentHeight: column.height
 
         PullDownMenu {
+            busy: _loading
+
             MenuItem {
                 text: qsTr("About")
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
@@ -45,6 +48,13 @@ Page {
 
             PageHeader {
                 title: qsTr("BeRail")
+                description: qsTr("The official iRail app")
+
+                BusyIndicator {
+                    anchors { verticalCenter: parent.verticalCenter; left: parent.left; leftMargin: Theme.horizontalPageMargin }
+                    size: BusyIndicatorSize.Small
+                    running: _loading
+                }
             }
 
             Row {
@@ -122,24 +132,11 @@ Page {
                                           })
             }
 
-            // TODO: Move position bindings from the component to the Loader.
-            //       Check all uses of 'parent' inside the root element of the component.
-            /*Component {
-                id: component_DisturbancesView
-                DisturbancesView {
-                    model: alertsModel
-                }
-            }
-            Loader {
-                id: loader_DisturbancesView
-                sourceComponent: component_DisturbancesView
-                asynchronous: true
-            }*/
 
             DisturbancesView {
+                id: alertsView
                 model: alertsModel
             }
-
 
             ListModel {
                 id: alertsModel

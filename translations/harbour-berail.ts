@@ -67,6 +67,13 @@
     </message>
 </context>
 <context>
+    <name>DisturbancesPage</name>
+    <message>
+        <source>Disturbances</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FirstPage</name>
     <message>
         <source>About</source>
@@ -100,6 +107,10 @@
         <source>Liveboard</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The official iRail app</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LiveboardPage</name>
@@ -113,6 +124,10 @@
     </message>
     <message>
         <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disturbances (%1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

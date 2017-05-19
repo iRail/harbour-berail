@@ -81,6 +81,14 @@
     </message>
 </context>
 <context>
+    <name>DisturbancesPage</name>
+    <message>
+        <location filename="../qml/pages/DisturbancesPage.qml" line="16"/>
+        <source>Disturbances</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FirstPage</name>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="10"/>
@@ -93,32 +101,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="31"/>
+        <location filename="../qml/pages/FirstPage.qml" line="34"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="36"/>
+        <location filename="../qml/pages/FirstPage.qml" line="39"/>
         <source>Liveboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="47"/>
+        <location filename="../qml/pages/FirstPage.qml" line="50"/>
         <source>BeRail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="84"/>
+        <location filename="../qml/pages/FirstPage.qml" line="51"/>
+        <source>The official iRail app</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FirstPage.qml" line="94"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="98"/>
+        <location filename="../qml/pages/FirstPage.qml" line="108"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="115"/>
+        <location filename="../qml/pages/FirstPage.qml" line="125"/>
         <source>Plan my trip</source>
         <translation type="unfinished"></translation>
     </message>
@@ -126,17 +139,22 @@
 <context>
     <name>LiveboardPage</name>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="74"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="83"/>
         <source>Change station</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="87"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="94"/>
+        <source>Disturbances (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LiveboardPage.qml" line="104"/>
         <source>Oops!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="88"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="105"/>
         <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
@@ -144,7 +162,7 @@
 <context>
     <name>LoadIndicator</name>
     <message>
-        <location filename="../qml/pages/components/LoadIndicator.qml" line="19"/>
+        <location filename="../qml/pages/components/LoadIndicator.qml" line="17"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>

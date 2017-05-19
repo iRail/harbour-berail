@@ -48,11 +48,13 @@ function load(station) {
                 }
             }
 
-            // Remove duplicates from AlertsModel
-            for(var i=0; i < alertsModel.count; i++) {
-                for(var j=i; j < alertsModel.count; j++) { // Only check for the same elements after the current one
-                    if(alertsModel.get(i).header == alertsModel.get(j).header) {
-                        alertsModel.remove(j);
+            // Remove duplicates from AlertsModel if the model is > 1
+            if(alertsModel.count > 1) {
+                for(var i=0; i < alertsModel.count; i++) {
+                    for(var j=i; j < alertsModel.count; j++) { // Only check for the same elements after the current one
+                        if(alertsModel.get(i).header == alertsModel.get(j).header) {
+                            alertsModel.remove(j);
+                        }
                     }
                 }
             }
@@ -66,9 +68,9 @@ function load(station) {
                                               "delay": liveboard.departures.departure[i].delay,
                                               "canceled": parseInt(liveboard.departures.departure[i].canceled) !== 0, // Convert to int first then to boolean
                                               "platform": liveboard.departures.departure[i].platform.length === 0? liveboard.departures.departure[i].platforminfo.name: liveboard.departures.departure[i].platform, // Fallback when platform is missing
-                                              "platformChanged": parseInt(liveboard.departures.departure[i].platforminfo.normal) !== 1, // Convert to boolean
-                                              "vehicleId": liveboard.departures.departure[i].vehicle,
-                                              "train": liveboard.departures.departure[i].vehicle.split(".")[2] // BE.NMBS.TRAINID
+                                                                                                                   "platformChanged": parseInt(liveboard.departures.departure[i].platforminfo.normal) !== 1, // Convert to boolean
+                                                                                                                   "vehicleId": liveboard.departures.departure[i].vehicle,
+                                                                                                                   "train": liveboard.departures.departure[i].vehicle.split(".")[2] // BE.NMBS.TRAINID
                                           },
                                           "hasDelay": _hasDelay,
                                           "alerts": liveboard.departures.departure[i].hasOwnProperty("alerts")? liveboard.departures.departure[i].alerts.alert: []

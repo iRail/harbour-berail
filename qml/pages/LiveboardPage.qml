@@ -5,9 +5,10 @@ import "./js/liveboard.js" as LiveBoard
 
 Page {
     id: page
-    property string station: "Leuven"
+    property string station: "Brussels-Central"
     property string currentTime: LiveBoard.getTimeString()
     property bool succes: true
+    property bool _loading: liveboardModel.count==0 && succes
 
     onStationChanged: LiveBoard.load(station)
     Component.onCompleted: LiveBoard.load(station)
@@ -27,7 +28,7 @@ Page {
         header: Rectangle {
             color: "#3f51b5"
             width: parent.width
-            height: Theme.itemSizeHuge*1.1
+            height: Theme.itemSizeHuge*1.2
 
             // Station name
             Label {
@@ -43,7 +44,7 @@ Page {
 
             // Time
             Label {
-                anchors { left: parent.left; leftMargin: Theme.horizontalPageMargin; bottom: parent.bottom; bottomMargin: Theme.paddingMedium }
+                anchors { left: parent.left; leftMargin: Theme.horizontalPageMargin; verticalCenter: alertsButton.verticalCenter } //bottom: parent.bottom; bottomMargin: Theme.paddingMedium }
                 font.bold: true
                 truncationMode: TruncationMode.Fade
                 horizontalAlignment: Text.AlignLeft
@@ -51,33 +52,49 @@ Page {
             }
 
             // Alerts indicator
-            Label {
-                id: alertsLabel;
-                anchors { right: alertsIcon.left; rightMargin: Theme.paddingMedium; bottom: parent.bottom; bottomMargin: Theme.paddingMedium }
-                text: alertsModel.count
+            BackgroundItem {
+                id: alertsButton
+                width: Theme.itemSizeLarge
+                anchors { bottom: parent.bottom; bottomMargin: Theme.paddingMedium; right: parent.right; rightMargin: Theme.horizontalPageMargin }
+                onClicked: pageStack.push("DisturbancesPage.qml", { alertsModel: alertsModel, station: station });
                 visible: alertsModel.count
-            }
 
-            Image {
-                id: alertsIcon
-                width: Theme.iconSizeSmall
-                height: width
-                anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin; verticalCenter: alertsLabel.verticalCenter}
-                source: "qrc:///icons/icon-announcement.png"
-                visible: alertsLabel.visible
-                asynchronous: true
+                Label {
+                    id: alertsLabel;
+                    anchors { right: alertsIcon.left; rightMargin: Theme.paddingMedium; verticalCenter: parent.verticalCenter }
+                    text: alertsModel.count
+                }
+
+                Image {
+                    id: alertsIcon
+                    width: Theme.iconSizeSmall
+                    height: width
+                    anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin; verticalCenter: parent.verticalCenter}
+                    source: "qrc:///icons/icon-announcement.png"
+                    asynchronous: true
+                }
             }
         }
 
         PullDownMenu {
+            busy: _loading
+
             MenuItem {
                 text: qsTr("Change station")
+                enabled: !_loading
                 onClicked: {
                     var _page = pageStack.push("StationListPage.qml");
                     _page.finished.connect(function(newStation) {
                         station = newStation;
                     });
                 }
+            }
+
+            MenuItem {
+                text: qsTr("Disturbances (%1)").arg(alertsModel.count )
+                visible: alertsModel.count > 0
+                enabled: !_loading
+                onClicked: pageStack.push("DisturbancesPage.qml", { alertsModel: alertsModel, station: station });
             }
         }
 
@@ -127,7 +144,8 @@ Page {
     }
 
     LoadIndicator {
-        show: liveboardModel.count==0 && succes
+        anchors { fill: parent }
+        show: _loading
     }
 
     ListModel {

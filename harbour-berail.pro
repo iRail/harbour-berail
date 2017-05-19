@@ -461,7 +461,8 @@ DISTFILES += \
     rpm/harbour-berail.changes \
     qml/pages/js/disturbances.js \
     qml/pages/components/DisturbancesView.qml \
-    translations/harbour-berail-nl.ts
+    translations/harbour-berail-nl.ts \
+    qml/pages/DisturbancesPage.qml
 
 RESOURCES += \
     qml/resources/resources.qrc

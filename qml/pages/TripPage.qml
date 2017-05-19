@@ -51,6 +51,7 @@ Page {
     }
 
     LoadIndicator {
+        anchors { fill: parent }
         show: tripModel.count==0 && succes
     }
 
