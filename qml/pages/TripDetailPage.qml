@@ -3,6 +3,9 @@ import Sailfish.Silica 1.0
 import "./components"
 
 Page {
+    property var tripModel
+    property int indexModel
+
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: tripDetailColumn.height
@@ -17,16 +20,24 @@ Page {
             PageHeader { title: qsTr("Trip detail") }
 
             TripItem {
-                departStation: "Vilvoorde"
-                departTime: "23:24"
-                arriveStation: "MECHELEN"
-                arriveTime: "23:59"
-                vias: [2]
-                changesDelays: [5]
-                alerts: ["From Saturday 29/04 to 1/05, trains will not stop at Brussels-Central station following works between Brussels-Nord and Brussels-Midi. There will be major changes to the train service. Alternative train service Bruxelles-Nord/Brussel-Noord - Bruxelles-Midi/Brussel-Zuid"]
-                arriveTrain: "IC5379"
-                departTrain: "P2647"
-                Component.onCompleted: expanded = true // Expand when ready
+                departStation: tripModel.get(indexModel).depart.station
+                departTime: tripModel.get(indexModel).depart.time.time
+                departDelay: tripModel.get(indexModel).depart.delay
+                departTrain: tripModel.get(indexModel).depart.train
+                departTrack: tripModel.get(indexModel).depart.platform
+                departTrackChanged: tripModel.get(indexModel).depart.platformChanged
+                arriveStation: tripModel.get(indexModel).arrival.station
+                arriveTime: tripModel.get(indexModel).arrival.time.time
+                arriveDelay: tripModel.get(indexModel).arrival.delay
+                arriveTrain: tripModel.get(indexModel).arrival.train
+                arriveTrack: tripModel.get(indexModel).arrival.platform
+                arriveTrackChanged: tripModel.get(indexModel).arrival.platformChanged
+                canceled: tripModel.get(indexModel).depart.canceled || tripModel.get(indexModel).arrival.canceled? true: false // When arrive or depart is canceled then this connection is not valid
+                vias: tripModel.get(indexModel).vias.number
+                viasModel: tripModel.get(indexModel).vias.via
+                alertsModel: tripModel.get(indexModel).alerts.alerts
+                showAlerts: false
+                Component.onCompleted: expanded = true
             }
         }
     }

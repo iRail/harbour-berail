@@ -1,7 +1,7 @@
 /*Handles all the JS related to the trip planner in BeRail*/
 
 function calculateTraject(numberOfStops) {
-    return numberOfStops*(Theme.itemSizeSmall/2 + 2*Theme.paddingLarge); // Each stop has a height of Theme.itemSizeSmall/2 for the stop itself and 2*Theme.paddingLarge as spacing
+    return numberOfStops*(Theme.itemSizeSmall/2) + (numberOfStops-1)*(2*Theme.paddingLarge) + 2*Theme.itemSizeSmall; // Each stop has a height of Theme.itemSizeSmall/2 for the stop itself, 2*Theme.paddingLarge as spacing and Theme.itemsSizeSmall as intial spacing
 }
 
 function calculateProgress(currentStop) {
@@ -66,52 +66,30 @@ function load(from, to, time, date, detail) {
     });
 }
 
-//BUILD ALERTS MODEL
-/*
-"alerts":{
-                "alert":[
-                    {
-                        "description":"Situation back to normal. Delays may still occur.",
-                        "header":"Mechelen - Antwerpen-Centraal: Signal failure.",
-                        "id":"0"
-                    },
-                    {
-                        "description":"Due to an IT problem it isn&#39;t possible to get real time train information via the real time information search engine. Please listen to the announcements made in the train or in the train station.",
-                        "header":"IT problem",
-                        "id":"1"
-                    }
-                ],
-                "number":"2"
-            },*/
-
 function buildViaModel(trip) {
     var viaArray = [];
-    for(var j=0; j < Object.keys(trip).length; j++) {
+    for(var j=0; j < Object.keys(trip.vias.via).length; j++) {
         viaArray.push({
                           "depart": {
-                              "station": trip.departure.station,
-                              "time": formatUnixTimeToUTC(trip.departure.time, true),
-                              "delay": trip.departure.delay,
-                              "canceled": trip.departure.canceled !== 0, //convert to boolean
-                              "platform": trip.departure.platform,
-                              "platformChanged": trip.departure.platforminfo.normal !== 1, //convert to boolean
-                              "stationinfo": trip.departure.stationinfo,
-                              "vehicleId": trip.departure.vehicle,
-                              "direction": trip.departure.direction,
-                              "train": trip.departure.vehicle.split(".")[2] // BE.NMBS.TRAIN
+                              "direction": trip.vias.via.hasOwnProperty("direction")? trip.vias.via[j].direction.name: "", // iRail tries to add an direction but that's not always possible
+                              "time": formatUnixTimeToUTC(trip.vias.via[j].departure.time, true),
+                              "delay": trip.vias.via[j].departure.delay,
+                              "canceled": parseInt(trip.vias.via[j].departure.canceled) !== 0, //convert to boolean
+                              "platform": trip.vias.via[j].departure.platform,
+                              "platformChanged": parseInt(trip.vias.via[j].departure.platforminfo.normal) !== 1, //convert to boolean
+                              "vehicleId": trip.vias.via[j].departure.vehicle,
+                              "train": trip.vias.via[j].vehicle.split(".")[2] // BE.NMBS.TRAIN
                           },
                           "arrival": {
-                              "station": trip.arrival.station,
-                              "time": formatUnixTimeToUTC(trip.arrival.time, true),
-                              "delay": trip.arrival.delay,
-                              "canceled": trip.arrival.canceled !== 0, //convert to boolean
-                              "platform": trip.arrival.platform,
-                              "platformChanged": trip.arrival.platforminfo.normal !== 1, //convert to boolean
-                              "stationinfo": trip.arrival.stationinfo,
-                              "vehicleId": trip.arrival.vehicle,
-                              "direction": trip.arrival.direction,
-                              "train": trip.arrival.vehicle.split(".")[2] // BE.NMBS.TRAIN
-                          }
+                              "time": formatUnixTimeToUTC(trip.vias.via[j].arrival.time, true),
+                              "delay": trip.vias.via[j].arrival.delay,
+                              "canceled": trip.vias.via[j].arrival.canceled !== 0, //convert to boolean
+                              "platform": trip.vias.via[j].arrival.platform,
+                              "platformChanged": trip.vias.via[j].arrival.platforminfo.normal !== 1, //convert to boolean
+                          },
+                          "station": trip.vias.via[j].station,
+                          "stationinfo": trip.vias.via[j].stationinfo,
+                          "timebetween": formatTimeBetween(trip.vias.via[j].timebetween)
                       });
     }
     return viaArray;
@@ -141,8 +119,12 @@ function formatUnixTimeToUTC(unixTime, leadingZero) { // Arrive/depart time is g
     return object;
 }
 
+function formatTimeBetween(timebetween) { // Same as formatDelay
+    return formatDelay(timebetween).replace("+", "");
+}
+
 function formatDuration(duration) { // Same as formatDelay
-    return formatDelay(duration);
+    return formatDelay(duration).replace("+", "");
 }
 
 function formatDelay(delay) { // Convert the seconds to a string of hours and minutes

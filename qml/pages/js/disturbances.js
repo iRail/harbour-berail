@@ -2,8 +2,6 @@ function load() {
     alertsModel.clear() // Make model empty
 
     python.call("app.disturbances.get_disturbances", [], function(disturbances) {
-        console.log(JSON.stringify(disturbances))
-
         if(disturbances) { // Valid trip is TRUE
             if("empty" in disturbances) { // No data available
                 succes = false;

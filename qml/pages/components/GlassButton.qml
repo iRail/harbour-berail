@@ -20,7 +20,6 @@ BackgroundItem {
         case 1:
             var _page = pageStack.push(link);
             _page.finished.connect(function(station) {
-                console.debug(JSON.stringify(station))
                 iconText = station;
             });
             break;

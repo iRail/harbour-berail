@@ -178,7 +178,7 @@
 <context>
     <name>TripDetailPage</name>
     <message>
-        <location filename="../qml/pages/TripDetailPage.qml" line="17"/>
+        <location filename="../qml/pages/TripDetailPage.qml" line="20"/>
         <source>Trip detail</source>
         <translation type="unfinished"></translation>
     </message>
@@ -186,14 +186,14 @@
 <context>
     <name>TripItem</name>
     <message>
-        <location filename="../qml/pages/components/TripItem.qml" line="89"/>
-        <location filename="../qml/pages/components/TripItem.qml" line="300"/>
+        <location filename="../qml/pages/components/TripItem.qml" line="95"/>
+        <location filename="../qml/pages/components/TripItem.qml" line="306"/>
         <source>Track %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/components/TripItem.qml" line="89"/>
-        <location filename="../qml/pages/components/TripItem.qml" line="300"/>
+        <location filename="../qml/pages/components/TripItem.qml" line="95"/>
+        <location filename="../qml/pages/components/TripItem.qml" line="306"/>
         <source>Track ???</source>
         <translation type="unfinished"></translation>
     </message>

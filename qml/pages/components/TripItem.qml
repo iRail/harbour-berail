@@ -24,14 +24,20 @@ Item { // Reuse it for TripDetailPage and TripDetail
     property bool expanded
     property bool showAlerts: true
     property var vias
-    property var changesDelays
+    property var viasModel
     property var alertsModel
-    property var stopsModel
+    property var stopsModel: viasModel // BeRail V1.X build stopsModel with intermediate stops
 
     // Internal variables
     property var _hasDelay: [departDelay > 0, arriveDelay > 0]
     property int _changeIndex
-    property bool _hasAlert: alertsModel.count > 0
+    property bool _hasAlert: alerts.count > 0
+
+    onAlertsModelChanged: { // Convert to ListModel
+        for(var i=0; i < alertsModel.length; i++) {
+            alerts.append(alertsModel[i]);
+        }
+    }
 
     Column {
         id: tripColumn
@@ -139,8 +145,8 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 Label {
                     id: alertsLabel;
                     anchors { top: changeIcon.bottom; topMargin: Theme.paddingMedium }
-                    text: alerts.count
-                    visible: alerts.count
+                    text: alertsModel.length
+                    visible: _hasAlert
                 }
 
                 Image {
@@ -148,7 +154,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                     height: width
                     anchors { verticalCenter: alertsLabel.verticalCenter; left: alertsLabel.right; leftMargin: Theme.paddingMedium }
                     source: "qrc:///icons/icon-announcement.png"
-                    visible: alertsLabel.visible
+                    visible: _hasAlert
                     asynchronous: true
                 }
             }
@@ -159,7 +165,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
         Item {
             id: trajectItem
             width: parent.width
-            height: expanded? Trip.calculateTraject(5): 0
+            height: expanded? Trip.calculateTraject(viasModel.length): 0
             opacity: expanded? 1.0: 0.0
             Behavior on opacity { FadeAnimation { duration: expanded? 200: 750} } // Overlap with animation when closing
             Behavior on height { NumberAnimation { duration: 500 } }
@@ -176,18 +182,18 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 Rectangle {
                     id: progress
                     width: Theme.itemSizeSmall/4
-                    height: expanded? Trip.calculateProgress(currentStop): 0
+                    height: 0 //expanded? Trip.calculateProgress(currentStop): 0 BeRail V1.X
                     color: Theme.highlightColor
                     Behavior on height { NumberAnimation { duration: 500 } }
                 }
 
                 // Progress indicator stops
                 Column {
-                    anchors { horizontalCenter: traject.horizontalCenter; top: parent.top; topMargin: Theme.itemSizeSmall/4 }
+                    anchors { horizontalCenter: traject.horizontalCenter; top: parent.top; topMargin: Theme.itemSizeSmall }
                     spacing: Theme.paddingLarge*2
                     Repeater {
                         id: stopsProgress
-                        model: stopsModel
+                        model: viasModel
                         Item {
                             width: Theme.itemSizeSmall
                             height: Theme.itemSizeSmall/2
@@ -220,7 +226,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                                 Label {
                                     id: viaStopTimeLabel
                                     anchors { horizontalCenter: parent.horizontalCenter }
-                                    text: model.time
+                                    text: modelData.depart.time.time
                                     font.pixelSize: Theme.fontSizeSmall
                                     font.bold: true
                                 }
@@ -229,8 +235,8 @@ Item { // Reuse it for TripDetailPage and TripDetail
                                 Label {
                                     id: viaStopDelayLabel
                                     anchors { top: viaStopTimeLabel.bottom; horizontalCenter: parent.horizontalCenter }
-                                    text: Trip.formatDelay(changesDelays[0])
-                                    visible: model.delay
+                                    text: Trip.formatDelay(modelData.depart.delay)
+                                    visible: modelData.depart.delay > 0
                                     font.pixelSize: Theme.fontSizeTiny
                                     font.bold: true
                                 }
@@ -240,7 +246,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                             Label {
                                 anchors { left: viaStopBullet.visible? viaStopBullet.right: stopBullet.right; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingMedium; verticalCenter: parent.verticalCenter }
                                 font.capitalization: Font.SmallCaps
-                                text: model.station
+                                text: modelData.station
                             }
                         }
                     }
@@ -329,8 +335,14 @@ Item { // Reuse it for TripDetailPage and TripDetail
             }
         }
 
+        ListModel {
+            id: alerts
+        }
+
         DisturbancesView {
-            model: alertsModel
+            id: alertsView
+            model: alerts
+            showStation: false
         }
     }
 

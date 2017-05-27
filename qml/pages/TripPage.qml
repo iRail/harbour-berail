@@ -18,8 +18,8 @@ Page {
         delegate: ListItem {
             width: ListView.view.width
             contentHeight: item.height
-            enabled: false //Temp disabled TripDetailPage until we figured out how to show intermediate stops //!item.canceled // Disable TripDetailPage when train is canceled
-            onClicked: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
+            //enabled: false //Temp disabled TripDetailPage until we figured out how to show intermediate stops //!item.canceled // Disable TripDetailPage when train is canceled
+            onClicked: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"), { tripModel: tripModel, indexModel: index })
             TripItem {
                 id: item
                 departStation: model.depart.station
@@ -36,8 +36,8 @@ Page {
                 arriveTrackChanged: model.arrival.platformChanged
                 canceled: model.depart.canceled || model.arrival.canceled? true: false // When arrive or depart is canceled then this connection is not valid
                 vias: model.vias.number
-                changesDelays: [5]
-                alertsModel: model.alerts
+                viasModel: model.vias.via
+                alertsModel: model.alerts.alert
                 showAlerts: false
                 expanded: false
             }
