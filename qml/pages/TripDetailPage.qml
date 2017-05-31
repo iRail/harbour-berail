@@ -35,7 +35,7 @@ Page {
                 canceled: tripModel.get(indexModel).depart.canceled || tripModel.get(indexModel).arrival.canceled? true: false // When arrive or depart is canceled then this connection is not valid
                 vias: tripModel.get(indexModel).vias.number
                 viasModel: tripModel.get(indexModel).vias.via
-                alertsModel: tripModel.get(indexModel).alerts.alerts
+                alerts: tripModel.get(indexModel).alerts.alert
                 showAlerts: false
                 Component.onCompleted: expanded = true
             }

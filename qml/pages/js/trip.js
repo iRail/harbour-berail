@@ -1,11 +1,17 @@
 /*Handles all the JS related to the trip planner in BeRail*/
 
+function convertAlertsToListmodel(data) {
+    for(var i=0; i < data.length; i++) {
+        alertsModel.append(data[i]);
+    }
+}
+
 function calculateTraject(numberOfStops) {
-    return numberOfStops*(Theme.itemSizeSmall/2) + (numberOfStops-1)*(2*Theme.paddingLarge) + 2*Theme.itemSizeSmall; // Each stop has a height of Theme.itemSizeSmall/2 for the stop itself, 2*Theme.paddingLarge as spacing and Theme.itemsSizeSmall as intial spacing
+    return numberOfStops*(Theme.itemSizeSmall/2) + (numberOfStops-1)*(3*Theme.paddingLarge) + 2*Theme.itemSizeSmall; // Each stop has a height of Theme.itemSizeSmall/2 for the stop itself, 2*Theme.paddingLarge as spacing and Theme.itemsSizeSmall as intial spacing
 }
 
 function calculateProgress(currentStop) {
-    return currentStop*(Theme.itemSizeSmall/2 + 2*Theme.paddingLarge) + Theme.itemSizeSmall/2; // Middle of the current stop
+    return currentStop*(Theme.itemSizeSmall/2 + 3*Theme.paddingLarge) + Theme.itemSizeSmall/2; // Middle of the current stop
 }
 
 function formatDelay(delay) {
@@ -21,7 +27,6 @@ function formatDelay(delay) {
 
 function load(from, to, time, date, detail) {
     python.call("app.route.get_route", [from, to, formatTimeForAPI(time), formatDateForAPI(date)], function(trip) {
-        console.log(JSON.stringify(trip))
         if(trip) { // Valid trip is TRUE
             for(var i=0; i < Object.keys(trip).length; i++) { // Run through whole connection object
                 tripModel.append({
@@ -89,7 +94,7 @@ function buildViaModel(trip) {
                           },
                           "station": trip.vias.via[j].station,
                           "stationinfo": trip.vias.via[j].stationinfo,
-                          "timebetween": formatTimeBetween(trip.vias.via[j].timebetween)
+                          "timebetween": formatTimeBetween(trip.vias.via[j].timeBetween)
                       });
     }
     return viaArray;

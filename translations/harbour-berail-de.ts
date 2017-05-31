@@ -107,31 +107,36 @@
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="39"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FirstPage.qml" line="44"/>
         <source>Liveboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="50"/>
+        <location filename="../qml/pages/FirstPage.qml" line="55"/>
         <source>BeRail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="51"/>
+        <location filename="../qml/pages/FirstPage.qml" line="56"/>
         <source>The official iRail app</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="94"/>
+        <location filename="../qml/pages/FirstPage.qml" line="113"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="108"/>
+        <location filename="../qml/pages/FirstPage.qml" line="127"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="125"/>
+        <location filename="../qml/pages/FirstPage.qml" line="144"/>
         <source>Plan my trip</source>
         <translation type="unfinished"></translation>
     </message>
@@ -139,23 +144,33 @@
 <context>
     <name>LiveboardPage</name>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="83"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="54"/>
+        <source>Liveboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LiveboardPage.qml" line="95"/>
         <source>Change station</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="94"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="106"/>
         <source>Disturbances (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="104"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="116"/>
         <source>Oops!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LiveboardPage.qml" line="105"/>
+        <location filename="../qml/pages/LiveboardPage.qml" line="117"/>
         <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LiveboardPage.qml" line="125"/>
+        <source>Select a station</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -164,6 +179,54 @@
     <message>
         <location filename="../qml/pages/components/LoadIndicator.qml" line="17"/>
         <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="28"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="30"/>
+        <source>Liveboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="34"/>
+        <source>Remember liveboard station</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="35"/>
+        <source>Save time by automatically saving your last used station!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="39"/>
+        <source>Favourite stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="43"/>
+        <source>Enable favourite stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="44"/>
+        <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="53"/>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="65"/>
+        <source>To</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -186,15 +249,20 @@
 <context>
     <name>TripItem</name>
     <message>
-        <location filename="../qml/pages/components/TripItem.qml" line="95"/>
-        <location filename="../qml/pages/components/TripItem.qml" line="306"/>
+        <location filename="../qml/pages/components/TripItem.qml" line="91"/>
+        <location filename="../qml/pages/components/TripItem.qml" line="309"/>
         <source>Track %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/components/TripItem.qml" line="95"/>
-        <location filename="../qml/pages/components/TripItem.qml" line="306"/>
+        <location filename="../qml/pages/components/TripItem.qml" line="91"/>
+        <location filename="../qml/pages/components/TripItem.qml" line="309"/>
         <source>Track ???</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/components/TripItem.qml" line="252"/>
+        <source>Track %1 → Track %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -219,12 +287,12 @@
 <context>
     <name>harbour-berail</name>
     <message>
-        <location filename="../qml/harbour-berail.qml" line="84"/>
+        <location filename="../qml/harbour-berail.qml" line="96"/>
         <source>Network down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harbour-berail.qml" line="89"/>
+        <location filename="../qml/harbour-berail.qml" line="101"/>
         <source>Network recovered</source>
         <translation type="unfinished"></translation>
     </message>

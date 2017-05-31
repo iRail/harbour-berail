@@ -46,7 +46,7 @@ ApplicationWindow
     readonly property string version: "V0.1"
 
     // Colors
-    readonly property string blue: "#2196f3"
+    readonly property string blue: "#3f51b5"
     readonly property string red: "#f44336"
     readonly property string green: "#43a047"
     readonly property string orange: "#f9a825"
@@ -56,6 +56,18 @@ ApplicationWindow
     readonly property string white: "#fffde7"
 
     property bool pythonReady
+
+    // App settings
+    ConfigurationGroup {
+        id: settings
+        path: "/apps/harbour-berail/settings"
+
+        property bool rememberLiveboardStation: true
+        property bool favouriteStations
+        property string lastLiveboardStation
+        property string favouriteDepartStation
+        property string favouriteArriveStation
+    }
 
     Python {
             id: python

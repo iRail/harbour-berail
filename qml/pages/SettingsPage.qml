@@ -1,0 +1,74 @@
+import QtQuick 2.2
+import Sailfish.Silica 1.0
+import "./components"
+
+Page {
+
+    Component.onDestruction: { // Save the values when user is done
+        settings.rememberLiveboardStation = rememberLiveboardStation.checked
+        if(!rememberLiveboardStation.checked) { // reset to default
+            settings.lastLiveboardStation = ""
+        }
+        settings.favouriteStations = favouriteStations.checked
+        settings.favouriteDepartStation = favouriteStations.checked? favouriteDepartStation.iconText: "" // reset to default
+        settings.favouriteArriveStation = favouriteStations.checked? favouriteArriveStation.iconText: "" // reset to default
+    }
+
+    SilicaFlickable {
+        anchors.fill: parent
+        contentHeight: settingsColumn.height
+
+        VerticalScrollDecorator {}
+
+        Column {
+            id: settingsColumn
+            width: parent.width
+            spacing: Theme.paddingLarge
+
+            PageHeader { title: qsTr("Settings") }
+
+            SectionHeader { text: qsTr("Liveboard") }
+
+            TextSwitch {
+                 id: rememberLiveboardStation
+                 text: qsTr("Remember liveboard station")
+                 description: qsTr("Save time by automatically saving your last used station!")
+                 checked: settings.rememberLiveboardStation
+             }
+
+            SectionHeader { text: qsTr("Favourite stations") }
+
+            TextSwitch {
+                 id: favouriteStations
+                 text: qsTr("Enable favourite stations")
+                 description: qsTr("Travelling from/to work or school? Then is this option for you! Select your favourite stations below.")
+                 checked: settings.favouriteStations
+             }
+
+            GlassButton {
+                id: favouriteDepartStation
+                link: Qt.resolvedUrl("StationListPage.qml")
+                type: 1
+                iconSource: "qrc:///icons/icon-train.png"
+                iconText: settings.favouriteDepartStation.length > 0? settings.favouriteDepartStation: qsTr("From")
+                itemScale: 0.75
+                enabled: favouriteStations.checked
+                opacity: enabled? 1.0: 0.2
+
+                Behavior on opacity { FadeAnimation {} }
+            }
+            GlassButton {
+                id: favouriteArriveStation
+                link: Qt.resolvedUrl("StationListPage.qml")
+                type: 1
+                iconSource: "qrc:///icons/icon-train.png"
+                iconText: settings.favouriteArriveStation.length > 0? settings.favouriteArriveStation: qsTr("To")
+                itemScale: 0.75
+                enabled: favouriteStations.checked
+                opacity: enabled? 1.0: 0.2
+
+                Behavior on opacity { FadeAnimation {} }
+            }
+        }
+    }
+}

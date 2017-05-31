@@ -38,7 +38,6 @@ function load(station) {
                 }
 
                 if(liveboard.departures.departure[i].hasOwnProperty("alerts")) { // Detect if we have alerts in this data
-                    console.log("Alerts available")
                     for(var j=0; j < Object.keys(liveboard.departures.departure[i].alerts.alert).length; j++) {
                         alertsModel.append({
                                                "header": liveboard.departures.departure[i].alerts.alert[j].header,

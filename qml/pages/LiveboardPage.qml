@@ -5,13 +5,25 @@ import "./js/liveboard.js" as LiveBoard
 
 Page {
     id: page
-    property string station: "Brussels-Central"
+    property string station
     property string currentTime: LiveBoard.getTimeString()
     property bool succes: true
-    property bool _loading: liveboardModel.count==0 && succes
+    property bool _firstLaunch: settings.lastLiveboardStation.length == 0
+    property bool _loading: liveboardModel.count==0 && succes && !_firstLaunch
 
-    onStationChanged: LiveBoard.load(station)
-    Component.onCompleted: LiveBoard.load(station)
+    on_FirstLaunchChanged: _firstLaunch? hint.start(): hint.stop()
+
+    onStationChanged: {
+        LiveBoard.load(station)
+        settings.rememberLiveboardStation? settings.lastLiveboardStation = station: undefined // Only save when activated in settings
+        _firstLaunch = false
+    }
+    Component.onCompleted: {
+        if(!_firstLaunch) {
+            station = settings.lastLiveboardStation
+            LiveBoard.load(station)
+        }
+    }
 
     Timer { // Update the clock
         running: Qt.application.active
@@ -26,7 +38,7 @@ Page {
         width: parent.width; height: parent.height
         model: liveboardModel
         header: Rectangle {
-            color: "#3f51b5"
+            color: app.blue
             width: parent.width
             height: Theme.itemSizeHuge*1.2
 
@@ -39,7 +51,7 @@ Page {
                 font.bold: true
                 truncationMode: TruncationMode.Fade
                 horizontalAlignment: Text.AlignHCenter
-                text: station
+                text: _firstLaunch? qsTr("Liveboard"): station
             }
 
             // Time
@@ -105,6 +117,20 @@ Page {
             hintText: qsTr("No data available")
         }
 
+        // When no data, show a hint and a placeholder
+        InteractionHintLabel {
+                anchors.bottom: parent.bottom
+                opacity: _firstLaunch ? 1.0 : 0.0
+                Behavior on opacity { FadeAnimation {} }
+                text: qsTr("Select a station")
+        }
+
+        TouchInteractionHint {
+            id: hint
+            loops: Animation.Infinite
+            direction: TouchInteraction.Down
+        }
+
         delegate: ListItem {
             width: ListView.view.width
             contentHeight: item.height
@@ -125,7 +151,7 @@ Page {
             Rectangle {
                 id: background
                 z:-1 // Make ListItem Highlight visible
-                color: index%2? "#263238": "#37474f"
+                color: index%2? app.black: app.grey
                 anchors { fill: parent }
             }
             onClicked: {

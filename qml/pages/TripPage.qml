@@ -37,7 +37,7 @@ Page {
                 canceled: model.depart.canceled || model.arrival.canceled? true: false // When arrive or depart is canceled then this connection is not valid
                 vias: model.vias.number
                 viasModel: model.vias.via
-                alertsModel: model.alerts.alert
+                alerts: model.alerts.alert
                 showAlerts: false
                 expanded: false
             }

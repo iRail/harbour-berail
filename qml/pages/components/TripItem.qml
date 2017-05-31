@@ -25,19 +25,15 @@ Item { // Reuse it for TripDetailPage and TripDetail
     property bool showAlerts: true
     property var vias
     property var viasModel
-    property var alertsModel
+    property var alerts
     property var stopsModel: viasModel // BeRail V1.X build stopsModel with intermediate stops
 
     // Internal variables
     property var _hasDelay: [departDelay > 0, arriveDelay > 0]
     property int _changeIndex
-    property bool _hasAlert: alerts.count > 0
+    property bool _hasAlert: alerts.length > 0
 
-    onAlertsModelChanged: { // Convert to ListModel
-        for(var i=0; i < alertsModel.length; i++) {
-            alerts.append(alertsModel[i]);
-        }
-    }
+    onAlertsChanged: Trip.convertAlertsToListmodel(alerts)
 
     Column {
         id: tripColumn
@@ -80,7 +76,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
             // Depart station name
             Label {
                 id: departStationLabel
-                width: parent.width - departTimeItem.width - journeyInformation.width - 2*Theme.paddingLarge
+                width: parent.width - departTimeItem.width - journeyInformation.width - 3*Theme.paddingLarge
                 anchors { left: departTimeItem.right; leftMargin: Theme.paddingLarge }
                 truncationMode: TruncationMode.Fade
                 font.capitalization: Font.AllUppercase
@@ -145,7 +141,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 Label {
                     id: alertsLabel;
                     anchors { top: changeIcon.bottom; topMargin: Theme.paddingMedium }
-                    text: alertsModel.length
+                    text: alerts.length
                     visible: _hasAlert
                 }
 
@@ -190,7 +186,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
                 // Progress indicator stops
                 Column {
                     anchors { horizontalCenter: traject.horizontalCenter; top: parent.top; topMargin: Theme.itemSizeSmall }
-                    spacing: Theme.paddingLarge*2
+                    spacing: Theme.paddingLarge*3
                     Repeater {
                         id: stopsProgress
                         model: viasModel
@@ -244,9 +240,16 @@ Item { // Reuse it for TripDetailPage and TripDetail
 
                             // Stop name
                             Label {
+                                id: viaStopStationLabel
                                 anchors { left: viaStopBullet.visible? viaStopBullet.right: stopBullet.right; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingMedium; verticalCenter: parent.verticalCenter }
                                 font.capitalization: Font.SmallCaps
                                 text: modelData.station
+                            }
+
+                            Label {
+                                anchors { left: viaStopBullet.visible? viaStopBullet.right: stopBullet.right; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingMedium; top: viaStopStationLabel.bottom; topMargin: Theme.paddingSmall }
+                                font.pixelSize: Theme.fontSizeTiny
+                                text: qsTr("Track %1 → Track %2").arg(modelData.arrival.platform).arg(modelData.depart.platform) + "   |   ⏱" + modelData.timebetween
                             }
                         }
                     }
@@ -291,7 +294,7 @@ Item { // Reuse it for TripDetailPage and TripDetail
             // Arrive station name
             Label {
                 id: arriveStationLabel
-                width: parent.width - arriveTimeItem.width - journeyInformation.width - 2*Theme.paddingLarge
+                width: parent.width - arriveTimeItem.width - journeyInformation.width - 3*Theme.paddingLarge
                 anchors { left: arriveTimeItem.right; leftMargin: Theme.paddingLarge }
                 truncationMode: TruncationMode.Fade
                 font.capitalization: Font.AllUppercase
@@ -336,13 +339,14 @@ Item { // Reuse it for TripDetailPage and TripDetail
         }
 
         ListModel {
-            id: alerts
+            id: alertsModel
         }
 
         DisturbancesView {
             id: alertsView
-            model: alerts
+            model: alertsModel
             showStation: false
+            visible: expanded // Only visible when expanded
         }
     }
 

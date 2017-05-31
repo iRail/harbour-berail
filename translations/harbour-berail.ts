@@ -111,6 +111,10 @@
         <source>The official iRail app</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LiveboardPage</name>
@@ -130,11 +134,58 @@
         <source>Disturbances (%1)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select a station</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Liveboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LoadIndicator</name>
     <message>
         <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remember liveboard station</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save time by automatically saving your last used station!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Liveboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favourite stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable favourite stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -160,6 +211,10 @@
     </message>
     <message>
         <source>Track ???</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Track %1 → Track %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
