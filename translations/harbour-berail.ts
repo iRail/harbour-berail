@@ -32,10 +32,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Donate with Paypal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Source code</source>
         <translation type="unfinished"></translation>
     </message>
@@ -49,6 +45,10 @@
     </message>
     <message>
         <source>Powered by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donate with PayPal</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
