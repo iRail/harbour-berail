@@ -1,6 +1,12 @@
-# <center>BeRail</center>
-
-<img src="https://raw.githubusercontent.com/iRail/harbour-berail/master/icons/256x256/harbour-berail.png" alt="Icon" style="display: block; margin: 0 auto;"/>
+<h1 align="center">
+  <br>
+  <img src="https://raw.githubusercontent.com/iRail/harbour-berail/master/icons/256x256/harbour-berail.png" width="256px" alt="BeRail">
+  <br>
+  <br>
+  BeRail
+  <br>
+  <br>
+</h1>
 
 BeRail is a Sailfish OS application to plan your journeys on the Belgian railway.
 It uses the iRail API as source of information and is part of the [iRail project](https://github.com/irail).
