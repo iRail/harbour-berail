@@ -35,7 +35,7 @@ https://www.transifex.com/dylanvanassche/harbour-berail/
 ## Powered by
 - [Requests](https://github.com/kennethreitz/requests)
 - [iRail API](https://api.irail.be)
-- [BeRail icon](https://twitter.com/eLtMosen)
+- [BeRail icon by Timo Könnecke](https://twitter.com/eLtMosen)
 
 ## Screenshots
 <img src="https://raw.githubusercontent.com/iRail/harbour-berail/master/store/screenshots.jpg" alt="Screenshots" style="width: 100%;"/>
