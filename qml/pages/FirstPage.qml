@@ -133,7 +133,9 @@ Page {
                         var dialog = pageStack.push(Qt.resolvedUrl("DatePickerPage.qml"), {})
 
                         dialog.accepted.connect(function() {
-                            value = dialog.dateText
+                            var temp; // format for iRail API
+                            temp = dialog.dateText.split(" ");
+                            value = temp[0] + " " + temp[1] + " " + temp[2].toString().substr(2,2);
                         })
                     }
                 }
