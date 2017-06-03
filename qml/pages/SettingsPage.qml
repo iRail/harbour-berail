@@ -18,6 +18,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "./components"
+import "./js/util.js" as Util
 
 Page {
 

@@ -79,7 +79,7 @@ class _ConnectionManager(object):
             logger.log_to_file.debug("Connection selector dialog requested via DBUS")
             return True
         except OSError:
-            logger.log_to_file.trace("Tinder token not found in JSON data")
+            logger.log_to_file.trace("Connection selector dialog error")
             return False
             
     def notify_connection_state(self, status):

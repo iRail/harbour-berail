@@ -30,10 +30,6 @@
         <translation>Ontwikkelaar &amp; broncode</translation>
     </message>
     <message>
-        <source>Donate with Paypal</source>
-        <translation>Doneren met Paypal</translation>
-    </message>
-    <message>
         <source>Source code</source>
         <translation>Broncode</translation>
     </message>
@@ -49,6 +45,10 @@
         <source>Powered by</source>
         <translation>Met dank aan</translation>
     </message>
+    <message>
+        <source>Donate with PayPal</source>
+        <translation>Doneer met PayPal</translation>
+    </message>
 </context>
 <context>
     <name>CancelOverlay</name>
@@ -62,6 +62,13 @@
     <message>
         <source>BeRail</source>
         <translation>BeRail</translation>
+    </message>
+</context>
+<context>
+    <name>DisturbancesPage</name>
+    <message>
+        <source>Disturbances</source>
+        <translation>Storingen</translation>
     </message>
 </context>
 <context>
@@ -98,6 +105,14 @@
         <source>Liveboard</source>
         <translation>Vertrekoverzicht</translation>
     </message>
+    <message>
+        <source>The official iRail app</source>
+        <translation>De officiële iRail app</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Instellingen</translation>
+    </message>
 </context>
 <context>
     <name>LiveboardPage</name>
@@ -113,12 +128,63 @@
         <source>No data available</source>
         <translation>Geen data beschikbaar</translation>
     </message>
+    <message>
+        <source>Disturbances (%1)</source>
+        <translation>Storingen (%1)</translation>
+    </message>
+    <message>
+        <source>Select a station</source>
+        <translation>Selecteer een station</translation>
+    </message>
+    <message>
+        <source>Liveboard</source>
+        <translation>Vertrekoverzicht</translation>
+    </message>
 </context>
 <context>
     <name>LoadIndicator</name>
     <message>
         <source>Loading</source>
         <translation>Laden</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <translation>Instellingen</translation>
+    </message>
+    <message>
+        <source>Remember liveboard station</source>
+        <translation>Onthouden van het vertrekoverzicht station</translation>
+    </message>
+    <message>
+        <source>Save time by automatically saving your last used station!</source>
+        <translation>Bespaar tijd door automatisch je laatst gebruikt station te onthouden!</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Van</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Naar</translation>
+    </message>
+    <message>
+        <source>Liveboard</source>
+        <translation>Vertrekoverzicht</translation>
+    </message>
+    <message>
+        <source>Favourite stations</source>
+        <translation>Favoriete stations</translation>
+    </message>
+    <message>
+        <source>Enable favourite stations</source>
+        <translation>Favoriete stations inschakelen</translation>
+    </message>
+    <message>
+        <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
+        <translation>Verplaats je je van het werk of naar school? Dan is deze optie voor jou! Selecteer je favoriete stations hieronder.</translation>
     </message>
 </context>
 <context>
@@ -144,6 +210,10 @@
     <message>
         <source>Track ???</source>
         <translation>Spoor ???</translation>
+    </message>
+    <message>
+        <source>Track %1 → Track %2</source>
+        <translation>Spoor %1 → Spoor %2</translation>
     </message>
 </context>
 <context>

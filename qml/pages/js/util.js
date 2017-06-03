@@ -50,3 +50,18 @@ function covertMonth(month) {
 function getYear() {
     return date.getFullYear();
 }
+
+function getLocal(index) {
+    switch(index) {
+    case 0:
+        return "EN";
+    case 1:
+        return "NL";
+    case 2:
+        return "FR";
+    case 3:
+        return "DE";
+    default:
+        return "EN";
+    }
+}
