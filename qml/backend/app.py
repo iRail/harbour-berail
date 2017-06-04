@@ -83,6 +83,7 @@ class _Language(object):
     
     def set_language(self, new_language):
         self.lang = new_language
+        return True
         
        
 stations = _Stations()

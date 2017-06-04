@@ -4,27 +4,7 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>What&apos;s</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Privacy &amp; licensing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This application is released under GPLv3. The source code and the license is available in the Github repo of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -36,19 +16,43 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>can be translated into your language but for that we need your help! You can translate this app on</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>project</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Powered by</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Donate with PayPal</source>
+        <source>About %1 V%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>What&apos;s %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This application is released under GPLv3. The source code and the license is available in the Github repo of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donate with %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 can be translated into your language but for that we need your help! You can translate this app on %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon by %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -177,15 +181,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favourite stations</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Enable favourite stations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routeplanner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>departure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>arrival</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select here if you want to use the given time as either the time of arrival or departure.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

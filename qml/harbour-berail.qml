@@ -20,6 +20,7 @@ import Sailfish.Silica 1.0
 import io.thp.pyotherside 1.3
 import org.nemomobile.configuration 1.0
 import "pages"
+import "./pages/js/util.js" as Util
 
 ApplicationWindow
 {
@@ -30,7 +31,7 @@ ApplicationWindow
     _defaultPageOrientations: Orientation.All
 
     readonly property string name: "BeRail"
-    readonly property string version: "V0.1"
+    readonly property string version: "1.1"
 
     // Colors
     readonly property string blue: "#3f51b5"
@@ -51,6 +52,7 @@ ApplicationWindow
 
         property bool rememberLiveboardStation: true
         property bool favouriteStations
+        property int arriveFromGivenTime
         property string lastLiveboardStation
         property string favouriteDepartStation
         property string favouriteArriveStation
@@ -71,9 +73,8 @@ ApplicationWindow
                         console.info("[INFO] x86 processor detected")
                         addImportPath(Qt.resolvedUrl("./backend/lib/i486/"));
                     }
-
                     importModule("app", function() {}); // Import "app" after we imported our platform specific modules
-                    pythonReady = true
+                    Util.updatePythonLocal() // When done, pythonReady will be TRUE
                 });
 
                 //Notify user of the current network state

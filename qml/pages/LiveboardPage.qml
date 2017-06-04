@@ -22,7 +22,7 @@ import "./js/liveboard.js" as LiveBoard
 
 Page {
     id: page
-    property string station
+    property string station: settings.lastLiveboardStation
     property string currentTime: LiveBoard.getTimeString()
     property bool succes: true
     property bool _firstLaunch: settings.lastLiveboardStation.length == 0
@@ -34,12 +34,6 @@ Page {
         LiveBoard.load(station)
         settings.rememberLiveboardStation? settings.lastLiveboardStation = station: undefined // Only save when activated in settings
         _firstLaunch = false
-    }
-    Component.onCompleted: {
-        if(!_firstLaunch) {
-            station = settings.lastLiveboardStation
-            LiveBoard.load(station)
-        }
     }
 
     Timer { // Update the clock

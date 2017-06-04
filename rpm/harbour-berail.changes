@@ -8,6 +8,14 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Mon Jun 05 2017 Dylan Van Assche <dylan.van.assche@protonmail.com.com> 1.1-1
+- [MINOR BUGFIX] Recovering after a wrong connection in the routeplanner fixed
+- [MINOR BUGFIX] Liveboard shows information twice fixed
+- [IMPROVEMENT] Translation strings improved
+- [NEW] Select if your given time in the routeplanner is either the arrival time or the departure one
+- [NEW] Full language support for stations and other API calls, BeRail translation itself is depending on the community
+- [NEW] Added version information in About
+
 * Mon Jun 04 2017 Dylan Van Assche <dylan.van.assche@protonmail.com.com> 1.0-2
 - [MINOR BUGFIX] Picking a date works now correctly
 

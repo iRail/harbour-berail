@@ -135,7 +135,7 @@ Page {
                         dialog.accepted.connect(function() {
                             var temp; // format for iRail API
                             temp = dialog.dateText.split(" ");
-                            value = temp[0] + " " + temp[1] + " " + temp[2].toString().substr(2,2);
+                            value = Util.addLeadingZero(temp[0]) + " " + Util.addLeadingZero(temp[1])  + " " + temp[2].toString().substr(2,2);
                         })
                     }
                 }
