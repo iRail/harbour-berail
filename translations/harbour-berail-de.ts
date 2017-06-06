@@ -4,28 +4,8 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <source>About</source>
-        <translation>Informationen</translation>
-    </message>
-    <message>
-        <source>What&apos;s</source>
-        <translation>Was ist</translation>
-    </message>
-    <message>
-        <source>is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
-        <translation>ist ein Open Source Programm um Bahnfahrten mit der belgischen NMBS/SNCB auf dem Smartphone zu planen!</translation>
-    </message>
-    <message>
         <source>Privacy &amp; licensing</source>
         <translation>Privatsphäre und Lizensierung</translation>
-    </message>
-    <message>
-        <source>will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in</source>
-        <translation>wird niemals Ihre persönlichen Informationen sammeln, aber dies kann für keine weitere involvierte Partei garantiert werden.</translation>
-    </message>
-    <message>
-        <source>This application is released under GPLv3. The source code and the license is available in the Github repo of</source>
-        <translation>Dieses Programm wird unter der GPLv3 zur Verfügung gestellt. Der Quellcode und die Lizenz sind im Github repo verfügbar unter</translation>
     </message>
     <message>
         <source>Developer &amp; source code</source>
@@ -36,20 +16,44 @@
         <translation>Quellcode</translation>
     </message>
     <message>
-        <source>can be translated into your language but for that we need your help! You can translate this app on</source>
-        <translation>kann mit deiner Hilfe in deine Sprache übersetzt werden! Übersetzte dieses Programm auf</translation>
-    </message>
-    <message>
-        <source>project</source>
-        <translation>Projekt</translation>
-    </message>
-    <message>
         <source>Powered by</source>
         <translation>Unterstützt durch</translation>
     </message>
     <message>
-        <source>Donate with PayPal</source>
-        <translation>Spende per PayPal</translation>
+        <source>About %1 V%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>What&apos;s %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This application is released under GPLv3. The source code and the license is available in the Github repo of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donate with %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 can be translated into your language but for that we need your help! You can translate this app on %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon by %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -177,16 +181,32 @@
         <translation>Echtzeit Ansicht</translation>
     </message>
     <message>
-        <source>Favourite stations</source>
-        <translation>Beliebte Stationen</translation>
-    </message>
-    <message>
         <source>Enable favourite stations</source>
         <translation>Aktiviere &quot;Beliebt Stationen&quot; funktion</translation>
     </message>
     <message>
         <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
         <translation>Fährst du von/zur Arbeit oder Schule? Dan ist diese Funktion für dich! Wähle unten deine &quot;Beliebten Stationen&quot;.</translation>
+    </message>
+    <message>
+        <source>Routeplanner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>departure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>arrival</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select here if you want to use the given time as either the time of arrival or departure.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

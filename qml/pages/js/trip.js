@@ -41,8 +41,9 @@ function formatDelay(delay) {
 }
 
 function load(from, to, time, date, detail) {
-    python.call("app.route.get_route", [from, to, formatTimeForAPI(time), formatDateForAPI(date)], function(trip) {
+    python.call("app.route.get_route", [from, to, formatTimeForAPI(time), formatDateForAPI(date), settings.arriveFromGivenTime], function(trip) {
         if(trip) { // Valid trip is TRUE
+            succes = true; // Reset when previous request failed
             for(var i=0; i < Object.keys(trip).length; i++) { // Run through whole connection object
                 tripModel.append({
                                      "depart": { "station": trip[i].departure.station,

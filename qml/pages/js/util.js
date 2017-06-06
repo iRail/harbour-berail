@@ -18,22 +18,22 @@
 var date = new Date();
 
 function getHours(leadingZero) {
-    if(leadingZero && date.getHours() < 10) {
-        return "0" + date.getHours();
+    if(leadingZero) {
+        return addLeadingZero(date.getHours());
     }
     return date.getHours();
 }
 
 function getMinutes(leadingZero) {
-    if(leadingZero && date.getMinutes() < 10) {
-        return "0" + date.getMinutes();
+    if(leadingZero) {
+        return addLeadingZero(date.getMinutes());
     }
     return date.getMinutes();
 }
 
 function getDay(leadingZero) {
-    if(leadingZero && date.getDate() < 10) {
-        return "0" + date.getDate();
+    if(leadingZero) {
+        return addLeadingZero(date.getDate());
     }
     return date.getDate();
 }
@@ -51,17 +51,34 @@ function getYear() {
     return date.getFullYear();
 }
 
-function getLocal(index) {
-    switch(index) {
-    case 0:
-        return "EN";
-    case 1:
-        return "NL";
-    case 2:
-        return "FR";
-    case 3:
-        return "DE";
-    default:
+function addLeadingZero(value) {
+    if(value < 10) {
+        return "0" + value
+    }
+    return value
+}
+
+function getLocal() {
+    var locale = Qt.locale().name
+    if(locale.match("EN")) {
         return "EN";
     }
+    else if(locale.match("NL")) {
+        return "NL";
+    }
+    else if(locale.match("FR")) {
+        return "FR"
+    }
+    else if(locale.match("DE")) {
+        return "DE";
+    }
+    else {
+        return "EN";
+    }
+}
+
+function updatePythonLocal() {
+    python.call("app.language.set_language", [getLocal()], function(callback){
+        pythonReady = true; // Local set, Python is ready
+    })
 }

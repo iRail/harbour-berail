@@ -70,7 +70,7 @@ Item {
 
         Rectangle {
             id: trackLabel
-            color: trackChanged? app.yellow: "transparent"
+            color: trackChanged? app.yellow: app.transparent
             width: parent.height
             height: parent.height
 

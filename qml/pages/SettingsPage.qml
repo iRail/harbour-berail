@@ -30,6 +30,7 @@ Page {
         settings.favouriteStations = favouriteStations.checked
         settings.favouriteDepartStation = favouriteStations.checked? favouriteDepartStation.iconText: "" // reset to default
         settings.favouriteArriveStation = favouriteStations.checked? favouriteArriveStation.iconText: "" // reset to default
+        settings.arriveFromGivenTime = arriveFromGivenTime.currentIndex
     }
 
     SilicaFlickable {
@@ -45,23 +46,26 @@ Page {
 
             PageHeader { title: qsTr("Settings") }
 
-            SectionHeader { text: qsTr("Liveboard") }
+            SectionHeader { text: qsTr("Routeplanner") }
+
+            ComboBox {
+                id: arriveFromGivenTime
+                width: parent.width
+                label: qsTr("Time is")
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("departure") }
+                    MenuItem { text: qsTr("arrival") }
+                }
+                currentIndex: settings.arriveFromGivenTime
+                description: qsTr("Select here if you want to use the given time as either the time of arrival or departure.")
+            }
 
             TextSwitch {
-                 id: rememberLiveboardStation
-                 text: qsTr("Remember liveboard station")
-                 description: qsTr("Save time by automatically saving your last used station!")
-                 checked: settings.rememberLiveboardStation
-             }
-
-            SectionHeader { text: qsTr("Favourite stations") }
-
-            TextSwitch {
-                 id: favouriteStations
-                 text: qsTr("Enable favourite stations")
-                 description: qsTr("Travelling from/to work or school? Then is this option for you! Select your favourite stations below.")
-                 checked: settings.favouriteStations
-             }
+                id: favouriteStations
+                text: qsTr("Enable favourite stations")
+                description: qsTr("Travelling from/to work or school? Then is this option for you! Select your favourite stations below.")
+                checked: settings.favouriteStations
+            }
 
             GlassButton {
                 id: favouriteDepartStation
@@ -86,6 +90,15 @@ Page {
                 opacity: enabled? 1.0: 0.2
 
                 Behavior on opacity { FadeAnimation {} }
+            }
+
+            SectionHeader { text: qsTr("Liveboard") }
+
+            TextSwitch {
+                id: rememberLiveboardStation
+                text: qsTr("Remember liveboard station")
+                description: qsTr("Save time by automatically saving your last used station!")
+                checked: settings.rememberLiveboardStation
             }
         }
     }
