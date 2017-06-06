@@ -42,6 +42,7 @@ ApplicationWindow
     readonly property string grey: "#37474f"
     readonly property string black: "#263238"
     readonly property string white: "#fffde7"
+    readonly property string transparent: "transparent"
 
     property bool pythonReady
 

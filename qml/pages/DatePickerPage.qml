@@ -39,7 +39,7 @@ Dialog {
                 Label {
                     anchors.centerIn: parent
                     text: day
-                    color: "white"
+                    color: app.white
                     font.pixelSize: month === primaryMonth ? Theme.fontSizeMedium : Theme.fontSizeExtraSmall
                 }
             }

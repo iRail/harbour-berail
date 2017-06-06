@@ -31,6 +31,16 @@ Page {
     property bool succes: true
     property bool _loading: alertsModel.count==0 && succes
 
+    signal _changeStations()
+
+    on_ChangeStations: {
+        var temp = departure.iconText;
+        departure.iconText = arrival.iconText;
+        arrival.iconText = temp;
+    }
+
+    Component.onCompleted: Util.getHours() > 12? _changeStations(): undefined // Switch stations when in the afternoon
+
     Connections {
         target: app
         onPythonReadyChanged: {
@@ -105,11 +115,7 @@ Page {
                     height: parent.height
                     enabled: readyToPlan
                     opacity: enabled? 1.0: 0.25
-                    onClicked: { // Switch
-                        var temp = departure.iconText;
-                        departure.iconText = arrival.iconText;
-                        arrival.iconText = temp;
-                    }
+                    onClicked: _changeStations()
 
                     Image {
                         width: Theme.itemSizeSmall/1.75
