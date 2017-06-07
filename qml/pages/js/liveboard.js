@@ -56,20 +56,23 @@ function load(station) {
 
                 if(liveboard.departures.departure[i].hasOwnProperty("alerts")) { // Detect if we have alerts in this data
                     for(var j=0; j < Object.keys(liveboard.departures.departure[i].alerts.alert).length; j++) {
-                        alertsModel.append({
-                                               "header": liveboard.departures.departure[i].alerts.alert[j].header,
-                                               "description": liveboard.departures.departure[i].alerts.alert[j].description
-                                           });
-                    }
-                }
-            }
+                        var newEntry = true;
+                        for(var k=0; k < alertsModel.count; k++) {
+                            if(alertsModel.count == 0) { // Only when we have an entry we should check for duplicates
+                                break;
+                            }
 
-            // Remove duplicates from AlertsModel if the model is > 1
-            if(alertsModel.count > 1) {
-                for(var i=0; i < alertsModel.count; i++) {
-                    for(var j=i; j < alertsModel.count; j++) { // Only check for the same elements after the current one
-                        if(alertsModel.get(i).header == alertsModel.get(j).header) {
-                            alertsModel.remove(j);
+                            if(alertsModel.get(k).header == alertsModel.get(j).header) {
+                                newEntry = false;
+                                break;
+                            }
+                        }
+
+                        if(newEntry) {
+                            alertsModel.append({
+                                                   "header": liveboard.departures.departure[i].alerts.alert[j].header,
+                                                   "description": liveboard.departures.departure[i].alerts.alert[j].description
+                                               });
                         }
                     }
                 }
