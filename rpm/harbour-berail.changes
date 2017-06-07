@@ -8,6 +8,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Mon Jun 06 2017 Dylan Van Assche <dylan.van.assche@protonmail.com.com> 1.1-2
+- [MINOR BUGFIX] Remove disturbances duplicates in Liveboard
+
 * Mon Jun 06 2017 Dylan Van Assche <dylan.van.assche@protonmail.com.com> 1.1-1
 - [MINOR BUGFIX] Recovering after a wrong connection in the routeplanner fixed
 - [MINOR BUGFIX] Liveboard shows information twice fixed
