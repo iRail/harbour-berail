@@ -60,16 +60,19 @@ Page {
             MenuItem {
                 text: qsTr("About")
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+                enabled: !_loading
             }
 
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+                enabled: !_loading
             }
 
             MenuItem {
                 text: qsTr("Liveboard")
                 onClicked: pageStack.push(Qt.resolvedUrl("LiveboardPage.qml"))
+                enabled: !_loading
             }
         }
 

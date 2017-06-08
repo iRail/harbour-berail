@@ -33,7 +33,7 @@ Page {
 
             PageHeader { title: qsTr("About %1 V%2").arg(app.name).arg(app.version) }
 
-            SectionHeader { text: qsTr("What's %1").arg(app.name) }
+            SectionHeader { text: qsTr("What's %1 ?").arg(app.name) }
             TextLabel { labelText: qsTr("%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!").arg(app.name) }
 
             SectionHeader { text: qsTr("Privacy & licensing") }
