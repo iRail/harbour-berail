@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>AboutPage</name>
     <message>
@@ -21,39 +19,39 @@
     </message>
     <message>
         <source>About %1 V%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>What&apos;s %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Über %1 V%2</translation>
     </message>
     <message>
         <source>%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ist ein Open Source Programm um Bahnfahrten mit der belgischen NMBS/SNCB auf dem Smartphone zu planen!</translation>
     </message>
     <message>
         <source>%1 will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 selbst wird niemals Ihre persönlichen Informationen sammeln, aber dies kann für keine weitere in %1  involvierte Partei garantiert werden.</translation>
     </message>
     <message>
         <source>This application is released under GPLv3. The source code and the license is available in the Github repo of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Programm wird unter der GPLv3 zur Verfügung gestellt. Der Quellcode und die Lizenz sind im Github repo von %1 verfügbar.</translation>
     </message>
     <message>
         <source>Donate with %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Per %1 spenden</translation>
     </message>
     <message>
         <source>%1 can be translated into your language but for that we need your help! You can translate this app on %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kann mit deiner Hilfe in deine Sprache übersetzt werden! Übersetzte dieses Programm auf %2</translation>
     </message>
     <message>
         <source>%1 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt %1</translation>
     </message>
     <message>
         <source>Icon by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Icon von %1</translation>
+    </message>
+    <message>
+        <source>What&apos;s %1 ?</source>
+        <translation>Was ist %1</translation>
     </message>
 </context>
 <context>
@@ -190,23 +188,23 @@
     </message>
     <message>
         <source>Routeplanner</source>
-        <translation type="unfinished"></translation>
+        <translation>Routenplaner</translation>
     </message>
     <message>
         <source>Time is</source>
-        <translation type="unfinished"></translation>
+        <translation>Es ist jetzt</translation>
     </message>
     <message>
         <source>departure</source>
-        <translation type="unfinished"></translation>
+        <translation>Abfahrt</translation>
     </message>
     <message>
         <source>arrival</source>
-        <translation type="unfinished"></translation>
+        <translation>Ankunft</translation>
     </message>
     <message>
         <source>Select here if you want to use the given time as either the time of arrival or departure.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle diesen Zeitpunkt als Abfahrts- oder Ankunftszeit.</translation>
     </message>
 </context>
 <context>

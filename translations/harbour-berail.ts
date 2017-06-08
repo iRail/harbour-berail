@@ -24,10 +24,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>What&apos;s %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -53,6 +49,10 @@
     </message>
     <message>
         <source>Icon by %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>What&apos;s %1 ?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

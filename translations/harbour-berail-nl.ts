@@ -2,28 +2,8 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <source>About</source>
-        <translation>Over</translation>
-    </message>
-    <message>
-        <source>What&apos;s</source>
-        <translation>Wat is</translation>
-    </message>
-    <message>
-        <source>is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
-        <translation>is een opensource applicatie om je reizen met de Belgische spoorwegen te plannen op je Sailfish OS smartphone!</translation>
-    </message>
-    <message>
         <source>Privacy &amp; licensing</source>
         <translation>Privacy &amp; licentie</translation>
-    </message>
-    <message>
-        <source>will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in</source>
-        <translation>zal nooit persoonlijke informatie verzamelen over de gebruiker, maar dit kan niet gegarandeerd worden van alle derde partijen die gebruikt worden in</translation>
-    </message>
-    <message>
-        <source>This application is released under GPLv3. The source code and the license is available in the Github repo of</source>
-        <translation>Deze applicatie is uitgegeven onder de GPLv3-licentie. Broncode en licentie zijn beschikbaar in de GitHub-repository van</translation>
     </message>
     <message>
         <source>Developer &amp; source code</source>
@@ -34,20 +14,44 @@
         <translation>Broncode</translation>
     </message>
     <message>
-        <source>can be translated into your language but for that we need your help! You can translate this app on</source>
-        <translation>kan in je taal vertaald worden, maar daarvoor hebben we je hulp nodig! Je kan deze app vertalen op</translation>
-    </message>
-    <message>
-        <source>project</source>
-        <translation>project</translation>
-    </message>
-    <message>
         <source>Powered by</source>
         <translation>Met dank aan</translation>
     </message>
     <message>
-        <source>Donate with PayPal</source>
-        <translation>Doneer met PayPal</translation>
+        <source>About %1 V%2</source>
+        <translation>Over %1 V%2</translation>
+    </message>
+    <message>
+        <source>%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
+        <translation>%1 is een opensource applicatie om je reizen met de Belgische spoorwegen te plannen op je Sailfish OS smartphone!</translation>
+    </message>
+    <message>
+        <source>%1 will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in %1</source>
+        <translation>%1 zal nooit persoonlijke informatie verzamelen over de gebruiker, maar dit kan niet gegarandeerd worden van alle derde partijen die gebruikt worden in %1</translation>
+    </message>
+    <message>
+        <source>This application is released under GPLv3. The source code and the license is available in the Github repo of %1</source>
+        <translation>Deze applicatie is uitgegeven onder de GPLv3-licentie. Broncode en licentie zijn beschikbaar in de GitHub-repository van %1</translation>
+    </message>
+    <message>
+        <source>Donate with %1</source>
+        <translation>Doneren met %1</translation>
+    </message>
+    <message>
+        <source>%1 can be translated into your language but for that we need your help! You can translate this app on %2</source>
+        <translation>%1 kan in je taal vertaald worden, maar daarvoor hebben we je hulp nodig! Je kan deze app vertalen op %2</translation>
+    </message>
+    <message>
+        <source>%1 project</source>
+        <translation>%1 project</translation>
+    </message>
+    <message>
+        <source>Icon by %1</source>
+        <translation>Icoon dankzij %1</translation>
+    </message>
+    <message>
+        <source>What&apos;s %1 ?</source>
+        <translation>Wat is %1 ?</translation>
     </message>
 </context>
 <context>
@@ -175,16 +179,32 @@
         <translation>Vertrekoverzicht</translation>
     </message>
     <message>
-        <source>Favourite stations</source>
-        <translation>Favoriete stations</translation>
-    </message>
-    <message>
         <source>Enable favourite stations</source>
         <translation>Favoriete stations inschakelen</translation>
     </message>
     <message>
         <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
         <translation>Verplaats je je van het werk of naar school? Dan is deze optie voor jou! Selecteer je favoriete stations hieronder.</translation>
+    </message>
+    <message>
+        <source>Routeplanner</source>
+        <translation>Routeplanner</translation>
+    </message>
+    <message>
+        <source>Time is</source>
+        <translation>Tijd is</translation>
+    </message>
+    <message>
+        <source>departure</source>
+        <translation>vertrek</translation>
+    </message>
+    <message>
+        <source>arrival</source>
+        <translation>aankomen</translation>
+    </message>
+    <message>
+        <source>Select here if you want to use the given time as either the time of arrival or departure.</source>
+        <translation>Selecteer hier of je de gegeven tijd wilt gebruiken als de vertrek- of aankomsttijd.</translation>
     </message>
 </context>
 <context>
