@@ -11,7 +11,7 @@
 BeRail is a Sailfish OS application to plan your journeys on the Belgian railway.
 It uses the iRail API as source of information and is part of the [iRail project](https://github.com/irail).
 
-BeRail will be available soon in the official Jolla Store and on Openrepos.net
+BeRail is available soon in the official Jolla Store and on [Openrepos.net](https://openrepos.net/content/minitreintje/berail).
 
 ## Features
 - Routeplanner
@@ -33,7 +33,7 @@ In case the language isn't available you can always request it and I will add it
 https://www.transifex.com/dylanvanassche/harbour-berail/
 
 ## Powered by
-- [Requests](https://github.com/kennethreitz/requests)
+- [QT5](https://www.qt.io)
 - [iRail API](https://api.irail.be)
 - [BeRail icon by Timo Könnecke](https://twitter.com/eLtMosen)
 
