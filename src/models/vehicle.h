@@ -16,8 +16,6 @@ class Vehicle: public QObject
     Q_OBJECT
 public:
     explicit Vehicle(QString id, QDate date, QList<Stop*> stops, QGeoCoordinate location, bool canceled, Occupancy occupancy, Disturbances* disturbances, QDateTime timestamp);
-    //virtual ~Vehicle();
-
     QString id() const;
     void setId(const QString &id);
     QDate date() const;

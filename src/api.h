@@ -42,6 +42,7 @@ public:
     Q_INVOKABLE void getStations();
     Q_INVOKABLE void getDisturbances();
     Q_INVOKABLE void getVehicle(QString id, QDateTime time);
+    Q_INVOKABLE void getLiveboard(QString stationName, QDateTime time, ArrDep arrdep);
     bool busy() const;
     void setBusy(bool busy);
     QString useragent() const;
@@ -84,11 +85,13 @@ private:
     QString parseLanguage(QLocale::Language language);
     QString parseDate(QDateTime time);
     QString parseTime(QDateTime time);
+    QString parseArrdep(ArrDep arrdep);
     Occupancy parseOccupancy(QString occupancy);
     QNetworkRequest prepareRequest(QUrl url, QUrlQuery parameters);
     QList<Station*> parseStations(QJsonObject json);
     Disturbances* parseDisturbances(QJsonObject json);
     Vehicle* parseVehicle(QJsonObject json);
+    Liveboard* parseLiveboard(QJsonObject json);
     bool parseJSONStringToBool(QString value);
 };
 

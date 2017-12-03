@@ -35,7 +35,6 @@ public:
                   bool left,
                   Occupancy occupancy
                   );
-    //virtual ~Stop();
 
     int id() const;
     void setId(int id);

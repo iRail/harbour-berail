@@ -25,7 +25,7 @@ SOURCES += src/harbour-berail.cpp \
     src/models/station.cpp \
     src/models/alert.cpp \
     src/models/disturbances.cpp \
-    #src/models/liveboard.cpp \
+    src/models/liveboard.cpp \
     src/models/vehicle.cpp \
     src/models/stop.cpp
 
@@ -102,6 +102,6 @@ HEADERS += \
     src/models/station.h \
     src/models/alert.h \
     src/models/disturbances.h \
-    #src/models/liveboard.h \
+    src/models/liveboard.h \
     src/models/vehicle.h \
     src/models/stop.h

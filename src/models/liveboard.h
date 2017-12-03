@@ -13,29 +13,28 @@
 class Liveboard: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Station station READ getStation WRITE setStation NOTIFY stationChanged)
-    Q_PROPERTY(QList<Vehicle> vehicles READ getVehicles WRITE setVehicles NOTIFY vehiclesChanged)
-    Q_PROPERTY(QDateTime time READ getTime WRITE setTime NOTIFY timeChanged)
-    Q_PROPERTY(ArrDep arrdep READ getArrDep WRITE setArrDep NOTIFY arrdepChanged)
-    Q_PROPERTY(Disturbances disturbances READ getDisturbances WRITE setDisturbances NOTIFY disturbancesChanged)
-    Q_PROPERTY(QDateTime timestamp READ getTimestamp WRITE setTimestamp NOTIFY timestampChanged)
+    Q_PROPERTY(Station* station READ station WRITE setStation NOTIFY stationChanged)
+    Q_PROPERTY(QList<Vehicle*> vehicles READ vehicles WRITE setVehicles NOTIFY vehiclesChanged)
+    Q_PROPERTY(QDateTime time READ time WRITE setTime NOTIFY timeChanged)
+    Q_PROPERTY(ArrDep arrdep READ arrdep WRITE setArrdep NOTIFY arrdepChanged)
+    Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
+    Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
 
 public:
-    explicit Liveboard(Station station, QDateTime time, ArrDep arrdep, Disturbances disturbances);
+    explicit Liveboard(Station* station, QDateTime time, ArrDep arrdep, Disturbances* disturbances);
     explicit Liveboard();
-    Station getStation();
-    QList<Vehicle> getVehicles();
-    QDateTime getTime();
-    ArrDep getArrDep();
-    Disturbances getDisturbances();
-    QDateTime getTimestamp();
-    void setStation(Station station);
-    void setVehicles(QList<Vehicle> vehicles);
-    void setTime(QDateTime time);
-    void setArrDep(ArrDep arrdep);
-    void setDisturbances(Disturbances disturbances);
-    void setTimestamp(QDateTime timestamp);
-    virtual ~Liveboard();
+    Station *station() const;
+    void setStation(Station *station);
+    QList<Vehicle*> vehicles() const;
+    void setVehicles(const QList<Vehicle*> &vehicles);
+    QDateTime time() const;
+    void setTime(const QDateTime &time);
+    ArrDep arrdep() const;
+    void setArrdep(const ArrDep &arrdep);
+    Disturbances *disturbances() const;
+    void setDisturbances(Disturbances *disturbances);
+    QDateTime timestamp() const;
+    void setTimestamp(const QDateTime &timestamp);
 
 signals:
     void stationChanged();
@@ -46,11 +45,11 @@ signals:
     void timestampChanged();
 
 private:
-    Station m_station;
-    QList<Vehicle> m_vehicles;
+    Station* m_station;
+    QList<Vehicle*> m_vehicles;
     QDateTime m_time;
     ArrDep m_arrdep;
-    Disturbances m_disturbances;
+    Disturbances* m_disturbances;
     QDateTime m_timestamp;
 };
 

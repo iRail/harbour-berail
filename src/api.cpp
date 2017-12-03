@@ -75,6 +75,14 @@ QString API::parseTime(QDateTime time)
     return time.toString("HHmm");
 }
 
+QString API::parseArrdep(ArrDep arrdep) {
+    if(arrdep == ArrDep::Arrival)
+    {
+        return "arrival";
+    }
+    return "departure";
+}
+
 Occupancy API::parseOccupancy(QString occupancy)
 {
     if(occupancy.contains("low"))
@@ -160,6 +168,20 @@ void API::getVehicle(QString id, QDateTime time)
     QNAM->get(prepareRequest(url, parameters));
 }
 
+void API::getLiveboard(QString stationName, QDateTime time, ArrDep arrdep)
+{
+    // Build URL
+    QUrl url(QString(LIVEBOARD_ENDPOINT));
+    QUrlQuery parameters;
+    parameters.addQueryItem("station", stationName);
+    parameters.addQueryItem("date", parseDate(time));
+    parameters.addQueryItem("time", parseTime(time));
+    parameters.addQueryItem("arrdep", parseArrdep(arrdep));
+
+    // Prepare & do request
+    QNAM->get(prepareRequest(url, parameters));
+}
+
 /**
  * @class API
  * @brief Handling HTTP replies.
@@ -202,7 +224,7 @@ void API::finished (QNetworkReply *reply)
             }
             else if(reply->url().toString().contains("liveboard", Qt::CaseInsensitive)) {
                 qDebug() << "iRail liveboard data received";
-                //setLiveboard(parseLiveboard(jsonObject));
+                setLiveboard(parseLiveboard(jsonObject));
             }
             else if(reply->url().toString().contains("connections", Qt::CaseInsensitive)) {
                 qDebug() << "iRail connections data received";
@@ -384,6 +406,11 @@ Vehicle* API::parseVehicle(QJsonObject json)
     qDebug() << vehicle->id();
     qDebug() << stopList;
     return vehicle;
+}
+
+Liveboard *API::parseLiveboard(QJsonObject json)
+{
+    // TO DO: parsing function for the JSON Liveboard data
 }
 
 bool API::parseJSONStringToBool(QString value)
