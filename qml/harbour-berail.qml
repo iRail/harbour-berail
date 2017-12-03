@@ -17,7 +17,7 @@
 
 import QtQuick 2.2
 import Sailfish.Silica 1.0
-import io.thp.pyotherside 1.3
+//import io.thp.pyotherside 1.3
 import org.nemomobile.configuration 1.0
 import "pages"
 import "./pages/js/util.js" as Util
@@ -59,7 +59,7 @@ ApplicationWindow
         property string favouriteArriveStation
     }
 
-    Python {
+    /*Python {
             id: python
             property bool _networkWasLost
 
@@ -96,6 +96,6 @@ ApplicationWindow
             }
             onError: console.error("[ERROR] %1".arg(traceback));
             onReceived: console.info("[INFO] Message: " + JSON.stringify(data));
-        }
+        }*/
 }
 

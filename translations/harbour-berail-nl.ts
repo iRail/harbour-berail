@@ -253,15 +253,4 @@
         <translation>Probeer een ander station</translation>
     </message>
 </context>
-<context>
-    <name>harbour-berail</name>
-    <message>
-        <source>Network down</source>
-        <translation>Geen netwerk</translation>
-    </message>
-    <message>
-        <source>Network recovered</source>
-        <translation>Netwerk hersteld</translation>
-    </message>
-</context>
 </TS>

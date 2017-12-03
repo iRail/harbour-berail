@@ -13,15 +13,14 @@ Name:       harbour-berail
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    BeRail
-Version:    1.2
+Version:    1.3
 Release:    1
 Group:      Qt/Qt
-License:    LICENSE
-URL:        http://example.org/
+License:    GPLv3
+URL:        http://dylanvanassche.be/
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  harbour-berail.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
-Requires:   pyotherside-qml-plugin-python3-qt5 >= 1.2.0
 Requires:   nemo-qml-plugin-configuration-qt5 >= 0.0.1
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
@@ -42,7 +41,8 @@ BeRail is a Sailfish OS application to plan your journeys on the Belgian railway
 # >> build pre
 # << build pre
 
-%qtc_qmake5 
+%qtc_qmake5  \
+    VERSION=%{version}
 
 %qtc_make %{?_smp_mflags}
 

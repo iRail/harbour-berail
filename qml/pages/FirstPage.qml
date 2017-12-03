@@ -41,14 +41,14 @@ Page {
 
     Component.onCompleted: Util.getHours() > 12? _changeStations(): undefined // Switch stations when in the afternoon
 
-    Connections {
+    /*Connections {
         target: app
         onPythonReadyChanged: {
             var _result
             pythonReady? _result = Disturbances.load(): undefined
             _result? loader_DisturbancesView =component_DisturbancesView: undefined
         }
-    }
+    }*/
 
     SilicaFlickable {
         anchors { fill: parent }
