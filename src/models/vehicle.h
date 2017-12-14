@@ -11,6 +11,7 @@
 #include "stop.h"
 #include "enum.h"
 
+// Add time() for easy extraction in QML
 class Vehicle: public QObject
 {
     Q_OBJECT

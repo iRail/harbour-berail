@@ -163,6 +163,7 @@ void API::getVehicle(QString id, QDateTime time)
     QUrlQuery parameters;
     parameters.addQueryItem("id", id);
     parameters.addQueryItem("date", parseDate(time));
+    parameters.addQueryItem("alerts", "true");
 
     // Prepare & do request
     QNAM->get(prepareRequest(url, parameters));
@@ -177,6 +178,7 @@ void API::getLiveboard(QString stationName, QDateTime time, ArrDep arrdep)
     parameters.addQueryItem("date", parseDate(time));
     parameters.addQueryItem("time", parseTime(time));
     parameters.addQueryItem("arrdep", parseArrdep(arrdep));
+    parameters.addQueryItem("alerts", "true");
 
     // Prepare & do request
     QNAM->get(prepareRequest(url, parameters));
@@ -207,7 +209,6 @@ void API::finished (QNetworkReply *reply)
 
         // Get the data from the request
         QString replyData = (QString)reply->readAll();
-        qDebug() << replyData;
 
         // Try to parse the data as JSON
         QJsonParseError parseError;
@@ -246,6 +247,7 @@ void API::finished (QNetworkReply *reply)
             }
         }
         else {
+            // emit error here
             qCritical() << "Received data isn't properly formatted as JSON! QJsonParseError:" << parseError.errorString();
         }
     }
@@ -291,6 +293,7 @@ void API::networkAccessible(QNetworkAccessManager::NetworkAccessibility state)
  */
 QList<Station*> API::parseStations(QJsonObject json)
 {
+    qDebug() << "Parsing stations";
     QList<Station*> stationsList;
     QJsonArray stationArray = json["station"].toArray();
 
@@ -310,6 +313,7 @@ QList<Station*> API::parseStations(QJsonObject json)
 
 Disturbances* API::parseDisturbances(QJsonObject json)
 {
+    qDebug() << "Parsing disturbances";
     QList<Alert*> alertsList;
     QDateTime timestampDisturbances;
     timestampDisturbances.setTime_t(json["timestamp"].toString().toInt());
@@ -336,6 +340,7 @@ Disturbances* API::parseDisturbances(QJsonObject json)
 
 Vehicle* API::parseVehicle(QJsonObject json)
 {
+    qDebug() << "Parsing vehicles";
     QList<Stop*> stopList;
     QList<Alert*> alertsList;
     QDateTime timestampVehicle;
@@ -350,11 +355,13 @@ Vehicle* API::parseVehicle(QJsonObject json)
     // Return an empty Disturbances object if no alerts are available
     Disturbances *disturbances = new Disturbances();
     if(json.contains("alerts")) {
+        qDebug() << "Alerts detected";
         QJsonArray alertArray = json["alerts"].toObject()["alert"].toArray();
 
         // Loop through array and parse the JSON Alerts objects as C++ models
         foreach (const QJsonValue &item, alertArray) {
             QJsonObject alertObj = item.toObject();
+            qDebug() << alertObj["id"].toString();
             Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampVehicle);
             alertsList.append(alert);
         }
@@ -375,20 +382,19 @@ Vehicle* API::parseVehicle(QJsonObject json)
         scheduledArrivalTime.setTime_t(stopObj["scheduledArrivalTime"].toString().toInt());
 
 
-        Stop* stop = new Stop(
-                        stopObj["id"].toString().toInt(),
-                        station,
-                        platformObj["name"].toString(),
-                        platformObj["normal"].toString().toInt(),
-                        stopObj["departureDelay"].toString().toInt(),
-                        scheduledDepartureTime,
-                        parseJSONStringToBool(stopObj["departureCanceled"].toString()),
-                        stopObj["arrivalDelay"].toString().toInt(),
-                        scheduledArrivalTime,
-                        parseJSONStringToBool(stopObj["arrivalCanceled"].toString()),
-                        parseJSONStringToBool(stopObj["left"].toString()),
-                        parseOccupancy(occupancyObj["name"].toString())
-                        );
+        Stop* stop = new Stop(stopObj["id"].toString().toInt(),
+                station,
+                platformObj["name"].toString(),
+                parseJSONStringToBool(platformObj["normal"].toString()),
+                stopObj["departureDelay"].toString().toInt(),
+                scheduledDepartureTime,
+                parseJSONStringToBool(stopObj["departureCanceled"].toString()),
+                stopObj["arrivalDelay"].toString().toInt(),
+                scheduledArrivalTime,
+                parseJSONStringToBool(stopObj["arrivalCanceled"].toString()),
+                parseJSONStringToBool(stopObj["left"].toString()),
+                parseOccupancy(occupancyObj["name"].toString())
+                );
         stopList.append(stop);
 
         if(!isCanceled) {
@@ -401,16 +407,112 @@ Vehicle* API::parseVehicle(QJsonObject json)
     std::sort(occupancyList.begin(), occupancyList.end());
     Occupancy occupancyMedian = occupancyList.at(occupancyList.length()/2);
     Vehicle* vehicle = new Vehicle(vehicleInfo["name"].toString(), timestampVehicle.date(), stopList, vehicleLocation, isCanceled, occupancyMedian, disturbances, timestampVehicle);
-    qDebug() << vehicle;
-    qDebug() << vehicle->disturbances();
-    qDebug() << vehicle->id();
-    qDebug() << stopList;
+    qDebug() << "Vehicle:" << vehicle->id();
+    qDebug() << "Disturbances:" << vehicle->disturbances();
+    qDebug() << "Alerts:" << vehicle->disturbances()->alerts();
+    qDebug() << "Stops:" << vehicle->stops();
     return vehicle;
 }
 
 Liveboard *API::parseLiveboard(QJsonObject json)
 {
     // TO DO: parsing function for the JSON Liveboard data
+    qDebug() << "Parsing liveboard";
+    QJsonObject departureStationObj = json["stationinfo"].toObject();
+    QJsonObject departuresObj = json["departures"].toObject();
+    QJsonArray departureArray = departuresObj["departure"].toArray();
+    Disturbances* disturbances_liveboard = new Disturbances();
+    ArrDep arrdep;
+    if(json.contains("departures")) {
+        departuresObj = json["departures"].toObject();
+        departureArray = departuresObj["departure"].toArray();
+        arrdep = ArrDep::Departure;
+    }
+    else {
+        departuresObj = json["arrivals"].toObject();
+        departureArray = departuresObj["arrival"].toArray();
+        arrdep = ArrDep::Arrival;
+    }
+    QDateTime timestampLiveboard;
+    timestampLiveboard.setTime_t(json["timestamp"].toString().toInt());
+    QGeoCoordinate stationLocation(departureStationObj["locationY"].toString().toDouble(), departureStationObj["locationX"].toString().toDouble());
+    Station* station = new Station(departureStationObj["id"].toString(), departureStationObj["standardname"].toString(), stationLocation);
+
+    // Loop through array and parse the JSON Stop objects as C++ models
+    foreach (const QJsonValue &item, departureArray) {
+        QJsonObject departure = item.toObject();
+        QJsonObject stationObj = departure["stationinfo"].toObject();
+        QJsonObject vehicleObj = departure["vehicleinfo"].toObject();
+        QJsonObject platformObj = departure["platforminfo"].toObject();
+        QJsonObject occupancyObj = departure["occupancy"].toObject();
+        QList<Stop*> stopList;
+        QList<Alert*> alertsList;
+        QGeoCoordinate stationLocation(stationObj["locationY"].toString().toDouble(), stationObj["locationX"].toString().toDouble());
+        Station* station = new Station(stationObj["id"].toString(), stationObj["standardname"].toString(), stationLocation);
+        QDateTime scheduledDepartureTime;
+        scheduledDepartureTime.setTime_t(departure["time"].toString().toInt());
+        qDebug() << vehicleObj["name"].toString();
+
+        // Build Stop object based on the departure data of this vehicle
+        Stop* stop = new Stop(departure["id"].toString().toInt(),
+                station,
+                platformObj["name"].toString(),
+                parseJSONStringToBool(platformObj["normal"].toString()),
+                departure["delay"].toString().toInt(),
+                scheduledDepartureTime,
+                parseJSONStringToBool(departure["canceled"].toString()),
+                departure["delay"].toString().toInt(),
+                scheduledDepartureTime,
+                parseJSONStringToBool(departure["canceled"].toString()),
+                parseJSONStringToBool(departure["left"].toString()),
+                parseOccupancy(occupancyObj["name"].toString())
+                );
+        stopList.append(stop);
+
+        // Return an empty Disturbances object if no alerts are available
+        Disturbances* disturbances = new Disturbances();
+        if(json.contains("alerts")) {
+            qDebug() << "Alerts detected";
+            QJsonArray alertArray = json["alerts"].toObject()["alert"].toArray();
+
+            // Loop through array and parse the JSON Alerts objects as C++ models
+            foreach (const QJsonValue &item, alertArray) {
+                QJsonObject alertObj = item.toObject();
+                qDebug() << alertObj["id"].toString();
+                Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampLiveboard);
+                alertsList.append(alert);
+            }
+            // Update the disturbances for the specific item
+            disturbances->setAlerts(alertsList);
+            // Update the disturbances for the whole liveboard
+            QList<Alert*> tempAlertList(disturbances_liveboard->alerts());
+            tempAlertList.append(alertsList);
+            disturbances_liveboard->setAlerts(tempAlertList);
+        }
+
+        // Create vehicle
+        Vehicle* vehicle = new Vehicle(vehicleObj["name"].toString(),
+                timestampLiveboard.date(),
+                stopList,
+                stationLocation,
+                parseJSONStringToBool(departure["canceled"].toString()),
+                parseOccupancy(occupancyObj["name"].toString()),
+                disturbances,
+                timestampLiveboard
+                );
+        qDebug() << "Vehicle:" << vehicle->id();
+        qDebug() << "Timestamp:" << vehicle->timestamp();
+        qDebug() << "Disturbances:" << vehicle->disturbances();
+        qDebug() << "Departure:" << vehicle->stops().at(0);
+    }
+
+    // Create Liveboard using our data from above
+    Liveboard* liveboard = new Liveboard(station, timestampLiveboard, arrdep, disturbances_liveboard);
+    qDebug() << "Station:" << liveboard->station()->name();
+    qDebug() << "Timestamp:" << liveboard->timestamp();
+    qDebug() << "Disturbances:" << liveboard->disturbances();
+    qDebug() << "Alerts:" << liveboard->disturbances()->alerts();
+    return liveboard;
 }
 
 bool API::parseJSONStringToBool(QString value)

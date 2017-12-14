@@ -15,7 +15,6 @@ class Liveboard: public QObject
     Q_OBJECT
     Q_PROPERTY(Station* station READ station WRITE setStation NOTIFY stationChanged)
     Q_PROPERTY(QList<Vehicle*> vehicles READ vehicles WRITE setVehicles NOTIFY vehiclesChanged)
-    Q_PROPERTY(QDateTime time READ time WRITE setTime NOTIFY timeChanged)
     Q_PROPERTY(ArrDep arrdep READ arrdep WRITE setArrdep NOTIFY arrdepChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
@@ -27,8 +26,6 @@ public:
     void setStation(Station *station);
     QList<Vehicle*> vehicles() const;
     void setVehicles(const QList<Vehicle*> &vehicles);
-    QDateTime time() const;
-    void setTime(const QDateTime &time);
     ArrDep arrdep() const;
     void setArrdep(const ArrDep &arrdep);
     Disturbances *disturbances() const;
@@ -39,7 +36,6 @@ public:
 signals:
     void stationChanged();
     void vehiclesChanged();
-    void timeChanged();
     void arrdepChanged();
     void disturbancesChanged();
     void timestampChanged();
@@ -47,7 +43,6 @@ signals:
 private:
     Station* m_station;
     QList<Vehicle*> m_vehicles;
-    QDateTime m_time;
     ArrDep m_arrdep;
     Disturbances* m_disturbances;
     QDateTime m_timestamp;

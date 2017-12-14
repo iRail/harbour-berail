@@ -14,6 +14,8 @@
 #include "api.h"
 #include "models/station.h"
 
+// Add toString() method to all custom method
+
 int main(int argc, char *argv[])
 {
     // Set up qml engine.
@@ -28,7 +30,7 @@ int main(int argc, char *argv[])
     API api;
     api.getDisturbances();
     api.getStations();
-    api.getVehicle("IC123", QDateTime::currentDateTime());
+    api.getVehicle("BE.NMBS.P8282", QDateTime::currentDateTime());
     api.getLiveboard("Vilvoorde", QDateTime::currentDateTime(), ArrDep::Departure);
 
     // Register custom QML modules

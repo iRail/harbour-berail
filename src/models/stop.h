@@ -8,6 +8,7 @@
 #include "station.h"
 #include "enum.h"
 
+// TO DO: isExtraStop property needs to be added
 class Stop: public QObject
 {
     Q_OBJECT
