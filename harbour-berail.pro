@@ -28,7 +28,8 @@ SOURCES += src/harbour-berail.cpp \
     src/models/liveboard.cpp \
     src/models/vehicle.cpp \
     src/models/stop.cpp \
-    src/models/connection.cpp
+    src/models/connection.cpp \
+    src/models/via.cpp
 
 OTHER_FILES += qml/harbour-berail.qml \
     qml/cover/CoverPage.qml \
@@ -106,4 +107,5 @@ HEADERS += \
     src/models/liveboard.h \
     src/models/vehicle.h \
     src/models/stop.h \
-    src/models/connection.h
+    src/models/connection.h \
+    src/models/via.h

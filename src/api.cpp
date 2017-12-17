@@ -651,8 +651,8 @@ QList<Connection*> API::parseConnections(QJsonObject json)
                 this->parseStringToBool(arrivalObj["walking"].toString())
                 );
 
-        // Handle via Stops
-        /*foreach (const QJsonValue &via, viasArray) {
+        // Handle vias Stops
+        foreach (const QJsonValue &via, viasArray) {
             QJsonObject viaStationObj = via["stationinfo"].toObject();
 
             QDateTime viaTime;
@@ -692,7 +692,7 @@ QList<Connection*> API::parseConnections(QJsonObject json)
                     arrivalObj["direction"].toString(),
                     this->parseStringToBool(arrivalObj["walking"].toString())
                     );
-        }*/
+        }
 
         Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());
         Connection* connection = new Connection(connectionId, fromStop, toStop, new Disturbances(), new Disturbances(), connectionOccupancy, connectionDuration, viaList, timestampConnections);
