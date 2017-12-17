@@ -22,6 +22,7 @@ QString Station::id() const
 void Station::setId(const QString &id)
 {
     m_id = id;
+    emit this->idChanged();
 }
 
 QString Station::name() const
@@ -32,6 +33,7 @@ QString Station::name() const
 void Station::setName(const QString &name)
 {
     m_name = name;
+    emit this->nameChanged();
 }
 
 QGeoCoordinate Station::location() const
@@ -42,4 +44,5 @@ QGeoCoordinate Station::location() const
 void Station::setLocation(const QGeoCoordinate &location)
 {
     m_location = location;
+    emit this->locationChanged();
 }

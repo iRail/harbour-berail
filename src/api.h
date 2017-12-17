@@ -25,6 +25,7 @@
 #include "models/disturbances.h"
 #include "models/alert.h"
 #include "models/liveboard.h"
+#include "models/connection.h"
 
 #define STATIONS_ENDPOINT "https://api.irail.be/stations"
 #define LIVEBOARD_ENDPOINT "https://api.irail.be/liveboard"
@@ -36,6 +37,7 @@
 class API: public QObject
 {
     Q_OBJECT
+    //TO DO:    Q_PROPERTY(type name READ name WRITE setName NOTIFY nameChanged)
 public:
     explicit API();
     virtual ~API();
@@ -43,6 +45,7 @@ public:
     Q_INVOKABLE void getDisturbances();
     Q_INVOKABLE void getVehicle(QString id, QDateTime time);
     Q_INVOKABLE void getLiveboard(QString stationName, QDateTime time, ArrDep arrdep);
+    Q_INVOKABLE void getConnections(QString fromStation, QString toStation, ArrDep arrdep, QDateTime time, Transport transportType);
     bool busy() const;
     void setBusy(bool busy);
     QString useragent() const;
@@ -57,12 +60,18 @@ public:
     void setLiveboard(Liveboard *liveboard);
     Vehicle *vehicle() const;
     void setVehicle(Vehicle *vehicle);
+    QList<Connection*> connections() const;
+    void setConnections(const QList<Connection*> &connections);
 
 signals:
     void busyChanged();
     void useragentChanged();
     void stationsChanged();
     void disturbancesChanged();
+    void vehicleChanged();
+    void liveboardChanged();
+    void connectionsChanged();
+    void occupancyUpdated();
     void errorOccurred(const QString &errorText);
 
 private slots:
@@ -79,6 +88,7 @@ private:
     Disturbances* m_disturbances;
     Liveboard* m_liveboard;
     Vehicle* m_vehicle;
+    QList<Connection*> m_connections;
     QNetworkAccessManager* QNAM;
     QNetworkDiskCache* QNAMCache;
     OS SFOS;
@@ -86,13 +96,16 @@ private:
     QString parseDate(QDateTime time);
     QString parseTime(QDateTime time);
     QString parseArrdep(ArrDep arrdep);
+    QString parseTransport(Transport transportType);
     Occupancy parseOccupancy(QString occupancy);
+    QString parseDateOccupancy(QDateTime time);
+    bool parseStringToBool(QString value);
     QNetworkRequest prepareRequest(QUrl url, QUrlQuery parameters);
     QList<Station*> parseStations(QJsonObject json);
     Disturbances* parseDisturbances(QJsonObject json);
     Vehicle* parseVehicle(QJsonObject json);
     Liveboard* parseLiveboard(QJsonObject json);
-    bool parseJSONStringToBool(QString value);
+    QList<Connection*> parseConnections(QJsonObject json);
 };
 
 #endif // API_H

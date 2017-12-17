@@ -17,8 +17,8 @@ Disturbances::Disturbances()
  */
 Disturbances::Disturbances(QList<Alert*> alerts, QDateTime timestamp)
 {
-    setAlerts(alerts);
-    setTimestamp(timestamp);
+    this->setAlerts(alerts);
+    this->setTimestamp(timestamp);
 }
 
 /**
@@ -47,6 +47,7 @@ QList<Alert*> Disturbances::alerts() const
 void Disturbances::setAlerts(const QList<Alert*> &alerts)
 {
     m_alerts = alerts;
+    emit this->alertsChanged();
 }
 
 QDateTime Disturbances::timestamp() const
@@ -57,4 +58,5 @@ QDateTime Disturbances::timestamp() const
 void Disturbances::setTimestamp(const QDateTime &timestamp)
 {
     m_timestamp = timestamp;
+    emit this->timestampChanged();
 }

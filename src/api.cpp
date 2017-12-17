@@ -70,6 +70,11 @@ QString API::parseDate(QDateTime time)
     return time.toString("ddMMyy");
 }
 
+QString API::parseDateOccupancy(QDateTime time)
+{
+    return time.toString("yyyyMMdd");
+}
+
 QString API::parseTime(QDateTime time)
 {
     return time.toString("HHmm");
@@ -81,6 +86,18 @@ QString API::parseArrdep(ArrDep arrdep) {
         return "arrival";
     }
     return "departure";
+}
+
+QString API::parseTransport(Transport transportType) {
+    if(transportType == Transport::Trains)
+    {
+        return "trains";
+    }
+    else if(transportType == Transport::NoInternationalTrains)
+    {
+        return "nointernationaltrains";
+    }
+    return "all";
 }
 
 Occupancy API::parseOccupancy(QString occupancy)
@@ -101,7 +118,13 @@ Occupancy API::parseOccupancy(QString occupancy)
     return Occupancy::Unknown;
 }
 
-
+bool API::parseStringToBool(QString value)
+{
+    if(value == "1") {
+        return true;
+    }
+    return false;
+}
 
 /**
  * @class API
@@ -114,17 +137,17 @@ Occupancy API::parseOccupancy(QString occupancy)
 QNetworkRequest API::prepareRequest(QUrl url, QUrlQuery parameters)
 {
     // Set busy state
-    setBusy(true);
+    this->setBusy(true);
 
     // Add default URL parameters
     parameters.addQueryItem("format", "json");
-    parameters.addQueryItem("lang", parseLanguage(language()));
+    parameters.addQueryItem("lang", this->parseLanguage(language()));
     url.setQuery(parameters);
 
     // Create QNetworkRequest
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setHeader(QNetworkRequest::UserAgentHeader, useragent());
+    request.setHeader(QNetworkRequest::UserAgentHeader, this->useragent());
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
     return request;
@@ -143,7 +166,7 @@ void API::getStations()
     QUrlQuery parameters;
 
     // Prepare & do request
-    QNAM->get(prepareRequest(url, parameters));
+    QNAM->get(this->prepareRequest(url, parameters));
 }
 
 void API::getDisturbances()
@@ -153,7 +176,7 @@ void API::getDisturbances()
     QUrlQuery parameters;
 
     // Prepare & do request
-    QNAM->get(prepareRequest(url, parameters));
+    QNAM->get(this->prepareRequest(url, parameters));
 }
 
 void API::getVehicle(QString id, QDateTime time)
@@ -162,11 +185,11 @@ void API::getVehicle(QString id, QDateTime time)
     QUrl url(QString(VEHICLE_ENDPOINT));
     QUrlQuery parameters;
     parameters.addQueryItem("id", id);
-    parameters.addQueryItem("date", parseDate(time));
+    parameters.addQueryItem("date", this->parseDate(time));
     parameters.addQueryItem("alerts", "true");
 
     // Prepare & do request
-    QNAM->get(prepareRequest(url, parameters));
+    QNAM->get(this->prepareRequest(url, parameters));
 }
 
 void API::getLiveboard(QString stationName, QDateTime time, ArrDep arrdep)
@@ -175,14 +198,48 @@ void API::getLiveboard(QString stationName, QDateTime time, ArrDep arrdep)
     QUrl url(QString(LIVEBOARD_ENDPOINT));
     QUrlQuery parameters;
     parameters.addQueryItem("station", stationName);
-    parameters.addQueryItem("date", parseDate(time));
-    parameters.addQueryItem("time", parseTime(time));
-    parameters.addQueryItem("arrdep", parseArrdep(arrdep));
+    parameters.addQueryItem("date", this->parseDate(time));
+    parameters.addQueryItem("time", this->parseTime(time));
+    parameters.addQueryItem("arrdep", this->parseArrdep(arrdep));
     parameters.addQueryItem("alerts", "true");
 
     // Prepare & do request
-    QNAM->get(prepareRequest(url, parameters));
+    QNAM->get(this->prepareRequest(url, parameters));
 }
+
+void API::getConnections(QString fromStation, QString toStation, ArrDep arrdep, QDateTime time, Transport transportType)
+{
+    // Build URL
+    QUrl url(QString(CONNECTIONS_ENDPOINT));
+    QUrlQuery parameters;
+    parameters.addQueryItem("from", fromStation);
+    parameters.addQueryItem("to", toStation);
+    parameters.addQueryItem("date", this->parseDate(time));
+    parameters.addQueryItem("time", this->parseTime(time));
+    parameters.addQueryItem("timesel", this->parseArrdep(arrdep));
+    parameters.addQueryItem("typeOfTransport", this->parseTransport(transportType));
+
+    // Prepare & do request
+    QNAM->get(this->prepareRequest(url, parameters));
+}
+
+/*void API::postOccupancy(QString connectionId, Station* station, Vehicle* vehicle, Occupancy occupancy) {
+    {
+      "connection": "http://irail.be/connections/8871308/20160722/IC4516",
+      "from": "http://irail.be/stations/NMBS/008871308",
+      "date": "20160722",
+      "vehicle": "http://irail.be/vehicle/IC4516",
+      "occupancy": "http://api.irail.be/terms/low"
+    }
+
+    // Build URL
+    QUrl url(QString(OCCUPANCY_ENDPOINT));
+
+    // Prepare & do request
+    QNAM->post(prepareRequest(url, parameters));
+
+    parseDateOccupancy
+}*/
 
 /**
  * @class API
@@ -198,7 +255,7 @@ void API::finished (QNetworkReply *reply)
         emit errorOccurred(reply->errorString());
     }
     else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 302) {
-        qDebug() << "HTTP 301/302: moved, following redirect";
+        qDebug() << "HTTP 301/302: MOVED, following redirect...";
     }
     else {
         qDebug() << "Content-Header:" << reply->header(QNetworkRequest::ContentTypeHeader).toString();
@@ -221,29 +278,30 @@ void API::finished (QNetworkReply *reply)
             // Parse data in the right C++ model or database
             if(reply->url().toString().contains("stations", Qt::CaseInsensitive)) {
                 qDebug() << "iRail stations data received";
-                setStations(parseStations(jsonObject));
+                this->setStations(this->parseStations(jsonObject));
             }
             else if(reply->url().toString().contains("liveboard", Qt::CaseInsensitive)) {
                 qDebug() << "iRail liveboard data received";
-                setLiveboard(parseLiveboard(jsonObject));
+                this->setLiveboard(this->parseLiveboard(jsonObject));
             }
             else if(reply->url().toString().contains("connections", Qt::CaseInsensitive)) {
                 qDebug() << "iRail connections data received";
-                //setRoute(parseRoute(jsonObject));
+                this->setConnections(this->parseConnections(jsonObject));
             }
             else if(reply->url().toString().contains("vehicle", Qt::CaseInsensitive)) {
                 qDebug() << "iRail vehicle data received";
-                setVehicle(parseVehicle(jsonObject));
+                this->setVehicle(this->parseVehicle(jsonObject));
             }
             else if(reply->url().toString().contains("occupancy", Qt::CaseInsensitive)) {
                 qDebug() << "iRail occupancy data received";
+                emit occupancyUpdated();
             }
             else if(reply->url().toString().contains("disturbances", Qt::CaseInsensitive)) {
                 qDebug() << "iRail disturbances data received";
-                setDisturbances(parseDisturbances(jsonObject));
+                this->setDisturbances(this->parseDisturbances(jsonObject));
             }
             else if(reply->url().toString().contains("logs", Qt::CaseInsensitive)) {
-                qDebug() << "iRail Log data received";
+                qInfo() << "iRail log data received";
             }
         }
         else {
@@ -253,7 +311,7 @@ void API::finished (QNetworkReply *reply)
     }
 
     reply->deleteLater();
-    setBusy(false);
+    this->setBusy(false);
 }
 
 /**
@@ -385,23 +443,23 @@ Vehicle* API::parseVehicle(QJsonObject json)
         Stop* stop = new Stop(stopObj["id"].toString().toInt(),
                 station,
                 platformObj["name"].toString(),
-                parseJSONStringToBool(platformObj["normal"].toString()),
+                this->parseStringToBool(platformObj["normal"].toString()),
                 stopObj["departureDelay"].toString().toInt(),
                 scheduledDepartureTime,
-                parseJSONStringToBool(stopObj["departureCanceled"].toString()),
+                this->parseStringToBool(stopObj["departureCanceled"].toString()),
                 stopObj["arrivalDelay"].toString().toInt(),
                 scheduledArrivalTime,
-                parseJSONStringToBool(stopObj["arrivalCanceled"].toString()),
-                parseJSONStringToBool(stopObj["left"].toString()),
-                parseOccupancy(occupancyObj["name"].toString())
+                this->parseStringToBool(stopObj["arrivalCanceled"].toString()),
+                this->parseStringToBool(stopObj["left"].toString()),
+                this->parseOccupancy(occupancyObj["name"].toString())
                 );
         stopList.append(stop);
 
         if(!isCanceled) {
-            isCanceled = parseJSONStringToBool(stopObj["departureCanceled"].toString()) || parseJSONStringToBool(stopObj["arrivalCanceled"].toString());
+            isCanceled = this->parseStringToBool(stopObj["departureCanceled"].toString()) || this->parseStringToBool(stopObj["arrivalCanceled"].toString());
         }
 
-        occupancyList.append(parseOccupancy(occupancyObj["name"].toString()));
+        occupancyList.append(this->parseOccupancy(occupancyObj["name"].toString()));
     }
 
     std::sort(occupancyList.begin(), occupancyList.end());
@@ -416,13 +474,15 @@ Vehicle* API::parseVehicle(QJsonObject json)
 
 Liveboard *API::parseLiveboard(QJsonObject json)
 {
-    // TO DO: parsing function for the JSON Liveboard data
     qDebug() << "Parsing liveboard";
     QJsonObject departureStationObj = json["stationinfo"].toObject();
     QJsonObject departuresObj = json["departures"].toObject();
     QJsonArray departureArray = departuresObj["departure"].toArray();
-    Disturbances* disturbances_liveboard = new Disturbances();
+    Disturbances* disturbancesLiveboard = new Disturbances();
     ArrDep arrdep;
+    QList<Vehicle*> vehicleList;
+
+    // Handle different types of data for the liveboard
     if(json.contains("departures")) {
         departuresObj = json["departures"].toObject();
         departureArray = departuresObj["departure"].toArray();
@@ -457,15 +517,15 @@ Liveboard *API::parseLiveboard(QJsonObject json)
         Stop* stop = new Stop(departure["id"].toString().toInt(),
                 station,
                 platformObj["name"].toString(),
-                parseJSONStringToBool(platformObj["normal"].toString()),
+                this->parseStringToBool(platformObj["normal"].toString()),
                 departure["delay"].toString().toInt(),
                 scheduledDepartureTime,
-                parseJSONStringToBool(departure["canceled"].toString()),
+                this->parseStringToBool(departure["canceled"].toString()),
                 departure["delay"].toString().toInt(),
                 scheduledDepartureTime,
-                parseJSONStringToBool(departure["canceled"].toString()),
-                parseJSONStringToBool(departure["left"].toString()),
-                parseOccupancy(occupancyObj["name"].toString())
+                this->parseStringToBool(departure["canceled"].toString()),
+                this->parseStringToBool(departure["left"].toString()),
+                this->parseOccupancy(occupancyObj["name"].toString())
                 );
         stopList.append(stop);
 
@@ -485,9 +545,9 @@ Liveboard *API::parseLiveboard(QJsonObject json)
             // Update the disturbances for the specific item
             disturbances->setAlerts(alertsList);
             // Update the disturbances for the whole liveboard
-            QList<Alert*> tempAlertList(disturbances_liveboard->alerts());
+            QList<Alert*> tempAlertList(disturbancesLiveboard->alerts());
             tempAlertList.append(alertsList);
-            disturbances_liveboard->setAlerts(tempAlertList);
+            disturbancesLiveboard->setAlerts(tempAlertList);
         }
 
         // Create vehicle
@@ -495,8 +555,8 @@ Liveboard *API::parseLiveboard(QJsonObject json)
                 timestampLiveboard.date(),
                 stopList,
                 stationLocation,
-                parseJSONStringToBool(departure["canceled"].toString()),
-                parseOccupancy(occupancyObj["name"].toString()),
+                this->parseStringToBool(departure["canceled"].toString()),
+                this->parseOccupancy(occupancyObj["name"].toString()),
                 disturbances,
                 timestampLiveboard
                 );
@@ -504,23 +564,146 @@ Liveboard *API::parseLiveboard(QJsonObject json)
         qDebug() << "Timestamp:" << vehicle->timestamp();
         qDebug() << "Disturbances:" << vehicle->disturbances();
         qDebug() << "Departure:" << vehicle->stops().at(0);
+
+        // Append vehicle to list
+        vehicleList.append(vehicle);
     }
 
     // Create Liveboard using our data from above
-    Liveboard* liveboard = new Liveboard(station, timestampLiveboard, arrdep, disturbances_liveboard);
+    Liveboard* liveboard = new Liveboard(station, vehicleList, timestampLiveboard, arrdep, disturbancesLiveboard);
     qDebug() << "Station:" << liveboard->station()->name();
+    qDebug() << "1st vehicle:" << liveboard->vehicles().at(0)->name();
     qDebug() << "Timestamp:" << liveboard->timestamp();
     qDebug() << "Disturbances:" << liveboard->disturbances();
     qDebug() << "Alerts:" << liveboard->disturbances()->alerts();
     return liveboard;
 }
 
-bool API::parseJSONStringToBool(QString value)
+QList<Connection*> API::parseConnections(QJsonObject json)
 {
-    if(value == "1") {
-        return true;
+    qDebug() << "Parsing connections...";
+    QList<Connection*> connectionList;
+    QJsonArray connectionArray = json["connection"].toArray();
+    QDateTime timestampConnections;
+    timestampConnections.setTime_t(json["timestamp"].toString().toInt());
+
+    foreach (const QJsonValue &connectionItem, connectionArray) {
+        QJsonObject item = connectionItem.toObject();
+        QJsonObject departureObj = item["departure"].toObject();
+        QJsonObject arrivalObj = item["arrival"].toObject();
+        QJsonObject fromStationObj = departureObj["stationinfo"].toObject();
+        QJsonObject toStationObj = arrivalObj["stationinfo"].toObject();
+        QJsonObject fromPlatformObj = departureObj["platforminfo"].toObject();
+        QJsonObject toPlatformObj = arrivalObj["platforminfo"].toObject();
+        QJsonObject fromOccupancyObj = departureObj["occupancy"].toObject();
+        QJsonObject toOccupancyObj = arrivalObj["occupancy"].toObject();
+        QJsonObject connectionOccupancyObj = item["occupancy"].toObject();
+        QJsonObject connectionAlertsObj = item["alerts"].toObject();
+        int connectionDuration = item["duration"].toString().toInt();
+        int connectionId = item["id"].toString().toInt();
+        QJsonObject viasObj = item["vias"].toObject();
+        QJsonArray viasArray = viasObj["via"].toArray();
+        QDateTime fromTime;
+        fromTime.setTime_t(departureObj["time"].toString().toInt());
+        QDateTime toTime;
+        toTime.setTime_t(arrivalObj["time"].toString().toInt());
+        QString departureVehicleId = departureObj["vehicle"].toString();
+        QString arrivalVehicleId = arrivalObj["vehicle"].toString();
+        QList<Stop*> viaList;
+
+        // Departure Stop
+        QGeoCoordinate fromStationLocation(fromStationObj["locationY"].toString().toDouble(), fromStationObj["locationX"].toString().toDouble());
+        Station* fromStation = new Station(fromStationObj["id"].toString(), fromStationObj["standardname"].toString(), fromStationLocation);
+        Stop* fromStop = new Stop(departureObj["id"].toString().toInt(),
+                fromStation,
+                fromPlatformObj["name"].toString(),
+                this->parseStringToBool(fromPlatformObj["normal"].toString()),
+                departureObj["delay"].toString().toInt(),
+                fromTime,
+                this->parseStringToBool(departureObj["canceled"].toString()),
+                departureObj["delay"].toString().toInt(),
+                fromTime,
+                this->parseStringToBool(departureObj["canceled"].toString()),
+                this->parseStringToBool(departureObj["left"].toString()),
+                this->parseOccupancy(fromOccupancyObj["name"].toString()),
+                false, // isExtraStop ALWAYS false
+                departureObj["direction"].toString(),
+                this->parseStringToBool(departureObj["walking"].toString())
+                );
+
+        // Arrival Stop
+        QGeoCoordinate toStationLocation(toStationObj["locationY"].toString().toDouble(), toStationObj["locationX"].toString().toDouble());
+        Station* toStation = new Station(toStationObj["id"].toString(), toStationObj["standardname"].toString(), toStationLocation);
+        Stop* toStop = new Stop(arrivalObj["id"].toString().toInt(),
+                toStation,
+                toPlatformObj["name"].toString(),
+                this->parseStringToBool(toPlatformObj["normal"].toString()),
+                arrivalObj["delay"].toString().toInt(),
+                toTime,
+                this->parseStringToBool(arrivalObj["canceled"].toString()),
+                arrivalObj["delay"].toString().toInt(),
+                toTime,
+                this->parseStringToBool(arrivalObj["canceled"].toString()),
+                this->parseStringToBool(arrivalObj["left"].toString()),
+                this->parseOccupancy(toOccupancyObj["name"].toString()),
+                false, // isExtraStop ALWAYS false
+                arrivalObj["direction"].toString(),
+                this->parseStringToBool(arrivalObj["walking"].toString())
+                );
+
+        // Handle via Stops
+        /*foreach (const QJsonValue &via, viasArray) {
+            QJsonObject viaStationObj = via["stationinfo"].toObject();
+
+            QDateTime viaTime;
+            viaTime.setTime_t(via["time"].toString().toInt());
+            QGeoCoordinate viaStationLocation(viaStationObj["locationY"].toString().toDouble(), viaStationObj["locationX"].toString().toDouble());
+            Station* viaStation = new Station(viaStationObj["id"].toString(), viaStationObj["standardname"].toString(), viaStationLocation);
+            Stop* viaStopArrival = new Stop(via["id"].toString().toInt(),
+                    viaStation,
+                    toPlatformObj["name"].toString(),
+                    this->parseStringToBool(toPlatformObj["normal"].toString()),
+                    arrivalObj["delay"].toString().toInt(),
+                    viaTime,
+                    this->parseStringToBool(arrivalObj["canceled"].toString()),
+                    arrivalObj["delay"].toString().toInt(),
+                    viaTime,
+                    this->parseStringToBool(arrivalObj["canceled"].toString()),
+                    this->parseStringToBool(arrivalObj["left"].toString()),
+                    this->parseOccupancy(toOccupancyObj["name"].toString()),
+                    false, // isExtraStop ALWAYS false
+                    arrivalObj["direction"].toString(),
+                    this->parseStringToBool(arrivalObj["walking"].toString())
+                    );
+
+            Stop* viaStopDeparture = new Stop(via["id"].toString().toInt(),
+                    viaStation,
+                    toPlatformObj["name"].toString(),
+                    this->parseStringToBool(toPlatformObj["normal"].toString()),
+                    arrivalObj["delay"].toString().toInt(),
+                    viaTime,
+                    this->parseStringToBool(arrivalObj["canceled"].toString()),
+                    arrivalObj["delay"].toString().toInt(),
+                    viaTime,
+                    this->parseStringToBool(arrivalObj["canceled"].toString()),
+                    this->parseStringToBool(arrivalObj["left"].toString()),
+                    this->parseOccupancy(toOccupancyObj["name"].toString()),
+                    false, // isExtraStop ALWAYS false
+                    arrivalObj["direction"].toString(),
+                    this->parseStringToBool(arrivalObj["walking"].toString())
+                    );
+        }*/
+
+        Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());
+        Connection* connection = new Connection(connectionId, fromStop, toStop, new Disturbances(), new Disturbances(), connectionOccupancy, connectionDuration, viaList, timestampConnections);
+        connectionList.append(connection);
+        qDebug() << "Connection:";
+        qDebug() << "\tFrom:" << connection->from()->station()->name();
+        qDebug() << "\tTo:" << connection->to()->station()->name();
     }
-    return false;
+
+    qDebug() << "Connection list:" << connectionList;
+    return connectionList;
 }
 
 /*********************
@@ -545,7 +728,6 @@ QList<Station*> API::stations() const
 void API::setStations(const QList<Station*> &stations)
 {
     m_stations = stations;
-    emit stationsChanged();
 }
 
 /**
@@ -586,7 +768,6 @@ bool API::busy() const
 void API::setBusy(bool busy)
 {
     m_busy = busy;
-    emit busyChanged();
 }
 
 /**
@@ -607,7 +788,6 @@ QString API::useragent() const
 void API::setUseragent(const QString &useragent)
 {
     m_useragent = useragent;
-    emit useragentChanged();
 }
 
 Disturbances *API::disturbances() const
@@ -638,4 +818,24 @@ Vehicle *API::vehicle() const
 void API::setVehicle(Vehicle *vehicle)
 {
     m_vehicle = vehicle;
+}
+
+/**
+ * @class API
+ * @brief connections getter.
+ * @return QList<Connection*>
+ */
+QList<Connection*> API::connections() const
+{
+    return m_connections;
+}
+
+/**
+ * @class API
+ * @brief connections setter.
+ * @param connections
+ */
+void API::setConnections(const QList<Connection*> &connections)
+{
+    m_connections = connections;
 }

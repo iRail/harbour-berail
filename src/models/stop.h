@@ -8,7 +8,6 @@
 #include "station.h"
 #include "enum.h"
 
-// TO DO: isExtraStop property needs to be added
 class Stop: public QObject
 {
     Q_OBJECT
@@ -17,10 +16,16 @@ class Stop: public QObject
     Q_PROPERTY(QString platform READ platform WRITE setPlatform NOTIFY platformChanged)
     Q_PROPERTY(bool isDefaultPlatform READ isDefaultPlatform WRITE setIsDefaultPlatform NOTIFY isDefaultPlatformChanged)
     Q_PROPERTY(int departureDelay READ departureDelay WRITE setDepartureDelay NOTIFY departureDelayChanged)
+    Q_PROPERTY(bool departureCanceled READ departureCanceled WRITE setDepartureCanceled NOTIFY departureCanceledChanged)
     Q_PROPERTY(QDateTime scheduledDepartureTime READ scheduledDepartureTime WRITE setScheduledDepartureTime NOTIFY scheduledDepartureTimeChanged)
     Q_PROPERTY(int arrivalDelay READ arrivalDelay WRITE setArrivalDelay NOTIFY arrivalDelayChanged)
+    Q_PROPERTY(bool arrivalCanceled READ arrivalCanceled WRITE setArrivalCanceled NOTIFY arrivalCanceledChanged)
     Q_PROPERTY(QDateTime scheduledArrivalTime READ scheduledArrivalTime WRITE setScheduledArrivalTime NOTIFY scheduledArrivalTimeChanged)
     Q_PROPERTY(bool left READ left WRITE setLeft NOTIFY leftChanged)
+    Q_PROPERTY(Occupancy occupancy READ occupancy WRITE setOccupancy NOTIFY occupancyChanged)
+    Q_PROPERTY(bool isExtraStop READ isExtraStop WRITE setIsExtraStop NOTIFY isExtraStopChanged)
+    Q_PROPERTY(QString direction READ direction WRITE setDirection NOTIFY directionChanged)
+    Q_PROPERTY(bool walking READ walking WRITE setWalking NOTIFY walkingChanged)
 
 public:
     explicit Stop(int id,
@@ -36,7 +41,22 @@ public:
                   bool left,
                   Occupancy occupancy
                   );
-
+    explicit Stop(int id,
+                  Station* station,
+                  QString platform,
+                  bool isDefaultPlatform,
+                  int departureDelay,
+                  QDateTime scheduledDepartureTime,
+                  bool departureCanceled,
+                  int arrivalDelay,
+                  QDateTime scheduledArrivalTime,
+                  bool arrivalCanceled,
+                  bool left,
+                  Occupancy occupancy,
+                  bool isExtraStop,
+                  QString direction,
+                  bool walking
+                  );
     int id() const;
     void setId(int id);
     Station* station() const;
@@ -61,6 +81,12 @@ public:
     void setLeft(bool left);
     Occupancy occupancy() const;
     void setOccupancy(const Occupancy &occupancy);
+    bool isExtraStop() const;
+    void setIsExtraStop(bool isExtraStop);
+    QString direction() const;
+    void setDirection(const QString &direction);
+    bool walking() const;
+    void setWalking(bool walking);
 
 signals:
     void idChanged();
@@ -68,10 +94,16 @@ signals:
     void platformChanged();
     void isDefaultPlatformChanged();
     void departureDelayChanged();
+    void departureCanceledChanged();
     void scheduledDepartureTimeChanged();
     void arrivalDelayChanged();
+    void arrivalCanceledChanged();
     void scheduledArrivalTimeChanged();
     void leftChanged();
+    void occupancyChanged();
+    void isExtraStopChanged();
+    void directionChanged();
+    void walkingChanged();
 
 private:
     int m_id;
@@ -86,6 +118,9 @@ private:
     bool m_arrivalCanceled;
     bool m_left;
     Occupancy m_occupancy;
+    bool m_isExtraStop;
+    QString m_direction;
+    bool m_walking;
 };
 
 #endif // STOP_H

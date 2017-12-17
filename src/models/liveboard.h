@@ -20,7 +20,7 @@ class Liveboard: public QObject
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
 
 public:
-    explicit Liveboard(Station* station, QDateTime time, ArrDep arrdep, Disturbances* disturbances);
+    explicit Liveboard(Station* station, QList<Vehicle*> vehicles, QDateTime time, ArrDep arrdep, Disturbances* disturbances);
     explicit Liveboard();
     Station *station() const;
     void setStation(Station *station);

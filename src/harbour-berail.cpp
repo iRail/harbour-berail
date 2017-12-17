@@ -30,8 +30,9 @@ int main(int argc, char *argv[])
     API api;
     api.getDisturbances();
     api.getStations();
-    api.getVehicle("BE.NMBS.P8282", QDateTime::currentDateTime());
+    api.getVehicle("BE.NMBS.S11769", QDateTime::currentDateTime());
     api.getLiveboard("Vilvoorde", QDateTime::currentDateTime(), ArrDep::Departure);
+    api.getConnections("Vilvoorde", "Brugge", ArrDep::Departure, QDateTime::currentDateTime(), Transport::All);
 
     // Register custom QML modules
     qmlRegisterType<API>("Harbour.BeRail.API", 1, 0, "API");

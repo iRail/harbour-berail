@@ -1,12 +1,13 @@
 #include "liveboard.h"
 
 
-Liveboard::Liveboard(Station* station, QDateTime time, ArrDep arrdep, Disturbances* disturbances)
+Liveboard::Liveboard(Station* station, QList<Vehicle*> vehicles, QDateTime time, ArrDep arrdep, Disturbances* disturbances)
 {
-    setStation(station);
-    setArrdep(arrdep);
-    setDisturbances(disturbances);
-    setTimestamp(time);
+    this->setStation(station);
+    this->setVehicles(vehicles);
+    this->setArrdep(arrdep);
+    this->setDisturbances(disturbances);
+    this->setTimestamp(time);
 }
 
 Liveboard::Liveboard()
@@ -26,6 +27,7 @@ Station *Liveboard::station() const
 void Liveboard::setStation(Station *station)
 {
     m_station = station;
+    emit this->stationChanged();
 }
 
 QList<Vehicle *> Liveboard::vehicles() const
@@ -36,6 +38,7 @@ QList<Vehicle *> Liveboard::vehicles() const
 void Liveboard::setVehicles(const QList<Vehicle *> &vehicles)
 {
     m_vehicles = vehicles;
+    emit this->vehiclesChanged();
 }
 
 ArrDep Liveboard::arrdep() const
@@ -46,6 +49,7 @@ ArrDep Liveboard::arrdep() const
 void Liveboard::setArrdep(const ArrDep &arrdep)
 {
     m_arrdep = arrdep;
+    emit this->arrdepChanged();
 }
 
 Disturbances *Liveboard::disturbances() const
@@ -56,6 +60,7 @@ Disturbances *Liveboard::disturbances() const
 void Liveboard::setDisturbances(Disturbances *disturbances)
 {
     m_disturbances = disturbances;
+    emit this->disturbancesChanged();
 }
 
 QDateTime Liveboard::timestamp() const
@@ -66,4 +71,5 @@ QDateTime Liveboard::timestamp() const
 void Liveboard::setTimestamp(const QDateTime &timestamp)
 {
     m_timestamp = timestamp;
+    emit this->timestampChanged();
 }

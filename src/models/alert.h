@@ -12,6 +12,8 @@ class Alert: public QObject
     Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
+    Q_PROPERTY(QUrl link READ link WRITE setLink NOTIFY linkChanged)
 
 public:
     explicit Alert(int id, QString title, QString text, QDateTime timestamp, QUrl link);
@@ -31,6 +33,8 @@ signals:
     void idChanged();
     void titleChanged();
     void textChanged();
+    void timestampChanged();
+    void linkChanged();
 
 private:
     int m_id;

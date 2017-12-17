@@ -9,19 +9,19 @@
  */
 Alert::Alert(int id, QString title, QString text, QDateTime timestamp, QUrl link)
 {
-    setId(id);
-    setTitle(title);
-    setText(text);
-    setTimestamp(timestamp);
-    setLink(link);
+    this->setId(id);
+    this->setTitle(title);
+    this->setText(text);
+    this->setTimestamp(timestamp);
+    this->setLink(link);
 }
 
 Alert::Alert(int id, QString title, QString text, QDateTime timestamp)
 {
-    setId(id);
-    setTitle(title);
-    setText(text);
-    setTimestamp(timestamp);
+    this->setId(id);
+    this->setTitle(title);
+    this->setText(text);
+    this->setTimestamp(timestamp);
 }
 
 /*********************
@@ -46,6 +46,7 @@ int Alert::id() const
 void Alert::setId(int id)
 {
     m_id = id;
+    emit this->idChanged();
 }
 
 /**
@@ -66,6 +67,7 @@ QString Alert::title() const
 void Alert::setTitle(const QString &title)
 {
     m_title = title;
+    emit this->titleChanged();
 }
 
 /**
@@ -86,6 +88,7 @@ QString Alert::text() const
 void Alert::setText(const QString &text)
 {
     m_text = text;
+    emit this->textChanged();
 }
 
 /**
@@ -106,6 +109,7 @@ QDateTime Alert::timestamp() const
 void Alert::setTimestamp(const QDateTime &timestamp)
 {
     m_timestamp = timestamp;
+    emit this->timestampChanged();
 }
 
 /**
@@ -126,4 +130,5 @@ QUrl Alert::link() const
 void Alert::setLink(const QUrl &link)
 {
     m_link = link;
+    emit this->linkChanged();
 }
