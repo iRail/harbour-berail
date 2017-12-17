@@ -363,9 +363,10 @@ QList<Station*> API::parseStations(QJsonObject json)
         QString stationName(stationObj["standardname"].toString());
         Station* station = new Station(stationId, stationName, stationLocation);
         stationsList.append(station);
+        qDebug() << "STATION:";
+        qDebug() << "\tName:" << station->name();
     }
 
-    qDebug() << stationsList;
     return stationsList;
 }
 
@@ -391,14 +392,15 @@ Disturbances* API::parseDisturbances(QJsonObject json)
 
     // Save them in a Disturbance object
     Disturbances* disturbances = new Disturbances(alertsList, timestampDisturbances);
-    qDebug() << alertsList;
+    qDebug() << "DISTURBANCES:";
+    qDebug() << "\tAlerts:" << alertsList;
 
     return disturbances;
 }
 
 Vehicle* API::parseVehicle(QJsonObject json)
 {
-    qDebug() << "Parsing vehicles";
+    qDebug() << "Parsing vehicle";
     QList<Stop*> stopList;
     QList<Alert*> alertsList;
     QDateTime timestampVehicle;
@@ -465,10 +467,9 @@ Vehicle* API::parseVehicle(QJsonObject json)
     std::sort(occupancyList.begin(), occupancyList.end());
     Occupancy occupancyMedian = occupancyList.at(occupancyList.length()/2);
     Vehicle* vehicle = new Vehicle(vehicleInfo["name"].toString(), timestampVehicle.date(), stopList, vehicleLocation, isCanceled, occupancyMedian, disturbances, timestampVehicle);
-    qDebug() << "Vehicle:" << vehicle->id();
-    qDebug() << "Disturbances:" << vehicle->disturbances();
-    qDebug() << "Alerts:" << vehicle->disturbances()->alerts();
-    qDebug() << "Stops:" << vehicle->stops();
+    qDebug() << "VEHICLE:" << vehicle->id();
+    qDebug() << "\tAlerts:" << vehicle->disturbances()->alerts();
+    qDebug() << "\tStops:" << vehicle->stops();
     return vehicle;
 }
 
@@ -511,7 +512,6 @@ Liveboard *API::parseLiveboard(QJsonObject json)
         Station* station = new Station(stationObj["id"].toString(), stationObj["standardname"].toString(), stationLocation);
         QDateTime scheduledDepartureTime;
         scheduledDepartureTime.setTime_t(departure["time"].toString().toInt());
-        qDebug() << vehicleObj["name"].toString();
 
         // Build Stop object based on the departure data of this vehicle
         Stop* stop = new Stop(departure["id"].toString().toInt(),
@@ -560,10 +560,6 @@ Liveboard *API::parseLiveboard(QJsonObject json)
                 disturbances,
                 timestampLiveboard
                 );
-        qDebug() << "Vehicle:" << vehicle->id();
-        qDebug() << "Timestamp:" << vehicle->timestamp();
-        qDebug() << "Disturbances:" << vehicle->disturbances();
-        qDebug() << "Departure:" << vehicle->stops().at(0);
 
         // Append vehicle to list
         vehicleList.append(vehicle);
@@ -571,17 +567,17 @@ Liveboard *API::parseLiveboard(QJsonObject json)
 
     // Create Liveboard using our data from above
     Liveboard* liveboard = new Liveboard(station, vehicleList, timestampLiveboard, arrdep, disturbancesLiveboard);
-    qDebug() << "Station:" << liveboard->station()->name();
-    qDebug() << "1st vehicle:" << liveboard->vehicles().at(0)->name();
-    qDebug() << "Timestamp:" << liveboard->timestamp();
-    qDebug() << "Disturbances:" << liveboard->disturbances();
-    qDebug() << "Alerts:" << liveboard->disturbances()->alerts();
+    qDebug() << "LIVEBOARD:";
+    qDebug() << "\tStation:" << liveboard->station()->name();
+    qDebug() << "\tVehicles:" << liveboard->vehicles();
+    qDebug() << "\tTimestamp:" << liveboard->timestamp();
+    qDebug() << "\tAlerts:" << liveboard->disturbances()->alerts();
     return liveboard;
 }
 
 QList<Connection*> API::parseConnections(QJsonObject json)
 {
-    qDebug() << "Parsing connections...";
+    qDebug() << "Parsing connections";
     QList<Connection*> connectionList;
     QJsonArray connectionArray = json["connection"].toArray();
     QDateTime timestampConnections;
@@ -609,7 +605,7 @@ QList<Connection*> API::parseConnections(QJsonObject json)
         toTime.setTime_t(arrivalObj["time"].toString().toInt());
         QString departureVehicleId = departureObj["vehicle"].toString();
         QString arrivalVehicleId = arrivalObj["vehicle"].toString();
-        QList<Stop*> viaList;
+        QList<Via*> viaList;
 
         // Departure Stop
         QGeoCoordinate fromStationLocation(fromStationObj["locationY"].toString().toDouble(), fromStationObj["locationX"].toString().toDouble());
@@ -627,7 +623,7 @@ QList<Connection*> API::parseConnections(QJsonObject json)
                 this->parseStringToBool(departureObj["left"].toString()),
                 this->parseOccupancy(fromOccupancyObj["name"].toString()),
                 false, // isExtraStop ALWAYS false
-                departureObj["direction"].toString(),
+                departureObj["direction"].toObject()["name"].toString(),
                 this->parseStringToBool(departureObj["walking"].toString())
                 );
 
@@ -644,65 +640,102 @@ QList<Connection*> API::parseConnections(QJsonObject json)
                 arrivalObj["delay"].toString().toInt(),
                 toTime,
                 this->parseStringToBool(arrivalObj["canceled"].toString()),
-                this->parseStringToBool(arrivalObj["left"].toString()),
+                this->parseStringToBool(arrivalObj["arrived"].toString()),
                 this->parseOccupancy(toOccupancyObj["name"].toString()),
                 false, // isExtraStop ALWAYS false
-                arrivalObj["direction"].toString(),
+                arrivalObj["direction"].toObject()["name"].toString(),
                 this->parseStringToBool(arrivalObj["walking"].toString())
                 );
 
         // Handle vias Stops
         foreach (const QJsonValue &via, viasArray) {
-            QJsonObject viaStationObj = via["stationinfo"].toObject();
+            QJsonObject viaObj = via.toObject();
+            QJsonObject viaStationObj = viaObj["stationinfo"].toObject();
+            QJsonObject viaArrivalObj = viaObj["arrival"].toObject();
+            QJsonObject viaDepartureObj = viaObj["departure"].toObject();
+            QJsonObject viaArrivalPlatformObj = viaArrivalObj["platforminfo"].toObject();
+            QJsonObject viaDeparturePlatformObj = viaDepartureObj["platforminfo"].toObject();
+            QJsonObject viaArrivalOccupancyObj = viaArrivalObj["occupancy"].toObject();
+            QJsonObject viaDepartureOccupancyObj = viaDepartureObj["occupancy"].toObject();
+            QString viaVehicleId = viaObj["vehicle"].toString();
+            int viaTimeBetween = viaObj["timeBetween"].toString().toInt();
+            QDateTime viaArrivalTime;
+            viaArrivalTime.setTime_t(viaArrivalObj["time"].toString().toInt());
+            QDateTime viaDepartureTime;
+            viaDepartureTime.setTime_t(viaDepartureObj["time"].toString().toInt());
+            QList<Alert*> alertsList;
 
-            QDateTime viaTime;
-            viaTime.setTime_t(via["time"].toString().toInt());
+            // Station via
             QGeoCoordinate viaStationLocation(viaStationObj["locationY"].toString().toDouble(), viaStationObj["locationX"].toString().toDouble());
             Station* viaStation = new Station(viaStationObj["id"].toString(), viaStationObj["standardname"].toString(), viaStationLocation);
-            Stop* viaStopArrival = new Stop(via["id"].toString().toInt(),
+
+            // Arrival via
+            Stop* viaStopArrival = new Stop(viaArrivalObj["id"].toString().toInt(),
                     viaStation,
-                    toPlatformObj["name"].toString(),
-                    this->parseStringToBool(toPlatformObj["normal"].toString()),
-                    arrivalObj["delay"].toString().toInt(),
-                    viaTime,
-                    this->parseStringToBool(arrivalObj["canceled"].toString()),
-                    arrivalObj["delay"].toString().toInt(),
-                    viaTime,
-                    this->parseStringToBool(arrivalObj["canceled"].toString()),
-                    this->parseStringToBool(arrivalObj["left"].toString()),
-                    this->parseOccupancy(toOccupancyObj["name"].toString()),
-                    false, // isExtraStop ALWAYS false
-                    arrivalObj["direction"].toString(),
-                    this->parseStringToBool(arrivalObj["walking"].toString())
+                    viaArrivalPlatformObj["name"].toString(),
+                    this->parseStringToBool(viaArrivalPlatformObj["normal"].toString()),
+                    viaArrivalObj["delay"].toString().toInt(),
+                    viaArrivalTime,
+                    this->parseStringToBool(viaArrivalObj["canceled"].toString()),
+                    viaArrivalObj["delay"].toString().toInt(),
+                    viaArrivalTime,
+                    this->parseStringToBool(viaArrivalObj["canceled"].toString()),
+                    this->parseStringToBool(viaArrivalObj["arrived"].toString()),
+                    this->parseOccupancy(viaArrivalOccupancyObj["name"].toString()),
+                    this->parseStringToBool(viaArrivalObj["isExtraStop"].toString()),
+                    viaArrivalObj["direction"].toObject()["name"].toString(),
+                    this->parseStringToBool(viaArrivalObj["walking"].toString())
                     );
 
-            Stop* viaStopDeparture = new Stop(via["id"].toString().toInt(),
+            // Departure via
+            Stop* viaStopDeparture = new Stop(viaDepartureObj["id"].toString().toInt(),
                     viaStation,
-                    toPlatformObj["name"].toString(),
-                    this->parseStringToBool(toPlatformObj["normal"].toString()),
-                    arrivalObj["delay"].toString().toInt(),
-                    viaTime,
-                    this->parseStringToBool(arrivalObj["canceled"].toString()),
-                    arrivalObj["delay"].toString().toInt(),
-                    viaTime,
-                    this->parseStringToBool(arrivalObj["canceled"].toString()),
-                    this->parseStringToBool(arrivalObj["left"].toString()),
-                    this->parseOccupancy(toOccupancyObj["name"].toString()),
-                    false, // isExtraStop ALWAYS false
-                    arrivalObj["direction"].toString(),
-                    this->parseStringToBool(arrivalObj["walking"].toString())
+                    viaDeparturePlatformObj["name"].toString(),
+                    this->parseStringToBool(viaDeparturePlatformObj["normal"].toString()),
+                    viaDepartureObj["delay"].toString().toInt(),
+                    viaDepartureTime,
+                    this->parseStringToBool(viaDepartureObj["canceled"].toString()),
+                    viaDepartureObj["delay"].toString().toInt(),
+                    viaDepartureTime,
+                    this->parseStringToBool(viaDepartureObj["canceled"].toString()),
+                    this->parseStringToBool(viaDepartureObj["left"].toString()),
+                    this->parseOccupancy(viaDepartureOccupancyObj["name"].toString()),
+                    this->parseStringToBool(viaDepartureObj["isExtraStop"].toString()),
+                    viaDepartureObj["direction"].toObject()["name"].toString(),
+                    this->parseStringToBool(viaDepartureObj["walking"].toString())
                     );
+
+            // Return an empty Disturbances object if no alerts are available
+            Disturbances* viaDisturbances = new Disturbances();
+            if(viaObj.contains("alerts")) {
+                qDebug() << "Alerts detected";
+                QJsonArray alertArray = viaObj["alerts"].toObject()["alert"].toArray();
+
+                // Loop through array and parse the JSON Alerts objects as C++ models
+                foreach (const QJsonValue &item, alertArray) {
+                    QJsonObject alertObj = item.toObject();
+                    qDebug() << alertObj["id"].toString();
+                    QDateTime timestampAlert;
+                    timestampAlert.setTime_t(alertObj["startTime"].toString().toInt());
+                    Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampAlert);
+                    alertsList.append(alert);
+                }
+                // Update the disturbances for the specific item
+                viaDisturbances->setAlerts(alertsList);
+            }
+
+            // Append Via to viaList
+            viaList.append(new Via(viaStopArrival, viaStopDeparture, viaStation, viaTimeBetween, viaVehicleId, viaDisturbances));
         }
 
         Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());
         Connection* connection = new Connection(connectionId, fromStop, toStop, new Disturbances(), new Disturbances(), connectionOccupancy, connectionDuration, viaList, timestampConnections);
         connectionList.append(connection);
-        qDebug() << "Connection:";
+        qDebug() << "CONNECTION:";
         qDebug() << "\tFrom:" << connection->from()->station()->name();
+        qDebug() << "\tVia:" << connection->vias();
         qDebug() << "\tTo:" << connection->to()->station()->name();
     }
-
-    qDebug() << "Connection list:" << connectionList;
     return connectionList;
 }
 

@@ -1,13 +1,12 @@
 #include "via.h"
 
-Via::Via(Stop* arrival, Stop* departure, Station* station, int timeBetween, QString vehicleId, QString direction, Disturbances* disturbances)
+Via::Via(Stop* arrival, Stop* departure, Station* station, int timeBetween, QString vehicleId, Disturbances* disturbances)
 {
     this->setArrival(arrival);
     this->setDeparture(departure);
     this->setStation(station);
     this->setTimeBetween(timeBetween);
     this->setVehicleId(vehicleId);
-    this->setDirection(direction);
     this->setDisturbances(disturbances);
 }
 
@@ -81,24 +80,13 @@ void Via::setVehicleId(const QString &vehicleId)
     emit this->vehicleIdChanged();
 }
 
-QString Via::direction() const
-{
-    return m_direction;
-}
-
-void Via::setDirection(const QString &direction)
-{
-    m_direction = direction;
-    emit this->directionChanged();
-}
-
-Disturbances Via::disturbances() const
+Disturbances *Via::disturbances() const
 {
     return m_disturbances;
 }
 
-void Via::setDisturbances(const Disturbances &disturbances)
+void Via::setDisturbances(Disturbances *disturbances)
 {
     m_disturbances = disturbances;
-    emit this->disturbancesChanged();
 }
+

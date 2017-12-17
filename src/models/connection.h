@@ -6,6 +6,7 @@
 #include <QtCore/QString>
 #include "stop.h"
 #include "disturbances.h"
+#include "via.h"
 
 class Connection: public QObject
 {
@@ -17,11 +18,11 @@ class Connection: public QObject
     Q_PROPERTY(Disturbances* remarks READ remarks WRITE setRemarks NOTIFY remarksChanged)
     Q_PROPERTY(Occupancy occupancy READ occupancy WRITE setOccupancy NOTIFY occupancyChanged)
     Q_PROPERTY(int duration READ duration WRITE setDuration NOTIFY durationChanged)
-    Q_PROPERTY(QList<Stop*> vias READ vias WRITE setVias NOTIFY viasChanged)
+    Q_PROPERTY(QList<Via*> vias READ vias WRITE setVias NOTIFY viasChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
 
 public:
-    explicit Connection(int id, Stop* fromStation, Stop* toStation, Disturbances* alerts, Disturbances* remarks, Occupancy occupancy, int duration, QList<Stop*> vias, QDateTime timestamp);
+    explicit Connection(int id, Stop* fromStation, Stop* toStation, Disturbances* alerts, Disturbances* remarks, Occupancy occupancy, int duration, QList<Via *> vias, QDateTime timestamp);
     int id() const;
     void setId(const int &id);
     Occupancy occupancy() const;
@@ -38,8 +39,8 @@ public:
     void setAlerts(Disturbances *alerts);
     Disturbances *remarks() const;
     void setRemarks(Disturbances *remarks);
-    QList<Stop *> vias() const;
-    void setVias(const QList<Stop *> &vias);
+    QList<Via *> vias() const;
+    void setVias(const QList<Via *> &vias);
     QDateTime timestamp() const;
     void setTimestamp(const QDateTime &value);
 
@@ -63,7 +64,7 @@ private:
     Disturbances* m_remarks;
     Occupancy m_occupancy;
     int m_duration;
-    QList<Stop*> m_vias;
+    QList<Via *> m_vias;
     QDateTime m_timestamp;
 };
 

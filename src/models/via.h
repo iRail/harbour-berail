@@ -16,11 +16,10 @@ class Via: public QObject
     Q_PROPERTY(Station* station READ station WRITE setStation NOTIFY stationChanged)
     Q_PROPERTY(int timeBetween READ timeBetween WRITE setTimeBetween NOTIFY timeBetweenChanged)
     Q_PROPERTY(QString vehicleId READ vehicleId WRITE setVehicleId NOTIFY vehicleIdChanged)
-    Q_PROPERTY(QString direction READ direction WRITE setDirection NOTIFY directionChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
 
 public:
-    explicit Via();
+    explicit Via(Stop* arrival, Stop* departure, Station* station, int timeBetween, QString vehicleId, Disturbances* disturbances);
     int id() const;
     void setId(int id);
     Stop *arrival() const;
@@ -33,10 +32,8 @@ public:
     void setTimeBetween(int timeBetween);
     QString vehicleId() const;
     void setVehicleId(const QString &vehicleId);
-    QString direction() const;
-    void setDirection(const QString &direction);
-    Disturbances disturbances() const;
-    void setDisturbances(const Disturbances &disturbances);
+    Disturbances *disturbances() const;
+    void setDisturbances(Disturbances *disturbances);
 
 signals:
     void idChanged();
@@ -45,7 +42,6 @@ signals:
     void stationChanged();
     void timeBetweenChanged();
     void vehicleIdChanged();
-    void directionChanged();
     void disturbancesChanged();
 
 private:
@@ -55,8 +51,7 @@ private:
     Station* m_station;
     int m_timeBetween;
     QString m_vehicleId;
-    QString m_direction;
-    Disturbances m_disturbances;
+    Disturbances* m_disturbances;
 };
 
 #endif // VIA_H
