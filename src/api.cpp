@@ -761,6 +761,7 @@ QList<Station*> API::stations() const
 void API::setStations(const QList<Station*> &stations)
 {
     m_stations = stations;
+    emit this->stationsChanged();
 }
 
 /**
@@ -781,6 +782,7 @@ QLocale::Language API::language() const
 void API::setLanguage(const QLocale::Language &language)
 {
     m_language = language;
+    emit this->languageChanged();
 }
 
 /**
@@ -801,6 +803,7 @@ bool API::busy() const
 void API::setBusy(bool busy)
 {
     m_busy = busy;
+    emit this->busyChanged();
 }
 
 /**
@@ -821,6 +824,7 @@ QString API::useragent() const
 void API::setUseragent(const QString &useragent)
 {
     m_useragent = useragent;
+    emit this->useragentChanged();
 }
 
 Disturbances *API::disturbances() const
@@ -831,6 +835,7 @@ Disturbances *API::disturbances() const
 void API::setDisturbances(Disturbances *disturbances)
 {
     m_disturbances = disturbances;
+    emit this->disturbancesChanged();
 }
 
 Liveboard *API::liveboard() const
@@ -841,6 +846,7 @@ Liveboard *API::liveboard() const
 void API::setLiveboard(Liveboard *liveboard)
 {
     m_liveboard = liveboard;
+    emit this->liveboardChanged();
 }
 
 Vehicle *API::vehicle() const
@@ -851,6 +857,7 @@ Vehicle *API::vehicle() const
 void API::setVehicle(Vehicle *vehicle)
 {
     m_vehicle = vehicle;
+    emit this->vehicleChanged();
 }
 
 /**
@@ -871,4 +878,5 @@ QList<Connection*> API::connections() const
 void API::setConnections(const QList<Connection*> &connections)
 {
     m_connections = connections;
+    emit this->connectionsChanged();
 }

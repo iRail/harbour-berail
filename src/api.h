@@ -38,12 +38,13 @@
 class API: public QObject
 {
     Q_OBJECT
-    //TO DO:    Q_PROPERTY(type name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QList<Station *> stations READ stations WRITE setStations NOTIFY stationsChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(Liveboard* liveboard READ liveboard WRITE setLiveboard NOTIFY liveboardChanged)
     Q_PROPERTY(Vehicle* vehicle READ vehicle WRITE setVehicle NOTIFY vehicleChanged)
     Q_PROPERTY(QList<Connection *> connections READ connections WRITE setConnections NOTIFY connectionsChanged)
+    Q_PROPERTY(QLocale::Language language READ language WRITE setLanguage NOTIFY languageChanged)
+    Q_PROPERTY(QString useragent READ useragent NOTIFY languageChanged)
 
 public:
     explicit API();
@@ -79,6 +80,7 @@ signals:
     void liveboardChanged();
     void connectionsChanged();
     void occupancyUpdated();
+    void languageChanged();
     void errorOccurred(const QString &errorText);
 
 private slots:

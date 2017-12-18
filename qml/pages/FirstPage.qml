@@ -54,7 +54,7 @@ Page {
 
     API {
         id: iRail
-        onDisturbancesChanged: console.log(iRail.disturbances)
+        onDisturbancesChanged: console.log(iRail.disturbances) // signals are not fired
         onConnectionsChanged: console.log(iRail.connections)
         onBusyChanged: console.log("busy changed")
         Component.onCompleted: {
