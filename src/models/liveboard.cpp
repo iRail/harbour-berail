@@ -1,7 +1,7 @@
 #include "liveboard.h"
 
 
-Liveboard::Liveboard(Station* station, QList<Vehicle*> vehicles, QDateTime time, ArrDep arrdep, Disturbances* disturbances)
+Liveboard::Liveboard(Station* station, QList<Vehicle*> vehicles, QDateTime time, IRail::ArrDep arrdep, Disturbances* disturbances)
 {
     this->setStation(station);
     this->setVehicles(vehicles);
@@ -41,12 +41,12 @@ void Liveboard::setVehicles(const QList<Vehicle *> &vehicles)
     emit this->vehiclesChanged();
 }
 
-ArrDep Liveboard::arrdep() const
+IRail::ArrDep Liveboard::arrdep() const
 {
     return m_arrdep;
 }
 
-void Liveboard::setArrdep(const ArrDep &arrdep)
+void Liveboard::setArrdep(const IRail::ArrDep &arrdep)
 {
     m_arrdep = arrdep;
     emit this->arrdepChanged();

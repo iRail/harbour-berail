@@ -1,6 +1,6 @@
 #include "stop.h"
 
-Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, Occupancy occupancy)
+Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy)
 {
     this->setId(id);
     this->setStation(station);
@@ -19,7 +19,7 @@ Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, i
     // Second constructor might be needed: 1 without direction, 1 with direction, 1 with extraStop, 1 without
 }
 
-Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, Occupancy occupancy, bool isExtraStop, QString direction, bool walking)
+Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy, bool isExtraStop, QString direction, bool walking)
 {
     this->setId(id);
     this->setStation(station);
@@ -163,12 +163,12 @@ void Stop::setLeft(bool left)
     emit this->leftChanged();
 }
 
-Occupancy Stop::occupancy() const
+IRail::Occupancy Stop::occupancy() const
 {
     return m_occupancy;
 }
 
-void Stop::setOccupancy(const Occupancy &occupancy)
+void Stop::setOccupancy(const IRail::Occupancy &occupancy)
 {
     m_occupancy = occupancy;
     emit this->occupancyChanged();

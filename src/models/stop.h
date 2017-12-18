@@ -22,7 +22,7 @@ class Stop: public QObject
     Q_PROPERTY(bool arrivalCanceled READ arrivalCanceled WRITE setArrivalCanceled NOTIFY arrivalCanceledChanged)
     Q_PROPERTY(QDateTime scheduledArrivalTime READ scheduledArrivalTime WRITE setScheduledArrivalTime NOTIFY scheduledArrivalTimeChanged)
     Q_PROPERTY(bool left READ left WRITE setLeft NOTIFY leftChanged)
-    Q_PROPERTY(Occupancy occupancy READ occupancy WRITE setOccupancy NOTIFY occupancyChanged)
+    Q_PROPERTY(IRail::Occupancy occupancy READ occupancy WRITE setOccupancy NOTIFY occupancyChanged)
     Q_PROPERTY(bool isExtraStop READ isExtraStop WRITE setIsExtraStop NOTIFY isExtraStopChanged)
     Q_PROPERTY(QString direction READ direction WRITE setDirection NOTIFY directionChanged)
     Q_PROPERTY(bool walking READ walking WRITE setWalking NOTIFY walkingChanged)
@@ -39,7 +39,7 @@ public:
                   QDateTime scheduledArrivalTime,
                   bool arrivalCanceled,
                   bool left,
-                  Occupancy occupancy
+                  IRail::Occupancy occupancy
                   );
     explicit Stop(int id,
                   Station* station,
@@ -52,7 +52,7 @@ public:
                   QDateTime scheduledArrivalTime,
                   bool arrivalCanceled,
                   bool left,
-                  Occupancy occupancy,
+                  IRail::Occupancy occupancy,
                   bool isExtraStop,
                   QString direction,
                   bool walking
@@ -79,8 +79,8 @@ public:
     void setArrivalCanceled(bool arrivalCanceled);
     bool left() const;
     void setLeft(bool left);
-    Occupancy occupancy() const;
-    void setOccupancy(const Occupancy &occupancy);
+    IRail::Occupancy occupancy() const;
+    void setOccupancy(const IRail::Occupancy &occupancy);
     bool isExtraStop() const;
     void setIsExtraStop(bool isExtraStop);
     QString direction() const;
@@ -117,7 +117,7 @@ private:
     QDateTime m_scheduledArrivalTime;
     bool m_arrivalCanceled;
     bool m_left;
-    Occupancy m_occupancy;
+    IRail::Occupancy m_occupancy;
     bool m_isExtraStop;
     QString m_direction;
     bool m_walking;

@@ -39,14 +39,20 @@ class API: public QObject
 {
     Q_OBJECT
     //TO DO:    Q_PROPERTY(type name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QList<Station *> stations READ stations WRITE setStations NOTIFY stationsChanged)
+    Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
+    Q_PROPERTY(Liveboard* liveboard READ liveboard WRITE setLiveboard NOTIFY liveboardChanged)
+    Q_PROPERTY(Vehicle* vehicle READ vehicle WRITE setVehicle NOTIFY vehicleChanged)
+    Q_PROPERTY(QList<Connection *> connections READ connections WRITE setConnections NOTIFY connectionsChanged)
+
 public:
     explicit API();
     virtual ~API();
     Q_INVOKABLE void getStations();
     Q_INVOKABLE void getDisturbances();
     Q_INVOKABLE void getVehicle(QString id, QDateTime time);
-    Q_INVOKABLE void getLiveboard(QString stationName, QDateTime time, ArrDep arrdep);
-    Q_INVOKABLE void getConnections(QString fromStation, QString toStation, ArrDep arrdep, QDateTime time, Transport transportType);
+    Q_INVOKABLE void getLiveboard(QString stationName, QDateTime time, IRail::ArrDep arrdep);
+    Q_INVOKABLE void getConnections(QString fromStation, QString toStation, IRail::ArrDep arrdep, QDateTime time, IRail::Transport transportType);
     bool busy() const;
     void setBusy(bool busy);
     QString useragent() const;
@@ -96,9 +102,9 @@ private:
     QString parseLanguage(QLocale::Language language);
     QString parseDate(QDateTime time);
     QString parseTime(QDateTime time);
-    QString parseArrdep(ArrDep arrdep);
-    QString parseTransport(Transport transportType);
-    Occupancy parseOccupancy(QString occupancy);
+    QString parseArrdep(IRail::ArrDep arrdep);
+    QString parseTransport(IRail::Transport transportType);
+    IRail::Occupancy parseOccupancy(QString occupancy);
     QString parseDateOccupancy(QDateTime time);
     bool parseStringToBool(QString value);
     QNetworkRequest prepareRequest(QUrl url, QUrlQuery parameters);

@@ -20,6 +20,8 @@ import Sailfish.Silica 1.0
 import "./components"
 import "./js/util.js" as Util
 import "./js/disturbances.js" as Disturbances
+import Harbour.BeRail.API 1.0
+import Harbour.BeRail.IRail 1.0
 
 Page {
     id: page
@@ -49,6 +51,20 @@ Page {
             _result? loader_DisturbancesView =component_DisturbancesView: undefined
         }
     }*/
+
+    API {
+        id: iRail
+        onDisturbancesChanged: console.log(iRail.disturbances)
+        onConnectionsChanged: console.log(iRail.connections)
+        onBusyChanged: console.log("busy changed")
+        Component.onCompleted: {
+            iRail.getConnections("Vilvoorde", "Brugge", IRail.Departure, new Date(), IRail.All)
+            iRail.getDisturbances()
+            iRail.getVehicle("BE.NMBS.S11757", new Date())
+            iRail.getStations()
+            iRail.getLiveboard("Vilvoorde", new Date(), IRail.Departure)
+        }
+    }
 
     SilicaFlickable {
         anchors { fill: parent }

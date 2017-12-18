@@ -29,7 +29,8 @@ SOURCES += src/harbour-berail.cpp \
     src/models/vehicle.cpp \
     src/models/stop.cpp \
     src/models/connection.cpp \
-    src/models/via.cpp
+    src/models/via.cpp \
+    src/models/enum.cpp
 
 OTHER_FILES += qml/harbour-berail.qml \
     qml/cover/CoverPage.qml \

@@ -27,14 +27,15 @@ int main(int argc, char *argv[])
     enableLogger(false);
 
     // TESTING
-    API api;
+    /*API api;
     api.getDisturbances();
     api.getStations();
     api.getVehicle("BE.NMBS.S11769", QDateTime::currentDateTime());
     api.getLiveboard("Vilvoorde", QDateTime::currentDateTime(), ArrDep::Departure);
-    api.getConnections("Vilvoorde", "Brugge", ArrDep::Departure, QDateTime::currentDateTime(), Transport::All);
+    api.getConnections("Vilvoorde", "Brugge", ArrDep::Departure, QDateTime::currentDateTime(), Transport::All);*/
 
     // Register custom QML modules
+    qmlRegisterType<IRail>("Harbour.BeRail.IRail", 1, 0, "IRail");
     qmlRegisterType<API>("Harbour.BeRail.API", 1, 0, "API");
     qmlRegisterType<OS>("Harbour.BeRail.SFOS", 1, 0, "SFOS");
 

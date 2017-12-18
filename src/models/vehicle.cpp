@@ -1,6 +1,6 @@
 #include "vehicle.h"
 
-Vehicle::Vehicle(QString id, QDate date, QList<Stop*> stops, QGeoCoordinate location, bool canceled, Occupancy occupancy, Disturbances* disturbances, QDateTime timestamp)
+Vehicle::Vehicle(QString id, QDate date, QList<Stop*> stops, QGeoCoordinate location, bool canceled, IRail::Occupancy occupancy, Disturbances* disturbances, QDateTime timestamp)
 {
     setId(id);
     setDate(date);
@@ -76,12 +76,12 @@ void Vehicle::setCanceled(bool canceled)
     m_canceled = canceled;
 }
 
-Occupancy Vehicle::occupancy() const
+IRail::Occupancy Vehicle::occupancy() const
 {
     return m_occupancy;
 }
 
-void Vehicle::setOccupancy(const Occupancy &occupancy)
+void Vehicle::setOccupancy(const IRail::Occupancy &occupancy)
 {
     m_occupancy = occupancy;
 }

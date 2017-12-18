@@ -16,7 +16,7 @@ class Vehicle: public QObject
 {
     Q_OBJECT
 public:
-    explicit Vehicle(QString id, QDate date, QList<Stop*> stops, QGeoCoordinate location, bool canceled, Occupancy occupancy, Disturbances* disturbances, QDateTime timestamp);
+    explicit Vehicle(QString id, QDate date, QList<Stop*> stops, QGeoCoordinate location, bool canceled, IRail::Occupancy occupancy, Disturbances* disturbances, QDateTime timestamp);
     QString id() const;
     void setId(const QString &id);
     QDate date() const;
@@ -29,8 +29,8 @@ public:
     void setLocation(const QGeoCoordinate &location);
     bool canceled() const;
     void setCanceled(bool cancelled);
-    Occupancy occupancy() const;
-    void setOccupancy(const Occupancy &occupancy);
+    IRail::Occupancy occupancy() const;
+    void setOccupancy(const IRail::Occupancy &occupancy);
     Disturbances *disturbances() const;
     void setDisturbances(Disturbances *disturbances);
     QDateTime timestamp() const;
@@ -43,7 +43,7 @@ private:
     QList<Stop*> m_stops;
     QGeoCoordinate m_location;
     bool m_canceled;
-    Occupancy m_occupancy;
+    IRail::Occupancy m_occupancy;
     Disturbances* m_disturbances;
     QDateTime m_timestamp;
 };
