@@ -21,8 +21,7 @@ import "./components"
 import "./js/util.js" as Util
 import "./js/disturbances.js" as Disturbances
 import Harbour.BeRail.API 1.0
-import Harbour.BeRail.IRail 1.0
-import Harbour.BeRail.Liveboard 1.0
+import Harbour.BeRail.Models 1.0
 
 Page {
     id: page
@@ -46,22 +45,33 @@ Page {
 
     API {
         id: iRail
-        /*onDisturbancesChanged: {
+        onDisturbancesChanged: {
             console.log("Disturbances received in QML: " + iRail.disturbances)
-            alertsView.model = iRail.disturbances.alerts
+            alertsView.model = iRail.disturbances.alertsListModel
+            console.log(iRail.disturbances.alertsListModel)
         }
-        onConnectionsChanged: console.log(iRail.connections)*/
+        /*onConnectionsChanged: console.log(iRail.connections)
         onLiveboardChanged: {
             console.log("Liveboard data from QML:")
-            console.log(iRail.liveboard.station);
+            console.log(iRail.liveboard.station.name);
+            console.log(iRail.liveboard.station.id);
+            console.log(iRail.liveboard.station.location);
         }
+        onStationsChanged: {
+            console.log("Stations data from QML:")
+            for(var i =0; i<10; i++) {
+                console.log(iRail.stations[i])
+            }
+        }*/
+
+        onNetworkStateChanged: console.log("Network state: " + state)
         onBusyChanged: console.log("busy changed")
         Component.onCompleted: {
-            iRail.getConnections("Mechelen", "Brugge", IRail.Departure, new Date(), IRail.All)
+            //iRail.getConnections("Mechelen", "Brugge", IRail.Departure, new Date(), IRail.All)
             iRail.getDisturbances()
-            iRail.getVehicle("BE.NMBS.S11757", new Date())
-            iRail.getStations()
-            iRail.getLiveboard("Vilvoorde", new Date(), IRail.Departure)
+            //iRail.getVehicle("BE.NMBS.S11757", new Date())
+            //iRail.getStations()
+            //iRail.getLiveboard("Vilvoorde", new Date(), IRail.Departure)
         }
     }
 

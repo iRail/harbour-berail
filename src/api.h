@@ -82,6 +82,7 @@ signals:
     void occupancyUpdated();
     void languageChanged();
     void errorOccurred(const QString &errorText);
+    void networkStateChanged(const bool &state);
 
 private slots:
     void sslErrors(QNetworkReply* reply, QList<QSslError> sslError);

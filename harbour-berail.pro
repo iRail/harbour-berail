@@ -30,7 +30,8 @@ SOURCES += src/harbour-berail.cpp \
     src/models/stop.cpp \
     src/models/connection.cpp \
     src/models/via.cpp \
-    src/models/enum.cpp
+    src/models/enum.cpp \
+    src/models/alertlistmodel.cpp
 
 OTHER_FILES += qml/harbour-berail.qml \
     qml/cover/CoverPage.qml \
@@ -109,4 +110,5 @@ HEADERS += \
     src/models/vehicle.h \
     src/models/stop.h \
     src/models/connection.h \
-    src/models/via.h
+    src/models/via.h \
+    src/models/alertlistmodel.h

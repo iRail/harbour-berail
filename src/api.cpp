@@ -336,9 +336,11 @@ void API::networkAccessible(QNetworkAccessManager::NetworkAccessibility state)
 {
     if(state == 0) {
         qInfo() << "Network offline";
+        emit this->networkStateChanged(false);
     }
     else {
         qInfo() << "Network online";
+        emit this->networkStateChanged(true);
     }
 }
 

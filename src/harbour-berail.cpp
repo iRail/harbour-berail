@@ -26,17 +26,16 @@ int main(int argc, char *argv[])
     // Set application version and enable logging
     enableLogger(false);
 
-    // TESTING
-    /*API api;
-    api.getDisturbances();
-    api.getStations();
-    api.getVehicle("BE.NMBS.S11769", QDateTime::currentDateTime());
-    api.getLiveboard("Vilvoorde", QDateTime::currentDateTime(), ArrDep::Departure);
-    api.getConnections("Vilvoorde", "Brugge", ArrDep::Departure, QDateTime::currentDateTime(), Transport::All);*/
-
     // Register custom QML modules
-    qmlRegisterType<Liveboard>("Harbour.BeRail.Liveboard", 1, 0, "Liveboard");
-    qmlRegisterType<IRail>("Harbour.BeRail.IRail", 1, 0, "IRail");
+    qmlRegisterUncreatableType<Liveboard>("Harbour.BeRail.Models", 1, 0, "Liveboard", "read only");
+    qmlRegisterUncreatableType<Vehicle>("Harbour.BeRail.Models", 1, 0, "Vehicle", "read only");
+    qmlRegisterUncreatableType<Connection>("Harbour.BeRail.Models", 1, 0, "Connection", "read only");
+    qmlRegisterUncreatableType<Station>("Harbour.BeRail.Models", 1, 0, "Station", "read only");
+    qmlRegisterUncreatableType<Stop>("Harbour.BeRail.Models", 1, 0, "Stop", "read only");
+    qmlRegisterUncreatableType<Via>("Harbour.BeRail.Models", 1, 0, "Via", "read only");
+    qmlRegisterUncreatableType<Disturbances>("Harbour.BeRail.Models", 1, 0, "Disturbances", "read only");
+    qmlRegisterUncreatableType<Alert>("Harbour.BeRail.Models", 1, 0, "Alert", "read only");
+    qmlRegisterUncreatableType<IRail>("Harbour.BeRail.Models", 1, 0, "IRail", "read only");
     qmlRegisterType<API>("Harbour.BeRail.API", 1, 0, "API");
     qmlRegisterType<OS>("Harbour.BeRail.SFOS", 1, 0, "SFOS");
 

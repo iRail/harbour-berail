@@ -6,12 +6,14 @@
 #include <QtCore/QDateTime>
 
 #include "alert.h"
+#include "alertlistmodel.h"
 
 class Disturbances: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<Alert*> alerts READ alerts WRITE setAlerts NOTIFY alertsChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
+    Q_PROPERTY(AlertListModel* alertsListModel READ alertsListModel WRITE setAlertsListModel NOTIFY alertsListModelChanged)
 
 public:
     explicit Disturbances(QList<Alert*> alerts, QDateTime timestamp);
@@ -21,14 +23,18 @@ public:
     void setAlerts(const QList<Alert*> &alerts);
     QDateTime timestamp() const;
     void setTimestamp(const QDateTime &timestamp);
+    AlertListModel *alertsListModel() const;
+    void setAlertsListModel(AlertListModel *alertsListModel);
 
 signals:
     void alertsChanged();
     void timestampChanged();
+    void alertsListModelChanged();
 
 private:
     QList<Alert*> m_alerts;
     QDateTime m_timestamp;
+    AlertListModel* m_alertsListModel;
 };
 
 #endif // DISTURBANCES_H

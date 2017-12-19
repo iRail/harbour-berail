@@ -17,11 +17,11 @@ class Vehicle: public QObject
     Q_OBJECT
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QDate date READ date WRITE setDate NOTIFY dateChanged)
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QList<Stop *> stops READ stops WRITE setStops NOTIFY stopsChanged)
     Q_PROPERTY(QGeoCoordinate location READ location WRITE setLocation NOTIFY locationChanged)
     Q_PROPERTY(bool canceled READ canceled WRITE setCanceled NOTIFY canceledChanged)
     Q_PROPERTY(IRail::Occupancy occupancy READ occupancy WRITE setOccupancy NOTIFY occupancyChanged)
-    Q_PROPERTY(Disturbances disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
+    Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
 
 public:
@@ -46,7 +46,7 @@ public:
 signals:
     void idChanged();
     void dateChanged();
-    void nameChanged();
+    void stopsChanged();
     void locationChanged();
     void canceledChanged();
     void occupancyChanged();

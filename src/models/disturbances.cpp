@@ -19,6 +19,7 @@ Disturbances::Disturbances(QList<Alert*> alerts, QDateTime timestamp)
 {
     this->setAlerts(alerts);
     this->setTimestamp(timestamp);
+    this->setAlertsListModel(new AlertListModel(this->alerts())); // connect QList<Alerts *> to AlertsListModel
 }
 
 /**
@@ -60,3 +61,14 @@ void Disturbances::setTimestamp(const QDateTime &timestamp)
     m_timestamp = timestamp;
     emit this->timestampChanged();
 }
+
+AlertListModel *Disturbances::alertsListModel() const
+{
+    return m_alertsListModel;
+}
+
+void Disturbances::setAlertsListModel(AlertListModel *alertsListModel)
+{
+    m_alertsListModel = alertsListModel;
+}
+
