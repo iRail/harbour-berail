@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     api.getConnections("Vilvoorde", "Brugge", ArrDep::Departure, QDateTime::currentDateTime(), Transport::All);*/
 
     // Register custom QML modules
+    qmlRegisterType<Liveboard>("Harbour.BeRail.Liveboard", 1, 0, "Liveboard");
     qmlRegisterType<IRail>("Harbour.BeRail.IRail", 1, 0, "IRail");
     qmlRegisterType<API>("Harbour.BeRail.API", 1, 0, "API");
     qmlRegisterType<OS>("Harbour.BeRail.SFOS", 1, 0, "SFOS");

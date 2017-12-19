@@ -22,6 +22,7 @@ import "./js/util.js" as Util
 import "./js/disturbances.js" as Disturbances
 import Harbour.BeRail.API 1.0
 import Harbour.BeRail.IRail 1.0
+import Harbour.BeRail.Liveboard 1.0
 
 Page {
     id: page
@@ -31,7 +32,7 @@ Page {
     property bool readyToPlan: departure.iconText != departureText && arrival.iconText != arriveText // Enable when the user added his stations
     property bool hasAnnoucement: true
     property bool succes: true
-    property bool _loading: alertsModel.count==0 && succes
+    //property bool _loading: alertsModel.count==0 && succes
 
     signal _changeStations()
 
@@ -43,22 +44,20 @@ Page {
 
     Component.onCompleted: Util.getHours() > 12? _changeStations(): undefined // Switch stations when in the afternoon
 
-    /*Connections {
-        target: app
-        onPythonReadyChanged: {
-            var _result
-            pythonReady? _result = Disturbances.load(): undefined
-            _result? loader_DisturbancesView =component_DisturbancesView: undefined
-        }
-    }*/
-
     API {
         id: iRail
-        onDisturbancesChanged: console.log(iRail.disturbances) // signals are not fired
-        onConnectionsChanged: console.log(iRail.connections)
+        /*onDisturbancesChanged: {
+            console.log("Disturbances received in QML: " + iRail.disturbances)
+            alertsView.model = iRail.disturbances.alerts
+        }
+        onConnectionsChanged: console.log(iRail.connections)*/
+        onLiveboardChanged: {
+            console.log("Liveboard data from QML:")
+            console.log(iRail.liveboard.station);
+        }
         onBusyChanged: console.log("busy changed")
         Component.onCompleted: {
-            iRail.getConnections("Vilvoorde", "Brugge", IRail.Departure, new Date(), IRail.All)
+            iRail.getConnections("Mechelen", "Brugge", IRail.Departure, new Date(), IRail.All)
             iRail.getDisturbances()
             iRail.getVehicle("BE.NMBS.S11757", new Date())
             iRail.getStations()
@@ -198,12 +197,12 @@ Page {
 
             DisturbancesView {
                 id: alertsView
-                model: alertsModel
+                //model: iRail.getDisturbances() //alertsModel
             }
 
-            ListModel {
+            /*ListModel {
                 id: alertsModel
-            }
+            }*/
         }
     }
 }

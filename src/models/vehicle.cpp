@@ -36,16 +36,6 @@ void Vehicle::setDate(const QDate &date)
     m_date = date;
 }
 
-QString Vehicle::name() const
-{
-    return m_name;
-}
-
-void Vehicle::setName(const QString &name)
-{
-    m_name = name;
-}
-
 QList<Stop *> Vehicle::stops() const
 {
     return m_stops;
