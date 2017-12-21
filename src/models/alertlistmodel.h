@@ -3,6 +3,7 @@
 
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QList>
+
 #include "alert.h"
 
 class AlertListModel : public QAbstractListModel
@@ -23,13 +24,14 @@ public:
     virtual int rowCount(const QModelIndex&) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
 
-    QHash<int, QByteArray> roleNames() const;
-
     QList<Alert *> alertList() const;
     void setAlertList(const QList<Alert *> &alertList);
 
+protected:
+    QHash<int, QByteArray> roleNames() const;
+
 private:
-    QList<Alert*> m_alertList;
+    QList<Alert *> m_alertList;
 };
 
 #endif // ALERTLISTMODEL_H

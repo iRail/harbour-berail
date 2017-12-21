@@ -47,11 +47,15 @@ Page {
         id: iRail
         onDisturbancesChanged: {
             console.log("Disturbances received in QML: " + iRail.disturbances)
-            alertsView.model = iRail.disturbances.alertsListModel
+            //alertsView.model = iRail.disturbances.alertsListModel
             console.log(iRail.disturbances.alertsListModel)
         }
-        /*onConnectionsChanged: console.log(iRail.connections)
-        onLiveboardChanged: {
+        onConnectionsChanged: {
+            console.log("Connections received in QML")
+            connectionTest.model = iRail.connections
+        }
+
+        /*onLiveboardChanged: {
             console.log("Liveboard data from QML:")
             console.log(iRail.liveboard.station.name);
             console.log(iRail.liveboard.station.id);
@@ -63,19 +67,217 @@ Page {
                 console.log(iRail.stations[i])
             }
         }*/
+        onVehicleChanged: {
+            console.log("Vehicle data from QML:")
+            console.log(iRail.vehicle.id)
+            console.log(iRail.vehicle.date)
+            console.log(iRail.vehicle.canceled)
+            console.log(iRail.vehicle.occupancy)
+            console.log(iRail.disturbances.alertsListModel)
+            //vehicleTest.model = iRail.vehicle.stopListModel
+            if(iRail.vehicle.occupancy == IRail.Unknown) {
+                console.log("Unknown occupancy")
+            }
+
+        }
+
+        onLiveboardChanged: {
+            console.log("Liveboard data from QML:")
+            console.log(iRail.liveboard.station.name)
+            console.log(iRail.liveboard.alertListModel)
+            console.log(iRail.liveboard.vehicleListModel)
+            //liveboardTest.model = iRail.liveboard.vehicleListModel;
+            //insidelist.model = iRail.liveboard.vehicleListModel.get(0).stops;
+        }
 
         onNetworkStateChanged: console.log("Network state: " + state)
         onBusyChanged: console.log("busy changed")
         Component.onCompleted: {
-            //iRail.getConnections("Mechelen", "Brugge", IRail.Departure, new Date(), IRail.All)
+            iRail.getConnections("Mechelen", "Brugge", IRail.Departure, new Date(), IRail.All)
             iRail.getDisturbances()
-            //iRail.getVehicle("BE.NMBS.S11757", new Date())
-            //iRail.getStations()
-            //iRail.getLiveboard("Vilvoorde", new Date(), IRail.Departure)
+            iRail.getVehicle("BE.NMBS.S11757", new Date())
+            iRail.getStations()
+            iRail.getLiveboard("Vilvoorde", new Date(), IRail.Departure)
+        }
+
+        onStationsChanged: {
+            stationTest.model = iRail.stations;
         }
     }
 
-    SilicaFlickable {
+    SilicaListView {
+                id: connectionTest
+                anchors.fill: parent
+                delegate: ListItem {
+                    width: ListView.view.width
+                    height: Theme.itemSizeExtraLarge*2
+                    Column {
+                        Label {text: model.id}
+                        Label {text: model.from.station.name}
+                        Label {text: model.to.station.name}
+                    }
+                }
+                onModelChanged: console.log(count)
+            }
+
+
+    /*SilicaListView {
+            id: stationTest
+            anchors.fill: parent
+            delegate: ListItem {
+                width: ListView.view.width
+                height: Theme.itemSizeExtraLarge*2
+                Column {
+                    Label {text: model.id}
+                    Label {text: model.name}
+                }
+            }
+            onModelChanged: console.log(count)
+        }*/
+
+    /*SilicaListView {
+        id: vehicleTest
+        anchors.fill: parent
+        delegate: ListItem {
+            width: ListView.view.width
+            height: Theme.itemSizeExtraLarge*2
+            Column {
+                Label {text: model.platform}
+                Label {text: model.departureDelay/60}
+                Label {text: model.scheduledDepartureTime}
+                Label {text: model.left}
+                Label {text: model.station.name}
+            }
+        }
+        onModelChanged: console.log(count)
+    }*/
+
+    /*SilicaListView {
+        id: liveboardTest
+        anchors.fill: parent
+        delegate: ListItem {
+            width: ListView.view.width
+            height: Theme.itemSizeExtraLarge*2
+            /*Column {
+                Label {text: model.id}
+                SilicaListView {
+                    anchors.fill: parent;
+                    model: liveboardTest.model.stops
+                }
+
+                Label {text: model.timestamp}
+                Label {text: model.canceled}
+            }*/
+
+            /*ListView {
+                anchors.fill: parent;
+                model: liveboardTest.model.stops
+                delegate: ListItem {
+                    width: ListView.view.width
+                    height: Theme.itemSizeExtraLarge
+                    Label {
+                        text: model.station.name
+                    }
+                    Label {
+                        text: model.platform
+                    }
+
+                    Component.onCompleted: console.log(model.station.name)
+
+                }
+                onModelChanged: console.log(count)
+            }
+
+            Column {
+
+            Label {
+                text: model.id
+            }
+
+            Repeater {
+                id: stopsTest
+                model: liveboardTest.model.stops
+                onModelChanged: console.log("STOPS MODEL COUNT=" + count)
+            }
+            }
+        }
+        onModelChanged: stopsTest.model = model.stops
+    }*/
+
+    /*ListModel {
+          id: fruitModel
+
+          ListElement {
+              name: "Apple"
+              cost: 2.45
+          }
+          ListElement {
+              name: "Orange"
+              cost: 3.25
+          }
+          ListElement {
+              name: "Banana"
+              cost: 1.95
+          }
+      }
+
+
+    Component {
+        id: delegate2
+
+        Item {
+            width: 100
+            height: col2.childrenRect.height
+
+            Column {
+                id: col2
+                anchors.left: parent.left
+                anchors.right: parent.right
+                Text {
+                    id: name1
+                    text: model.name
+                    color: "green"
+                }
+            }
+        }
+    }
+
+    ListView {
+        id: liveboardTest
+        delegate: listdelegate
+        anchors.fill: parent
+    }
+
+    Component {
+        id: listdelegate
+
+        Item {
+            width: 100
+            height: col.childrenRect.height
+
+            Column {
+                id: col
+                anchors.left: parent.left
+                anchors.right: parent.right
+                Text {
+                    id: t1
+                    text: model.id
+                    color: "red"
+                }
+                ListView {
+                    id: insidelist
+                    delegate: delegate2
+                    contentHeight: contentItem.childrenRect.height
+                    height: childrenRect.height
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    clip: true
+                }
+            }
+        }
+    }*/
+
+    /*SilicaFlickable {
         anchors { fill: parent }
         contentHeight: column.height
 
@@ -210,10 +412,26 @@ Page {
                 //model: iRail.getDisturbances() //alertsModel
             }
 
-            /*ListModel {
+            SilicaListView {
+                id: vehicleTest
+                width: parent.width
+                delegate: Item {
+                    width: ListView.view.width
+                    height: Theme.itemSizeSmall
+                    Column {
+                        Label {text: model.platform}
+                        Label {text: model.departureDelay}
+                        Label {text: model.scheduledDepartureTime}
+                        Label {text: model.left}
+                    }
+                }
+                onModelChanged: console.log(count)
+            }
+
+            ListModel {
                 id: alertsModel
-            }*/
+            }
         }
-    }
+    }*/
 }
 

@@ -9,6 +9,8 @@
 #include "vehicle.h"
 #include "disturbances.h"
 #include "enum.h"
+#include "alertlistmodel.h"
+#include "vehiclelistmodel.h"
 
 class Liveboard: public QObject
 {
@@ -18,6 +20,8 @@ class Liveboard: public QObject
     Q_PROPERTY(IRail::ArrDep arrdep READ arrdep WRITE setArrdep NOTIFY arrdepChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
+    Q_PROPERTY(AlertListModel* alertListModel READ alertListModel WRITE setAlertListModel NOTIFY alertListModelChanged)
+    Q_PROPERTY(VehicleListModel* vehicleListModel READ vehicleListModel WRITE setVehicleListModel NOTIFY vehicleListModelChanged)
 
 public:
     explicit Liveboard(Station* station, QList<Vehicle*> vehicles, QDateTime time, IRail::ArrDep arrdep, Disturbances* disturbances);
@@ -32,6 +36,10 @@ public:
     void setDisturbances(Disturbances *disturbances);
     QDateTime timestamp() const;
     void setTimestamp(const QDateTime &timestamp);
+    AlertListModel *alertListModel() const;
+    void setAlertListModel(AlertListModel *alertListModel);
+    VehicleListModel *vehicleListModel() const;
+    void setVehicleListModel(VehicleListModel *vehicleListModel);
 
 signals:
     void stationChanged();
@@ -39,6 +47,8 @@ signals:
     void arrdepChanged();
     void disturbancesChanged();
     void timestampChanged();
+    void alertListModelChanged();
+    void vehicleListModelChanged();
 
 private:
     Station* m_station;
@@ -46,6 +56,8 @@ private:
     IRail::ArrDep m_arrdep;
     Disturbances* m_disturbances;
     QDateTime m_timestamp;
+    AlertListModel* m_alertListModel;
+    VehicleListModel* m_vehicleListModel;
 };
 
 #endif // LIVEBOARD_H

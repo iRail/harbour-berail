@@ -13,7 +13,7 @@ class Disturbances: public QObject
     Q_OBJECT
     Q_PROPERTY(QList<Alert*> alerts READ alerts WRITE setAlerts NOTIFY alertsChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
-    Q_PROPERTY(AlertListModel* alertsListModel READ alertsListModel WRITE setAlertsListModel NOTIFY alertsListModelChanged)
+    Q_PROPERTY(AlertListModel* alertsistModel READ alertListModel WRITE setAlertListModel NOTIFY alertListModelChanged)
 
 public:
     explicit Disturbances(QList<Alert*> alerts, QDateTime timestamp);
@@ -23,18 +23,18 @@ public:
     void setAlerts(const QList<Alert*> &alerts);
     QDateTime timestamp() const;
     void setTimestamp(const QDateTime &timestamp);
-    AlertListModel *alertsListModel() const;
-    void setAlertsListModel(AlertListModel *alertsListModel);
+    AlertListModel *alertListModel() const;
+    void setAlertListModel(AlertListModel *alertListModel);
 
 signals:
     void alertsChanged();
     void timestampChanged();
-    void alertsListModelChanged();
+    void alertListModelChanged();
 
 private:
     QList<Alert*> m_alerts;
     QDateTime m_timestamp;
-    AlertListModel* m_alertsListModel;
+    AlertListModel* m_alertListModel;
 };
 
 #endif // DISTURBANCES_H

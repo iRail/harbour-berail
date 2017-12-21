@@ -31,7 +31,12 @@ SOURCES += src/harbour-berail.cpp \
     src/models/connection.cpp \
     src/models/via.cpp \
     src/models/enum.cpp \
-    src/models/alertlistmodel.cpp
+    src/models/alertlistmodel.cpp \
+    src/models/stoplistmodel.cpp \
+    src/models/vehiclelistmodel.cpp \
+    src/models/stationlistmodel.cpp \
+    src/models/connectionlistmodel.cpp \
+    src/models/vialistmodel.cpp
 
 OTHER_FILES += qml/harbour-berail.qml \
     qml/cover/CoverPage.qml \
@@ -111,4 +116,9 @@ HEADERS += \
     src/models/stop.h \
     src/models/connection.h \
     src/models/via.h \
-    src/models/alertlistmodel.h
+    src/models/alertlistmodel.h \
+    src/models/stoplistmodel.h \
+    src/models/vehiclelistmodel.h \
+    src/models/stationlistmodel.h \
+    src/models/connectionlistmodel.h \
+    src/models/vialistmodel.h

@@ -9,6 +9,7 @@
 
 #include "disturbances.h"
 #include "stop.h"
+#include "stoplistmodel.h"
 #include "enum.h"
 
 // Add time() for easy extraction in QML
@@ -23,6 +24,8 @@ class Vehicle: public QObject
     Q_PROPERTY(IRail::Occupancy occupancy READ occupancy WRITE setOccupancy NOTIFY occupancyChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
+    Q_PROPERTY(StopListModel* stopListModel READ stopListModel WRITE setStopListModel NOTIFY stopListModelChanged)
+    Q_PROPERTY(AlertListModel* alertListModel READ alertListModel WRITE setAlertListModel NOTIFY alertListModelChanged)
 
 public:
     explicit Vehicle(QString id, QDate date, QList<Stop*> stops, QGeoCoordinate location, bool canceled, IRail::Occupancy occupancy, Disturbances* disturbances, QDateTime timestamp);
@@ -42,6 +45,10 @@ public:
     void setDisturbances(Disturbances *disturbances);
     QDateTime timestamp() const;
     void setTimestamp(const QDateTime &timestamp);
+    StopListModel *stopListModel() const;
+    void setStopListModel(StopListModel *stopListModel);
+    AlertListModel *alertListModel() const;
+    void setAlertListModel(AlertListModel *alertListModel);
 
 signals:
     void idChanged();
@@ -52,6 +59,8 @@ signals:
     void occupancyChanged();
     void disturbancesChanged();
     void timestampChanged();
+    void stopListModelChanged();
+    void alertListModelChanged();
 
 private:
     QString m_id;
@@ -62,6 +71,8 @@ private:
     IRail::Occupancy m_occupancy;
     Disturbances* m_disturbances;
     QDateTime m_timestamp;
+    StopListModel* m_stopListModel;
+    AlertListModel* m_alertListModel;
 };
 
 #endif // VEHICLE_H

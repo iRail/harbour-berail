@@ -38,6 +38,7 @@ QList<Vehicle *> Liveboard::vehicles() const
 void Liveboard::setVehicles(const QList<Vehicle *> &vehicles)
 {
     m_vehicles = vehicles;
+    this->setVehicleListModel(new VehicleListModel(vehicles));
     emit this->vehiclesChanged();
 }
 
@@ -60,6 +61,7 @@ Disturbances *Liveboard::disturbances() const
 void Liveboard::setDisturbances(Disturbances *disturbances)
 {
     m_disturbances = disturbances;
+    this->setAlertListModel(new AlertListModel(disturbances->alerts()));
     emit this->disturbancesChanged();
 }
 
@@ -73,3 +75,25 @@ void Liveboard::setTimestamp(const QDateTime &timestamp)
     m_timestamp = timestamp;
     emit this->timestampChanged();
 }
+
+AlertListModel *Liveboard::alertListModel() const
+{
+    return m_alertListModel;
+}
+
+void Liveboard::setAlertListModel(AlertListModel *alertListModel)
+{
+    m_alertListModel = alertListModel;
+}
+
+VehicleListModel *Liveboard::vehicleListModel() const
+{
+    return m_vehicleListModel;
+}
+
+void Liveboard::setVehicleListModel(VehicleListModel *vehicleListModel)
+{
+    m_vehicleListModel = vehicleListModel;
+}
+
+

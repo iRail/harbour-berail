@@ -149,7 +149,7 @@ QNetworkRequest API::prepareRequest(QUrl url, QUrlQuery parameters)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setHeader(QNetworkRequest::UserAgentHeader, this->useragent());
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
+    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferNetwork);
     return request;
 }
 
@@ -351,7 +351,7 @@ void API::networkAccessible(QNetworkAccessManager::NetworkAccessibility state)
  * @param json
  * @return QList<Station*>
  */
-QList<Station*> API::parseStations(QJsonObject json)
+StationListModel* API::parseStations(QJsonObject json)
 {
     qDebug() << "Parsing stations";
     QList<Station*> stationsList;
@@ -369,7 +369,7 @@ QList<Station*> API::parseStations(QJsonObject json)
         qDebug() << "\tName:" << station->name();
     }
 
-    return stationsList;
+    return new StationListModel(stationsList);
 }
 
 Disturbances* API::parseDisturbances(QJsonObject json)
@@ -577,7 +577,7 @@ Liveboard *API::parseLiveboard(QJsonObject json)
     return liveboard;
 }
 
-QList<Connection*> API::parseConnections(QJsonObject json)
+ConnectionListModel* API::parseConnections(QJsonObject json)
 {
     qDebug() << "Parsing connections";
     QList<Connection*> connectionList;
@@ -738,33 +738,14 @@ QList<Connection*> API::parseConnections(QJsonObject json)
         qDebug() << "\tVia:" << connection->vias();
         qDebug() << "\tTo:" << connection->to()->station()->name();
     }
-    return connectionList;
+    return new ConnectionListModel(connectionList);
 }
 
 /*********************
  * Getters & Setters *
  *********************/
 
-/**
- * @class API
- * @brief stations getter.
- * @return QList<Station*>
- */
-QList<Station*> API::stations() const
-{
-    return m_stations;
-}
 
-/**
- * @class API
- * @brief stations setter.
- * @param stations
- */
-void API::setStations(const QList<Station*> &stations)
-{
-    m_stations = stations;
-    emit this->stationsChanged();
-}
 
 /**
  * @class API
@@ -829,6 +810,17 @@ void API::setUseragent(const QString &useragent)
     emit this->useragentChanged();
 }
 
+StationListModel *API::stations() const
+{
+    return m_stations;
+}
+
+void API::setStations(StationListModel* stations)
+{
+    m_stations = stations;
+    emit this->stationsChanged();
+}
+
 Disturbances *API::disturbances() const
 {
     return m_disturbances;
@@ -867,7 +859,7 @@ void API::setVehicle(Vehicle *vehicle)
  * @brief connections getter.
  * @return QList<Connection*>
  */
-QList<Connection*> API::connections() const
+ConnectionListModel* API::connections() const
 {
     return m_connections;
 }
@@ -877,7 +869,7 @@ QList<Connection*> API::connections() const
  * @brief connections setter.
  * @param connections
  */
-void API::setConnections(const QList<Connection*> &connections)
+void API::setConnections(ConnectionListModel* connections)
 {
     m_connections = connections;
     emit this->connectionsChanged();

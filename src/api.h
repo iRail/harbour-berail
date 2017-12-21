@@ -27,6 +27,8 @@
 #include "models/liveboard.h"
 #include "models/connection.h"
 #include "models/via.h"
+#include "models/stationlistmodel.h"
+#include "models/connectionlistmodel.h"
 
 #define STATIONS_ENDPOINT "https://api.irail.be/stations"
 #define LIVEBOARD_ENDPOINT "https://api.irail.be/liveboard"
@@ -38,11 +40,11 @@
 class API: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<Station *> stations READ stations WRITE setStations NOTIFY stationsChanged)
+    Q_PROPERTY(StationListModel* stations READ stations WRITE setStations NOTIFY stationsChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(Liveboard* liveboard READ liveboard WRITE setLiveboard NOTIFY liveboardChanged)
     Q_PROPERTY(Vehicle* vehicle READ vehicle WRITE setVehicle NOTIFY vehicleChanged)
-    Q_PROPERTY(QList<Connection *> connections READ connections WRITE setConnections NOTIFY connectionsChanged)
+    Q_PROPERTY(ConnectionListModel* connections READ connections WRITE setConnections NOTIFY connectionsChanged)
     Q_PROPERTY(QLocale::Language language READ language WRITE setLanguage NOTIFY languageChanged)
     Q_PROPERTY(QString useragent READ useragent NOTIFY languageChanged)
 
@@ -58,8 +60,8 @@ public:
     void setBusy(bool busy);
     QString useragent() const;
     void setUseragent(const QString &useragent);
-    QList<Station*> stations() const;
-    void setStations(const QList<Station*> &stations); 
+    StationListModel* stations() const;
+    void setStations(StationListModel* stations);
     QLocale::Language language() const;
     void setLanguage(const QLocale::Language &language);
     Disturbances* disturbances() const;
@@ -68,8 +70,8 @@ public:
     void setLiveboard(Liveboard *liveboard);
     Vehicle *vehicle() const;
     void setVehicle(Vehicle *vehicle);
-    QList<Connection*> connections() const;
-    void setConnections(const QList<Connection*> &connections);
+    ConnectionListModel* connections() const;
+    void setConnections(ConnectionListModel* connections);
 
 signals:
     void busyChanged();
@@ -94,11 +96,11 @@ private:
     bool m_alertsEnabled;
     QString m_useragent;
     QLocale::Language m_language = QLocale::English;
-    QList<Station*> m_stations;
+    StationListModel* m_stations;
     Disturbances* m_disturbances;
     Liveboard* m_liveboard;
     Vehicle* m_vehicle;
-    QList<Connection*> m_connections;
+    ConnectionListModel* m_connections;
     QNetworkAccessManager* QNAM;
     QNetworkDiskCache* QNAMCache;
     OS SFOS;
@@ -111,11 +113,11 @@ private:
     QString parseDateOccupancy(QDateTime time);
     bool parseStringToBool(QString value);
     QNetworkRequest prepareRequest(QUrl url, QUrlQuery parameters);
-    QList<Station*> parseStations(QJsonObject json);
+    StationListModel* parseStations(QJsonObject json);
     Disturbances* parseDisturbances(QJsonObject json);
     Vehicle* parseVehicle(QJsonObject json);
     Liveboard* parseLiveboard(QJsonObject json);
-    QList<Connection*> parseConnections(QJsonObject json);
+    ConnectionListModel* parseConnections(QJsonObject json);
 };
 
 #endif // API_H

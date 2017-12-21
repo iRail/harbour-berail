@@ -2,10 +2,12 @@
 #define ENUM_H
 
 #include <QtCore/QObject>
+#include <QtCore/QMetaType>
 
-class IRail: public QObject
+class IRail
 {
-    Q_OBJECT
+    // Enums can use the lightweight Q_GADGET type instead of Q_OBJECT
+    Q_GADGET
 
 public:
     explicit IRail();
@@ -45,5 +47,6 @@ Q_DECLARE_METATYPE(IRail::Format)
 Q_DECLARE_METATYPE(IRail::ArrDep)
 Q_DECLARE_METATYPE(IRail::Transport)
 Q_DECLARE_METATYPE(IRail::Occupancy)
+
 
 #endif // ENUM_H
