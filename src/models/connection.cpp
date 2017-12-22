@@ -1,6 +1,6 @@
 #include "connection.h"
 
-Connection::Connection(int id, Stop* fromStation, Stop* toStation, Disturbances* alerts, Disturbances* remarks, IRail::Occupancy occupancy, int duration, QList<Via*> vias, QDateTime timestamp)
+Connection::Connection(int id, Stop* fromStation, Stop* toStation, Disturbances* alerts, Disturbances* remarks, IRail::Occupancy occupancy, int duration, ViaListModel* vias, QDateTime timestamp)
 {
     this->setId(id);
     this->setFrom(fromStation);
@@ -94,12 +94,12 @@ void Connection::setRemarks(Disturbances *remarks)
     emit this->remarksChanged();
 }
 
-QList<Via *> Connection::vias() const
+ViaListModel *Connection::vias() const
 {
     return m_vias;
 }
 
-void Connection::setVias(const QList<Via *> &vias)
+void Connection::setVias(ViaListModel *vias)
 {
     m_vias = vias;
 }

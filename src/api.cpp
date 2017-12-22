@@ -731,7 +731,8 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
         }
 
         IRail::Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());
-        Connection* connection = new Connection(connectionId, fromStop, toStop, new Disturbances(), new Disturbances(), connectionOccupancy, connectionDuration, viaList, timestampConnections);
+        // TO DO: enable disturbances and remarks for the whole connection
+        Connection* connection = new Connection(connectionId, fromStop, toStop, new Disturbances(), new Disturbances(), connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections);
         connectionList.append(connection);
         qDebug() << "CONNECTION:";
         qDebug() << "\tFrom:" << connection->from()->station()->name();

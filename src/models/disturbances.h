@@ -13,7 +13,7 @@ class Disturbances: public QObject
     Q_OBJECT
     Q_PROPERTY(QList<Alert*> alerts READ alerts WRITE setAlerts NOTIFY alertsChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
-    Q_PROPERTY(AlertListModel* alertsistModel READ alertListModel WRITE setAlertListModel NOTIFY alertListModelChanged)
+    Q_PROPERTY(AlertListModel* alertListModel READ alertListModel WRITE setAlertListModel NOTIFY alertListModelChanged)
 
 public:
     explicit Disturbances(QList<Alert*> alerts, QDateTime timestamp);
