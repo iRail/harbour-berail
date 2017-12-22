@@ -37,3 +37,6 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+#Enforce .pro.user ignore
+harbour-berail.pro.user
+
