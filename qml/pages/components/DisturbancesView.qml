@@ -35,8 +35,10 @@ SilicaListView {
             width: parent.width
             anchors { centerIn: parent }
             spacing: Theme.paddingSmall
-            SectionHeader { text: showStation? model.header.replace(".", ""): model.header.split(":")[1].replace(".", "") } // Remove "." at the end
-            TextLabel { labelText: model.description }
+            SectionHeader { text: model.title }
+            TextLabel { labelText: model.text }
+            //SectionHeader { text: showStation? model.header.replace(".", ""): model.header.split(":")[1].replace(".", "") } // Remove "." at the end
+            //TextLabel { labelText: model.description }
         }
     }
 }

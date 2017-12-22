@@ -80,43 +80,11 @@
 <context>
     <name>FirstPage</name>
     <message>
-        <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>BeRail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Plan my trip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>From</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>To</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Liveboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The official iRail app</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -250,17 +218,6 @@
     </message>
     <message>
         <source>Try another station</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>harbour-berail</name>
-    <message>
-        <source>Network down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network recovered</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -80,44 +80,12 @@
 <context>
     <name>FirstPage</name>
     <message>
-        <source>About</source>
-        <translation>Informationen über</translation>
-    </message>
-    <message>
-        <source>BeRail</source>
-        <translation>BeRail</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Datum</translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <translation>Zeit</translation>
-    </message>
-    <message>
-        <source>Plan my trip</source>
-        <translation>Plane meine Reise</translation>
-    </message>
-    <message>
         <source>From</source>
         <translation>Von</translation>
     </message>
     <message>
         <source>To</source>
         <translation>Nach</translation>
-    </message>
-    <message>
-        <source>Liveboard</source>
-        <translation>Echtzeit Ansicht</translation>
-    </message>
-    <message>
-        <source>The official iRail app</source>
-        <translation>Die offizielle iRail-App</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -251,17 +219,6 @@
     <message>
         <source>Try another station</source>
         <translation>Versuche eine andere Station</translation>
-    </message>
-</context>
-<context>
-    <name>harbour-berail</name>
-    <message>
-        <source>Network down</source>
-        <translation>Kein Netzwerk verfügbar</translation>
-    </message>
-    <message>
-        <source>Network recovered</source>
-        <translation>Netzwerkverbindung wiederhergestellt</translation>
     </message>
 </context>
 </TS>
