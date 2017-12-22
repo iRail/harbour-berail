@@ -17,10 +17,11 @@
 
 import QtQuick 2.2
 import Sailfish.Silica 1.0
-//import io.thp.pyotherside 1.3
-import org.nemomobile.configuration 1.0
+import Nemo.Configuration 1.0
+import Harbour.BeRail.API 1.0
+import Harbour.BeRail.Models 1.0
 import "pages"
-import "./pages/js/util.js" as Util
+import "components"
 
 ApplicationWindow
 {
@@ -29,9 +30,6 @@ ApplicationWindow
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: Orientation.All
     _defaultPageOrientations: Orientation.All
-
-    readonly property string name: "BeRail"
-    readonly property string version: "1.1"
 
     // Colors
     readonly property string blue: "#3f51b5"
@@ -44,58 +42,21 @@ ApplicationWindow
     readonly property string white: "#fffde7"
     readonly property string transparent: "transparent"
 
-    property bool pythonReady
-
     // App settings
     ConfigurationGroup {
         id: settings
         path: "/apps/harbour-berail/settings"
 
         property bool rememberLiveboardStation: true
-        property bool favouriteStations
-        property int arriveFromGivenTime
-        property string lastLiveboardStation
+        property bool favouriteStationsEnabled
         property string favouriteDepartStation
         property string favouriteArriveStation
+        property string savedLiveboardStation
     }
 
-    /*Python {
-            id: python
-            property bool _networkWasLost
-
-            Component.onCompleted: {
-                addImportPath(Qt.resolvedUrl("./backend")); //Add the import path for our QML/Python bridge 'app.py'
-                addImportPath(Qt.resolvedUrl("./backend/berail")); //Add import path for our backend module 'sailfinder'
-                importModule("platform", function() {   //Add the right import path depending on the architecture of the processor
-                    if (evaluate("platform.machine()") == "armv7l") {
-                        console.info("[INFO] ARM processor detected")
-                        addImportPath(Qt.resolvedUrl("./backend/lib/armv7l/"));
-                    } else {
-                        console.info("[INFO] x86 processor detected")
-                        addImportPath(Qt.resolvedUrl("./backend/lib/i486/"));
-                    }
-                    importModule("app", function() {}); // Import "app" after we imported our platform specific modules
-                    Util.updatePythonLocal() // When done, pythonReady will be TRUE
-                });
-
-                //Notify user of the current network state
-                setHandler("network", function (status) {
-                    if(!status)
-                    {
-                        toaster.previewBody = qsTr("Network down") + "!"
-                        toaster.publish()
-                        _networkWasLost = true
-                    }
-                    else if (_networkWasLost) {
-                        toaster.previewBody = qsTr("Network recovered") + "!"
-                        toaster.publish()
-                        _networkWasLost = false
-                    }
-                });
-
-            }
-            onError: console.error("[ERROR] %1".arg(traceback));
-            onReceived: console.info("[INFO] Message: " + JSON.stringify(data));
-        }*/
+    // iRail API
+    API {
+        id: api
+    }
 }
 

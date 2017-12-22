@@ -85,7 +85,6 @@ DISTFILES += \
     qml/pages/StationListPage.qml \
     qml/pages/js/util.js \
     qml/pages/DatePickerPage.qml \
-    qml/pages/TripPage.qml \
     qml/pages/components/TripItem.qml \
     qml/pages/js/trip.js \
     qml/pages/TripDetailPage.qml \
