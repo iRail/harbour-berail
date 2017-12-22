@@ -22,12 +22,11 @@ BackgroundItem {
     property string link
     property string iconSource
     property string iconText
-    property real itemScale: 1.0
     property bool show: true
-    property int type: 0
+    property int type
 
     width: parent.width
-    height: Theme.itemSizeLarge*1.2*itemScale
+    height: Theme.itemSizeLarge
     anchors { left: parent.left; right: parent.right }
     onClicked: {
         switch(type) {
@@ -36,8 +35,8 @@ BackgroundItem {
             break;
         case 1:
             var _page = pageStack.push(link);
-            _page.finished.connect(function(station) {
-                iconText = station;
+            _page.finished.connect(function(newText) {
+                iconText = newText;
             });
             break;
         case 2:
@@ -49,21 +48,20 @@ BackgroundItem {
     visible: iconText.length && show
 
     Row {
-        anchors { left: parent.left; leftMargin: Theme.paddingLarge*itemScale; right: parent.right; rightMargin: Theme.paddingLarge*itemScale; verticalCenter: parent.verticalCenter }
+        anchors { left: parent.left; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingLarge; verticalCenter: parent.verticalCenter }
         spacing: Theme.paddingMedium
 
         Image {
             id: logo
-            width: Theme.iconSizeLarge
+            width: Theme.iconSizeMedium
             height: width
             source: iconSource
-            scale: itemScale
         }
 
         Label {
             width: parent.width - logo.width
             anchors { verticalCenter: parent.verticalCenter }
-            font.pixelSize: Theme.fontSizeLarge
+            font.pixelSize: Theme.fontSizeMedium
             text: iconText
             truncationMode: TruncationMode.Fade
             visible: iconText.length

@@ -42,6 +42,9 @@ ApplicationWindow
     readonly property string white: "#fffde7"
     readonly property string transparent: "transparent"
 
+    readonly property real fadeOutValue: 0.4
+    readonly property real fadeInValue: 0.4
+
     // App settings
     ConfigurationGroup {
         id: settings

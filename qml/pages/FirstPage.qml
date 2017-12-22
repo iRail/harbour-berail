@@ -17,7 +17,27 @@
 
 import QtQuick 2.2
 import Sailfish.Silica 1.0
+import "../components"
 
 Page {
-}
+    SilicaListView {
+        anchors.fill: parent
+        header: ConnectionSelectorDelegate {}
 
+        PullDownMenu {
+            MenuItem {
+                //: Liveboard PullDownMenu item
+                //% "Liveboard"
+                //~ Overview of all departing/arriving trains in a station.
+                text: qsTrId("berail-liveboard")
+            }
+
+            MenuItem {
+                //: Settings PullDownMenu item
+                //% "Settings"
+                //~ Settings for the application.
+                text: qsTrId("berail-settings")
+            }
+        }
+    }
+}

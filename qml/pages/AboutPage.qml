@@ -51,19 +51,16 @@ Page {
                 link: "https://github.com/dylanvanassche"
                 iconSource: "qrc:///icons/icon-github.png"
                 iconText: "Dylan Van Assche"
-                itemScale: 0.75
             }
             GlassButton {
                 link: "https://paypal.me/minitreintje"
                 iconSource: "qrc:///icons/icon-paypal.png"
                 iconText: qsTr("Donate with %1").arg("PayPal")
-                itemScale: 0.75
             }
             GlassButton {
                 link: "https://github.com/iRail/harbour-berail"
                 iconSource: "qrc:///icons/icon-code.png"
                 iconText: qsTr("Source code")
-                itemScale: 0.75
             }
             TextLabel {
                 text: qsTr("%1 can be translated into your language but for that we need your help! You can translate this app on %2").arg(app.name).arg("Transifex:")
@@ -72,7 +69,6 @@ Page {
                 link: "https://www.transifex.com/dylanvanassche/harbour-berail"
                 iconSource: "qrc:///icons/icon-translate.png"
                 iconText: qsTr("%1 project").arg("Transifex")
-                itemScale: 0.75
             }
 
             SectionHeader { text: qsTr("Powered by") }
@@ -80,19 +76,16 @@ Page {
                 link: "https://irail.be/"
                 iconSource: "qrc:///icons/icon-irail.png"
                 iconText: "iRail"
-                itemScale: 0.75
             }
             GlassButton {
                 link: "https://fontawesome.io/"
                 iconSource: "qrc:///icons/icon-fontawesome.png"
                 iconText: "FontAwesome icons"
-                itemScale: 0.75
             }
             GlassButton {
                 link: "https://twitter.com/eLtMosen"
                 iconSource: "qrc:///icons/icon-twitter.png"
                 iconText: qsTr("Icon by %1").arg("Timo Könnecke")
-                itemScale: 0.75
             }
         }
     }
