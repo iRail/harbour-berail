@@ -43,7 +43,7 @@ ApplicationWindow
     readonly property string transparent: "transparent"
 
     readonly property real fadeOutValue: 0.4
-    readonly property real fadeInValue: 0.4
+    readonly property real fadeInValue: 1.0
 
     // App settings
     ConfigurationGroup {
@@ -52,8 +52,9 @@ ApplicationWindow
 
         property bool rememberLiveboardStation: true
         property bool favouriteStationsEnabled
-        property string favouriteDepartStation
-        property string favouriteArriveStation
+        property int timeIs
+        property string favouriteFromStation
+        property string favouriteToStation
         property string savedLiveboardStation
     }
 

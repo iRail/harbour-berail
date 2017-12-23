@@ -14,7 +14,6 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "../components"
@@ -41,16 +40,25 @@ Page {
             enabled: !busy
 
             MenuItem {
+                //: About PullDownMenu item
+                //% "About"
+                text: qsTr("About")
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+            }
+
+            MenuItem {
                 //: Liveboard PullDownMenu item
                 //% "Liveboard"
                 //~ A list of all departing/arriving trains in a station.
                 text: qsTrId("berail-liveboard")
+                onClicked: pageStack.push(Qt.resolvedUrl("LiveboardPage.qml"))
             }
 
             MenuItem {
                 //: Settings PullDownMenu item
                 //% "Settings"
                 text: qsTrId("berail-settings")
+                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
             }
         }
     }

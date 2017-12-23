@@ -14,11 +14,9 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 import QtQuick 2.2
 import Sailfish.Silica 1.0
-import "./components"
-import "./js/util.js" as Util
+import "../components"
 
 Page {
 
@@ -27,77 +25,100 @@ Page {
         if(!rememberLiveboardStation.checked) { // reset to default
             settings.lastLiveboardStation = ""
         }
-        settings.favouriteStations = favouriteStations.checked
-        settings.favouriteDepartStation = favouriteStations.checked? favouriteDepartStation.iconText: "" // reset to default
-        settings.favouriteArriveStation = favouriteStations.checked? favouriteArriveStation.iconText: "" // reset to default
-        settings.arriveFromGivenTime = arriveFromGivenTime.currentIndex
+        settings.favouriteStationsEnabled = favouriteStations.checked
+        settings.favouriteFromStation = favouriteStations.checked? favouriteFromStation.iconText: "" // reset to default
+        settings.favouriteToStation = favouriteStations.checked? favouriteToStation.iconText: "" // reset to default
+        settings.timeIs = timeIs.currentIndex
     }
 
     SilicaFlickable {
         anchors.fill: parent
-        contentHeight: settingsColumn.height
+        contentHeight: column.height
 
         VerticalScrollDecorator {}
 
         Column {
-            id: settingsColumn
+            id: column
             width: parent.width
             spacing: Theme.paddingLarge
 
-            PageHeader { title: qsTr("Settings") }
+            //% "Settings"
+            PageHeader { title: qsTrId("berail-settings") }
 
-            SectionHeader { text: qsTr("Routeplanner") }
+            //% "Trip planner"
+            SectionHeader { text: qsTrId("berail-trip-planner") }
 
             ComboBox {
-                id: arriveFromGivenTime
+                id: timeIs
                 width: parent.width
-                label: qsTr("Time is")
+                //% "Time is"
+                label: qsTrId("berail-time-is")
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("departure") }
-                    MenuItem { text: qsTr("arrival") }
+                    MenuItem {
+                        //% "departure"
+                        text: qsTrId("berail-departure")
+                    }
+                    MenuItem {
+                        //% "arrival"
+                        text: qsTrId("berail-arrival")
+                    }
                 }
-                currentIndex: settings.arriveFromGivenTime
-                description: qsTr("Select here if you want to use the given time as either the time of arrival or departure.")
+                currentIndex: settings.timeIs
+                //% "Select here if you want to use the given time as either the time of arrival or departure."
+                description: qsTrId("berail-time-is-hint")
             }
 
             TextSwitch {
                 id: favouriteStations
-                text: qsTr("Enable favourite stations")
-                description: qsTr("Travelling from/to work or school? Then is this option for you! Select your favourite stations below.")
-                checked: settings.favouriteStations
+                //% "Enable favourite stations"
+                text: qsTrId("berail-favourite-stations")
+                //% "Travelling from/to work or school? Then is this option for you! Select your favourite stations below."
+                description: qsTrId("berail-favourite-stations-hint")
+                checked: settings.favouriteStationsEnabled
             }
 
             GlassButton {
-                id: favouriteDepartStation
+                id: favouriteFromStation
                 link: Qt.resolvedUrl("StationListPage.qml")
                 type: 1
                 iconSource: "qrc:///icons/icon-train.png"
-                iconText: settings.favouriteDepartStation.length > 0? settings.favouriteDepartStation: qsTr("From")
-                itemScale: 0.75
+                iconText: settings.favouriteFromStation.length > 0?
+                              settings.favouriteFromStation:
+                              //% "From"
+                              qsTrId("berail-from")
                 enabled: favouriteStations.checked
-                opacity: enabled? 1.0: 0.2
+                opacity: enabled? app.fadeInValue: app.fadeOutValue
 
-                Behavior on opacity { FadeAnimation {} }
+                Behavior on opacity { FadeAnimator {} }
             }
+
             GlassButton {
-                id: favouriteArriveStation
+                id: favouriteToStation
                 link: Qt.resolvedUrl("StationListPage.qml")
                 type: 1
                 iconSource: "qrc:///icons/icon-train.png"
-                iconText: settings.favouriteArriveStation.length > 0? settings.favouriteArriveStation: qsTr("To")
-                itemScale: 0.75
+                iconText: settings.favouriteToStation.length > 0?
+                              settings.favouriteToStation:
+                              //% "To"
+                              qsTrId("To")
                 enabled: favouriteStations.checked
-                opacity: enabled? 1.0: 0.2
+                opacity: enabled? app.fadeInValue: app.fadeOutValue
 
-                Behavior on opacity { FadeAnimation {} }
+                Behavior on opacity { FadeAnimator {} }
             }
 
-            SectionHeader { text: qsTr("Liveboard") }
+            //: "Liveboard is a list of trains that arrive or depart from a certain station."
+            //% "Liveboard"
+            SectionHeader { text: qsTrId("berail-liveboard") }
 
             TextSwitch {
                 id: rememberLiveboardStation
-                text: qsTr("Remember liveboard station")
-                description: qsTr("Save time by automatically saving your last used station!")
+                //: "Liveboard is a list of trains that arrive or depart from a certain station."
+                //% "Remember liveboard station"
+                text: qsTrId("berail-remember-liveboard")
+                //: "Liveboard is a list of trains that arrive or depart from a certain station."
+                //% "Save time by automatically saving your last used station!"
+                description: qsTr("berail-remember-liveboard-hint")
                 checked: settings.rememberLiveboardStation
             }
         }

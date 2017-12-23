@@ -26,7 +26,9 @@
     </message>
     <message id="berail-liveboard">
         <source>Liveboard</source>
-        <extracomment>Liveboard PullDownMenu item</extracomment>
+        <extracomment>Liveboard PullDownMenu item
+----------
+&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
         <translation>Vertrekoverzicht</translation>
         <extra-A>list of all departing/arriving trains in a station.</extra-A>
     </message>
@@ -63,6 +65,43 @@
     </message>
     <message id="berail-today">
         <source>Today</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-trip-planner">
+        <source>Trip planner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-time-is">
+        <source>Time is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-departure">
+        <source>departure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-arrival">
+        <source>arrival</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-time-is-hint">
+        <source>Select here if you want to use the given time as either the time of arrival or departure.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-favourite-stations">
+        <source>Enable favourite stations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-favourite-stations-hint">
+        <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="To">
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-remember-liveboard">
+        <source>Remember liveboard station</source>
+        <extracomment>&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -126,6 +165,22 @@
     <message>
         <source>BeRail</source>
         <translation>BeRail</translation>
+    </message>
+</context>
+<context>
+    <name>FirstPage</name>
+    <message>
+        <source>About</source>
+        <extracomment>About PullDownMenu item</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <source>berail-remember-liveboard-hint</source>
+        <extracomment>&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
