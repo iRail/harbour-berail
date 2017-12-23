@@ -130,5 +130,16 @@ QUrl Alert::link() const
 void Alert::setLink(const QUrl &link)
 {
     m_link = link;
+    this->setHasLink(link.url().length() > 0);
     emit this->linkChanged();
+}
+
+bool Alert::hasLink() const
+{
+    return m_hasLink;
+}
+
+void Alert::setHasLink(bool hasLink)
+{
+    m_hasLink = hasLink;
 }

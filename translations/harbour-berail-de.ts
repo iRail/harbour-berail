@@ -2,6 +2,71 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de">
 <context>
+    <name></name>
+    <message id="berail-from">
+        <source>From</source>
+        <translation></translation>
+    </message>
+    <message id="berail-to">
+        <source>To</source>
+        <translation></translation>
+    </message>
+    <message id="berail-date">
+        <source>Date</source>
+        <translation></translation>
+    </message>
+    <message id="berail-time">
+        <source>Time</source>
+        <translation></translation>
+    </message>
+    <message id="berail-plan-trip">
+        <source>Plan my trip</source>
+        <extracomment>Clicking on this button will start the trip planner</extracomment>
+        <translation></translation>
+    </message>
+    <message id="berail-liveboard">
+        <source>Liveboard</source>
+        <extracomment>Liveboard PullDownMenu item</extracomment>
+        <translation>Echtzeit Ansicht</translation>
+        <extra-A>list of all departing/arriving trains in a station.</extra-A>
+    </message>
+    <message id="berail-settings">
+        <source>Settings</source>
+        <extracomment>Settings PullDownMenu item</extracomment>
+        <translation>Einstellungen</translation>
+    </message>
+    <message id="berail-now">
+        <source>Now</source>
+        <translation></translation>
+    </message>
+    <message id="components-la-time_start_with_ap">
+        <source></source>
+        <extracomment>&quot;translate as non-empty if am/pm indicator starts the 12h time pattern&quot;</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="components-la-12h_time_pattern_without_ap">
+        <source>h:mm</source>
+        <extracomment>Pattern for 12h time, h, hh, m, mm are supported, everything else left as is. escaping with &apos; not supported</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="jolla-clock-la-am">
+        <source>AM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="jolla-clock-la-pm">
+        <source>PM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-official-irail-app">
+        <source>The official iRail app</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-today">
+        <source>Today</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AboutPage</name>
     <message>
         <source>Privacy &amp; licensing</source>
@@ -57,168 +122,10 @@
     </message>
 </context>
 <context>
-    <name>CancelOverlay</name>
-    <message>
-        <source>canceled</source>
-        <translation>Abgebrochen</translation>
-    </message>
-</context>
-<context>
     <name>CoverPage</name>
     <message>
         <source>BeRail</source>
         <translation>BeRail</translation>
-    </message>
-</context>
-<context>
-    <name>DisturbancesPage</name>
-    <message>
-        <source>Disturbances</source>
-        <translation>Störungen</translation>
-    </message>
-</context>
-<context>
-    <name>FirstPage</name>
-    <message>
-        <source>From</source>
-        <translation>Von</translation>
-    </message>
-    <message>
-        <source>To</source>
-        <translation>Nach</translation>
-    </message>
-</context>
-<context>
-    <name>LiveboardPage</name>
-    <message>
-        <source>Change station</source>
-        <translation>Station ändern</translation>
-    </message>
-    <message>
-        <source>Oops!</source>
-        <translation>Ups!</translation>
-    </message>
-    <message>
-        <source>No data available</source>
-        <translation>Keine Daten verfügbar</translation>
-    </message>
-    <message>
-        <source>Disturbances (%1)</source>
-        <translation>Störungen (%1)</translation>
-    </message>
-    <message>
-        <source>Select a station</source>
-        <translation>Station auswählen</translation>
-    </message>
-    <message>
-        <source>Liveboard</source>
-        <translation>Echtzeit Ansicht</translation>
-    </message>
-</context>
-<context>
-    <name>LoadIndicator</name>
-    <message>
-        <source>Loading</source>
-        <translation>Lade</translation>
-    </message>
-</context>
-<context>
-    <name>SettingsPage</name>
-    <message>
-        <source>Settings</source>
-        <translation>Einstellungen</translation>
-    </message>
-    <message>
-        <source>Remember liveboard station</source>
-        <translation>Merke Station aus der Echtzeit Ansicht</translation>
-    </message>
-    <message>
-        <source>Save time by automatically saving your last used station!</source>
-        <translation>Spare Zeit indem du die zuletzt benutzte Station automatisch speicherst!</translation>
-    </message>
-    <message>
-        <source>From</source>
-        <translation>Von</translation>
-    </message>
-    <message>
-        <source>To</source>
-        <translation>Nach</translation>
-    </message>
-    <message>
-        <source>Liveboard</source>
-        <translation>Echtzeit Ansicht</translation>
-    </message>
-    <message>
-        <source>Enable favourite stations</source>
-        <translation>Aktiviere &quot;Beliebt Stationen&quot; funktion</translation>
-    </message>
-    <message>
-        <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
-        <translation>Fährst du von/zur Arbeit oder Schule? Dan ist diese Funktion für dich! Wähle unten deine &quot;Beliebten Stationen&quot;.</translation>
-    </message>
-    <message>
-        <source>Routeplanner</source>
-        <translation>Routenplaner</translation>
-    </message>
-    <message>
-        <source>Time is</source>
-        <translation>Es ist jetzt</translation>
-    </message>
-    <message>
-        <source>departure</source>
-        <translation>Abfahrt</translation>
-    </message>
-    <message>
-        <source>arrival</source>
-        <translation>Ankunft</translation>
-    </message>
-    <message>
-        <source>Select here if you want to use the given time as either the time of arrival or departure.</source>
-        <translation>Wähle diesen Zeitpunkt als Abfahrts- oder Ankunftszeit.</translation>
-    </message>
-</context>
-<context>
-    <name>StationListPage</name>
-    <message>
-        <source>Stations</source>
-        <translation>Stationen</translation>
-    </message>
-</context>
-<context>
-    <name>TripDetailPage</name>
-    <message>
-        <source>Trip detail</source>
-        <translation>Reise details</translation>
-    </message>
-</context>
-<context>
-    <name>TripItem</name>
-    <message>
-        <source>Track %1</source>
-        <translation>Gleis %1</translation>
-    </message>
-    <message>
-        <source>Track ???</source>
-        <translation>Gleis ???</translation>
-    </message>
-    <message>
-        <source>Track %1 → Track %2</source>
-        <translation>Gleis %1 → Gleis %2</translation>
-    </message>
-</context>
-<context>
-    <name>TripPage</name>
-    <message>
-        <source>Trip planner</source>
-        <translation>Reiseplaner</translation>
-    </message>
-    <message>
-        <source>No connections found</source>
-        <translation>Keine Verbindungen gefunden</translation>
-    </message>
-    <message>
-        <source>Try another station</source>
-        <translation>Versuche eine andere Station</translation>
     </message>
 </context>
 </TS>

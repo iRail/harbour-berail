@@ -2,6 +2,71 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="nl">
 <context>
+    <name></name>
+    <message id="berail-from">
+        <source>From</source>
+        <translation></translation>
+    </message>
+    <message id="berail-to">
+        <source>To</source>
+        <translation></translation>
+    </message>
+    <message id="berail-date">
+        <source>Date</source>
+        <translation></translation>
+    </message>
+    <message id="berail-time">
+        <source>Time</source>
+        <translation></translation>
+    </message>
+    <message id="berail-plan-trip">
+        <source>Plan my trip</source>
+        <extracomment>Clicking on this button will start the trip planner</extracomment>
+        <translation></translation>
+    </message>
+    <message id="berail-liveboard">
+        <source>Liveboard</source>
+        <extracomment>Liveboard PullDownMenu item</extracomment>
+        <translation>Vertrekoverzicht</translation>
+        <extra-A>list of all departing/arriving trains in a station.</extra-A>
+    </message>
+    <message id="berail-settings">
+        <source>Settings</source>
+        <extracomment>Settings PullDownMenu item</extracomment>
+        <translation>Instellingen</translation>
+    </message>
+    <message id="berail-now">
+        <source>Now</source>
+        <translation></translation>
+    </message>
+    <message id="components-la-time_start_with_ap">
+        <source></source>
+        <extracomment>&quot;translate as non-empty if am/pm indicator starts the 12h time pattern&quot;</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="components-la-12h_time_pattern_without_ap">
+        <source>h:mm</source>
+        <extracomment>Pattern for 12h time, h, hh, m, mm are supported, everything else left as is. escaping with &apos; not supported</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="jolla-clock-la-am">
+        <source>AM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="jolla-clock-la-pm">
+        <source>PM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-official-irail-app">
+        <source>The official iRail app</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-today">
+        <source>Today</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AboutPage</name>
     <message>
         <source>Privacy &amp; licensing</source>
@@ -57,168 +122,10 @@
     </message>
 </context>
 <context>
-    <name>CancelOverlay</name>
-    <message>
-        <source>canceled</source>
-        <translation>afgeschaft</translation>
-    </message>
-</context>
-<context>
     <name>CoverPage</name>
     <message>
         <source>BeRail</source>
         <translation>BeRail</translation>
-    </message>
-</context>
-<context>
-    <name>DisturbancesPage</name>
-    <message>
-        <source>Disturbances</source>
-        <translation>Storingen</translation>
-    </message>
-</context>
-<context>
-    <name>FirstPage</name>
-    <message>
-        <source>From</source>
-        <translation>Van</translation>
-    </message>
-    <message>
-        <source>To</source>
-        <translation>Naar</translation>
-    </message>
-</context>
-<context>
-    <name>LiveboardPage</name>
-    <message>
-        <source>Change station</source>
-        <translation>Verander station</translation>
-    </message>
-    <message>
-        <source>Oops!</source>
-        <translation>Oops!</translation>
-    </message>
-    <message>
-        <source>No data available</source>
-        <translation>Geen data beschikbaar</translation>
-    </message>
-    <message>
-        <source>Disturbances (%1)</source>
-        <translation>Storingen (%1)</translation>
-    </message>
-    <message>
-        <source>Select a station</source>
-        <translation>Selecteer een station</translation>
-    </message>
-    <message>
-        <source>Liveboard</source>
-        <translation>Vertrekoverzicht</translation>
-    </message>
-</context>
-<context>
-    <name>LoadIndicator</name>
-    <message>
-        <source>Loading</source>
-        <translation>Laden</translation>
-    </message>
-</context>
-<context>
-    <name>SettingsPage</name>
-    <message>
-        <source>Settings</source>
-        <translation>Instellingen</translation>
-    </message>
-    <message>
-        <source>Remember liveboard station</source>
-        <translation>Onthouden van het vertrekoverzicht station</translation>
-    </message>
-    <message>
-        <source>Save time by automatically saving your last used station!</source>
-        <translation>Bespaar tijd door automatisch je laatst gebruikt station te onthouden!</translation>
-    </message>
-    <message>
-        <source>From</source>
-        <translation>Van</translation>
-    </message>
-    <message>
-        <source>To</source>
-        <translation>Naar</translation>
-    </message>
-    <message>
-        <source>Liveboard</source>
-        <translation>Vertrekoverzicht</translation>
-    </message>
-    <message>
-        <source>Enable favourite stations</source>
-        <translation>Favoriete stations inschakelen</translation>
-    </message>
-    <message>
-        <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
-        <translation>Verplaats je je van het werk of naar school? Dan is deze optie voor jou! Selecteer je favoriete stations hieronder.</translation>
-    </message>
-    <message>
-        <source>Routeplanner</source>
-        <translation>Routeplanner</translation>
-    </message>
-    <message>
-        <source>Time is</source>
-        <translation>Tijd is</translation>
-    </message>
-    <message>
-        <source>departure</source>
-        <translation>vertrek</translation>
-    </message>
-    <message>
-        <source>arrival</source>
-        <translation>aankomen</translation>
-    </message>
-    <message>
-        <source>Select here if you want to use the given time as either the time of arrival or departure.</source>
-        <translation>Selecteer hier of je de gegeven tijd wilt gebruiken als de vertrek- of aankomsttijd.</translation>
-    </message>
-</context>
-<context>
-    <name>StationListPage</name>
-    <message>
-        <source>Stations</source>
-        <translation>Stations</translation>
-    </message>
-</context>
-<context>
-    <name>TripDetailPage</name>
-    <message>
-        <source>Trip detail</source>
-        <translation>Route details</translation>
-    </message>
-</context>
-<context>
-    <name>TripItem</name>
-    <message>
-        <source>Track %1</source>
-        <translation>Spoor %1</translation>
-    </message>
-    <message>
-        <source>Track ???</source>
-        <translation>Spoor ???</translation>
-    </message>
-    <message>
-        <source>Track %1 → Track %2</source>
-        <translation>Spoor %1 → Spoor %2</translation>
-    </message>
-</context>
-<context>
-    <name>TripPage</name>
-    <message>
-        <source>Trip planner</source>
-        <translation>Routeplanner</translation>
-    </message>
-    <message>
-        <source>No connections found</source>
-        <translation>Geen routes gevonden</translation>
-    </message>
-    <message>
-        <source>Try another station</source>
-        <translation>Probeer een ander station</translation>
     </message>
 </context>
 </TS>

@@ -18,6 +18,7 @@ QHash<int, QByteArray> AlertListModel::roleNames() const
     roles[TextRole] = "text";
     roles[TimestampRole] = "timestamp";
     roles[LinkRole] = "link";
+    roles[HasLinkRole] = "hasLink";
     return roles;
 }
 
@@ -38,6 +39,8 @@ QVariant AlertListModel::data(const QModelIndex &index, int role) const
         return QVariant(this->alertList().at(index.row())->timestamp());
     case LinkRole:
         return QVariant(this->alertList().at(index.row())->link());
+    case HasLinkRole:
+        return QVariant(this->alertList().at(index.row())->hasLink());
     default:
         return QVariant();
     }

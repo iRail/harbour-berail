@@ -28,8 +28,8 @@ ApplicationWindow
     id: app
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
-    allowedOrientations: Orientation.All
-    _defaultPageOrientations: Orientation.All
+    allowedOrientations: Orientation.PortraitMask
+    _defaultPageOrientations: Orientation.PortraitMask
 
     // Colors
     readonly property string blue: "#3f51b5"
@@ -60,6 +60,12 @@ ApplicationWindow
     // iRail API
     API {
         id: api
+
+        // Get the disturbances and stations at loading time
+        Component.onCompleted: {
+            api.getDisturbances()
+            api.getStations()
+        }
     }
 }
 

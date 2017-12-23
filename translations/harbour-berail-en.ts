@@ -11,6 +11,11 @@
         <source>To</source>
         <translation>To</translation>
     </message>
+    <message id="berail-official-irail-app">
+        <source>The official iRail app</source>
+        <extracomment>Description about BeRail being the official iRail app</extracomment>
+        <translation>The official iRail app</translation>
+    </message>
     <message id="berail-date">
         <source>Date</source>
         <translation>Date</translation>
@@ -35,35 +40,13 @@
         <extracomment>Settings PullDownMenu item</extracomment>
         <translation>Settings</translation>
     </message>
+    <message id="berail-today">
+        <source>Today</source>
+        <translation>Today</translation>
+    </message>
     <message id="berail-now">
         <source>Now</source>
         <translation>Now</translation>
-    </message>
-    <message id="components-la-time_start_with_ap">
-        <source></source>
-        <extracomment>&quot;translate as non-empty if am/pm indicator starts the 12h time pattern&quot;</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="components-la-12h_time_pattern_without_ap">
-        <source>h:mm</source>
-        <extracomment>Pattern for 12h time, h, hh, m, mm are supported, everything else left as is. escaping with &apos; not supported</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="jolla-clock-la-am">
-        <source>AM</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="jolla-clock-la-pm">
-        <source>PM</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="berail-official-irail-app">
-        <source>The official iRail app</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="berail-today">
-        <source>Today</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

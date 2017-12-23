@@ -23,6 +23,7 @@
 #include "os.h"
 #include "models/station.h"
 #include "models/disturbances.h"
+#include "models/remarks.h"
 #include "models/alert.h"
 #include "models/liveboard.h"
 #include "models/connection.h"

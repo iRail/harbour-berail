@@ -36,7 +36,9 @@ SOURCES += src/harbour-berail.cpp \
     src/models/vehiclelistmodel.cpp \
     src/models/stationlistmodel.cpp \
     src/models/connectionlistmodel.cpp \
-    src/models/vialistmodel.cpp
+    src/models/vialistmodel.cpp \
+    src/models/announcements.cpp \
+    src/models/remarks.cpp
 
 OTHER_FILES += qml/harbour-berail.qml \
     qml/cover/CoverPage.qml \
@@ -61,7 +63,9 @@ SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 
 # to disable building translations every time, comment out the
 # following CONFIG line
-CONFIG += sailfishapp_i18n
+CONFIG += sailfishapp_i18n \
+    sailfishapp_i18n_idbased \
+    sailfishapp_i18n_unfinished
 
 # German translation is enabled as an example. If you aren't
 # planning to localize your app, remember to comment out the
@@ -97,7 +101,8 @@ DISTFILES += \
     qml/pages/js/disturbances.js \
     qml/pages/components/DisturbancesView.qml \
     qml/pages/DisturbancesPage.qml \
-    qml/pages/SettingsPage.qml
+    qml/pages/SettingsPage.qml \
+    translations/harbour-berail-en.ts
 
 RESOURCES += \
     qml/resources/resources.qrc
@@ -120,4 +125,6 @@ HEADERS += \
     src/models/vehiclelistmodel.h \
     src/models/stationlistmodel.h \
     src/models/connectionlistmodel.h \
-    src/models/vialistmodel.h
+    src/models/vialistmodel.h \
+    src/models/announcements.h \
+    src/models/remarks.h

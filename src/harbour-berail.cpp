@@ -26,6 +26,22 @@ int main(int argc, char *argv[])
     // Set application version and enable logging
     enableLogger(false);
 
+    // Enable default translations
+    QTranslator *translator = new QTranslator(qApp);
+    QString trPath = SailfishApp::pathTo(QStringLiteral("translations")).toLocalFile();
+    QString appName = app->applicationName();
+    // Check if translations have been already loaded
+    if (!translator->load(QLocale::system(), appName, "-", trPath))
+    {
+        // Load default translations if not
+        translator->load(appName, trPath);
+        app->installTranslator(translator);
+    }
+    else
+    {
+        translator->deleteLater();
+    }
+
     // Register custom QML modules
     qmlRegisterUncreatableType<Liveboard>("Harbour.BeRail.Models", 1, 0, "Liveboard", "read only");
     qmlRegisterUncreatableType<Vehicle>("Harbour.BeRail.Models", 1, 0, "Vehicle", "read only");

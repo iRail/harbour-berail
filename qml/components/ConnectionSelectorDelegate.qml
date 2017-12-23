@@ -1,12 +1,34 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   Foobar is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
 import QtQuick 2.0
+import QtQml 2.2
 import Sailfish.Silica 1.0
 import "../components"
 
 Column {
     width: parent.width
-    property var currentDate: new Date()
+    spacing: Theme.paddingLarge
+
+    property date currentDate: new Date()
+    //% "From"
     property string _fromText: qsTrId("berail-from")
+    //% "To"
     property string _toText: qsTrId("berail-to")
+    property bool readyToPlan: settings.favouriteStations? from.iconText.length > 0 && to.iconText.length > 0: false
     signal _changeStations()
 
     on_ChangeStations: {
@@ -18,7 +40,6 @@ Column {
     PageHeader {
         // USE SFOS module to automatically retrieve app name TODO
         title: "BeRail"
-        //: Description about BeRail being the official iRail app
         //% "The official iRail app"
         description: qsTrId("berail-official-irail-app")
     }
@@ -27,7 +48,7 @@ Column {
         width: parent.width
 
         Column {
-            width: parent.width
+            width: parent.width - Theme.itemSizeMedium
 
             GlassButton {
                 id: from
@@ -49,7 +70,7 @@ Column {
         BackgroundItem {
             width: Theme.itemSizeMedium
             height: parent.height
-            enabled: from.iconText.length > 0 && to.iconText.length > 0
+            enabled: readyToPlan
             opacity: enabled? fadeInValue: fadeOutValue
             Behavior on opacity { FadeAnimator{} }
             onClicked: _changeStations()
@@ -73,18 +94,19 @@ Column {
             width: parent.width/1.75
             //% "Date"
             label: qsTrId("berail-date")
-            value: currentDate.getDate() + "/" + currentDate.getMonth() + "/" + currentDate.getFullYear().toString().substring(2,2)
+            value: currentDate.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
             onClicked: {
-                var dialog = pageStack.push(Qt.resolvedUrl("Sailfish.Silica.DatePickerDialog"), {
+                var dialog = pageStack.push(Qt.resolvedUrl("DateSelectorDialog.qml"), {
                                                 date: currentDate
                                             })
 
                 dialog.accepted.connect(function() {
-                    console.debug("Selected date: " + dialog.dateText)
-                    var newDate = new Date(dialog.dateText)
-                    currentDate.setDate(newDate.getDate())
-                    currentDate.setMonth(newDate.setMonth())
-                    currentDate.setFullYear(newDate.setFullYear())
+                    console.debug("Selected date: " + dialog.date)
+                    var newDate = dialog.date // Date dialog doesn't report JS Date object
+                    newDate.setHours(currentDate.getHours())
+                    newDate.setMinutes(currentDate.getMinutes())
+                    newDate.setSeconds(currentDate.getSeconds())
+                    currentDate = newDate;
                 })
             }
         }
@@ -94,20 +116,21 @@ Column {
             width: parent.width - date.width
             //% "Time"
             label: qsTrId("berail-time")
-            value: currentDate.getHours() + ":" + currentDate.getMinutes()
+            value: currentDate.toLocaleTimeString(Qt.locale(), Locale.ShortFormat).substring(0,5) // Remove unused seconds
 
             onClicked: {
-                var dialog = pageStack.push("Sailfish.Silica.TimePickerDialog", {
+                var dialog = pageStack.push("TimeSelectorDialog.qml", {
                                                 hour: currentDate.getHours(),
                                                 minute: currentDate.getMinutes()
                                             })
 
                 dialog.accepted.connect(function() {
-                    console.debug("Selected time: " + dialog.timeText)
-                    var newTime = new Date(dialog.timeText)
-                    currentDate.setHours(newTime.getHours())
-                    currentDate.setMinutes(newTime.getMinutes())
-                    currentDate.setSeconds(newTime.getSeconds())
+                    console.debug("Selected time: " + dialog.time)
+                    var newDate = dialog.time
+                    newDate.setDate(currentDate.getDate())
+                    newDate.setMonth(currentDate.getMonth())
+                    newDate.setFullYear(currentDate.getFullYear())
+                    currentDate = newDate;
                 })
             }
         }
@@ -125,5 +148,11 @@ Column {
                                       time: time.value,
                                       date: date.value
                                   })
+    }
+
+    // Spacer
+    Item {
+        width: parent.width
+        height: Theme.paddingSmall
     }
 }

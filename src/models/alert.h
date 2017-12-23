@@ -14,6 +14,7 @@ class Alert: public QObject
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
     Q_PROPERTY(QUrl link READ link WRITE setLink NOTIFY linkChanged)
+    Q_PROPERTY(bool hasLink READ hasLink NOTIFY hasLinkChanged)
 
 public:
     explicit Alert(int id, QString title, QString text, QDateTime timestamp, QUrl link);
@@ -28,6 +29,8 @@ public:
     void setTimestamp(const QDateTime &timestamp);
     QUrl link() const;
     void setLink(const QUrl &link);
+    bool hasLink() const;
+    void setHasLink(bool hasLink);
 
 signals:
     void idChanged();
@@ -35,6 +38,7 @@ signals:
     void textChanged();
     void timestampChanged();
     void linkChanged();
+    void hasLinkChanged();
 
 private:
     int m_id;
@@ -42,6 +46,7 @@ private:
     QString m_text;
     QDateTime m_timestamp;
     QUrl m_link;
+    bool m_hasLink;
 };
 
 #endif // ALERT_H

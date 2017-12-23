@@ -20,22 +20,36 @@ import Sailfish.Silica 1.0
 import "../components"
 
 Page {
+    property bool _loading: true
+
+    Connections {
+        target: api
+        onDisturbancesChanged: {
+            disturbancesListView.model = api.disturbances.alertListModel
+            _loading = false;
+        }
+    }
+
     SilicaListView {
+        id: disturbancesListView
         anchors.fill: parent
         header: ConnectionSelectorDelegate {}
+        delegate: AlertListDelegate {}
 
         PullDownMenu {
+            busy: _loading
+            enabled: !busy
+
             MenuItem {
                 //: Liveboard PullDownMenu item
                 //% "Liveboard"
-                //~ Overview of all departing/arriving trains in a station.
+                //~ A list of all departing/arriving trains in a station.
                 text: qsTrId("berail-liveboard")
             }
 
             MenuItem {
                 //: Settings PullDownMenu item
                 //% "Settings"
-                //~ Settings for the application.
                 text: qsTrId("berail-settings")
             }
         }

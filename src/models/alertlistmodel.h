@@ -15,7 +15,8 @@ public:
         TitleRole = Qt::UserRole + 2,
         TextRole = Qt::UserRole + 3,
         TimestampRole = Qt::UserRole + 4,
-        LinkRole = Qt::UserRole + 5
+        LinkRole = Qt::UserRole + 5,
+        HasLinkRole = Qt::UserRole + 6
     };
 
     explicit AlertListModel(QList<Alert *> alertList);
