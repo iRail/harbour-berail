@@ -14,18 +14,6 @@
 #   You should have received a copy of the GNU General Public License
 #   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ------------------------------------------------------------------------
-#
-# NOTICE:
-#
-# Application name defined in TARGET has a corresponding QML filename.
-# If name defined in TARGET is changed, the following needs to be done
-# to match new name:
-#   - corresponding QML filename must be changed
-#   - desktop icon filename must be changed
-#   - desktop filename must be changed
-#   - icon definition filename in desktop file must be changed
-#   - translation filenames have to be changed
 
 # The name of your application
 TARGET = harbour-berail
@@ -35,36 +23,6 @@ CONFIG += sailfishapp
 QT += core \
     network \
     positioning
-
-SOURCES += src/harbour-berail.cpp \
-    src/logger.cpp \
-    src/os.cpp \
-    src/api.cpp \
-    src/models/station.cpp \
-    src/models/alert.cpp \
-    src/models/disturbances.cpp \
-    src/models/liveboard.cpp \
-    src/models/vehicle.cpp \
-    src/models/stop.cpp \
-    src/models/connection.cpp \
-    src/models/via.cpp \
-    src/models/enum.cpp \
-    src/models/alertlistmodel.cpp \
-    src/models/stoplistmodel.cpp \
-    src/models/vehiclelistmodel.cpp \
-    src/models/stationlistmodel.cpp \
-    src/models/connectionlistmodel.cpp \
-    src/models/vialistmodel.cpp \
-    src/models/announcements.cpp \
-    src/models/remarks.cpp
-
-OTHER_FILES += qml/harbour-berail.qml \
-    qml/cover/CoverPage.qml \
-    qml/pages/FirstPage.qml \
-    rpm/harbour-berail.spec \
-    rpm/harbour-berail.yaml \
-    translations/*.ts \
-    harbour-berail.desktop
 
 # OS module notification support
 PKGCONFIG += nemonotifications-qt5
@@ -79,16 +37,11 @@ DEFINES += APP_VERSION=\"\\\"$${VERSION}\\\"\"
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 
-# to disable building translations every time, comment out the
-# following CONFIG line
+# Enable translations
 CONFIG += sailfishapp_i18n \
     sailfishapp_i18n_idbased \
     sailfishapp_i18n_unfinished
 
-# German translation is enabled as an example. If you aren't
-# planning to localize your app, remember to comment out the
-# following TRANSLATIONS line. And also do not forget to
-# modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/harbour-berail-de.ts \
 translations/harbour-berail-nl.ts
 
@@ -146,3 +99,33 @@ HEADERS += \
     src/models/vialistmodel.h \
     src/models/announcements.h \
     src/models/remarks.h
+
+SOURCES += src/harbour-berail.cpp \
+    src/logger.cpp \
+    src/os.cpp \
+    src/api.cpp \
+    src/models/station.cpp \
+    src/models/alert.cpp \
+    src/models/disturbances.cpp \
+    src/models/liveboard.cpp \
+    src/models/vehicle.cpp \
+    src/models/stop.cpp \
+    src/models/connection.cpp \
+    src/models/via.cpp \
+    src/models/enum.cpp \
+    src/models/alertlistmodel.cpp \
+    src/models/stoplistmodel.cpp \
+    src/models/vehiclelistmodel.cpp \
+    src/models/stationlistmodel.cpp \
+    src/models/connectionlistmodel.cpp \
+    src/models/vialistmodel.cpp \
+    src/models/announcements.cpp \
+    src/models/remarks.cpp
+
+OTHER_FILES += qml/harbour-berail.qml \
+    qml/cover/CoverPage.qml \
+    qml/pages/FirstPage.qml \
+    rpm/harbour-berail.spec \
+    rpm/harbour-berail.yaml \
+    translations/*.ts \
+    harbour-berail.desktop
