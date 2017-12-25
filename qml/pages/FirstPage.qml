@@ -78,6 +78,8 @@ Page {
                 //: Network interruptions
                 //% "Disturbances (%L0)"
                 text: qsTrId("berail-disturbances-number").arg(_numberOfDisturbances)
+                enabled: _numberOfDisturbances > 0
+                opacity: enabled? fadeInValue: fadeOutValue
                 onClicked: pageStack.push(Qt.resolvedUrl("DisturbancesPage.qml"))
             }
         }
