@@ -29,7 +29,7 @@ Column {
     property string _fromText: qsTrId("berail-from")
     //% "To"
     property string _toText: qsTrId("berail-to")
-    property bool readyToPlan: settings.favouriteStations? from.iconText.length > 0 && to.iconText.length > 0: false
+    property bool readyToPlan: from.valid && to.valid
     signal _changeStations()
     signal dateSelected()
     signal timeSelected()
@@ -47,6 +47,9 @@ Column {
             width: parent.width - Theme.itemSizeMedium
 
             GlassButton {
+                // Valid when a station is set and it's not From or To
+                property bool valid: iconText.length > 0 && iconText.indexOf(_fromText) == -1 && iconText.indexOf(_toText) == -1
+
                 id: from
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
@@ -55,6 +58,9 @@ Column {
             }
 
             GlassButton {
+                // Valid when a station is set and it's not From or To
+                property bool valid: iconText.length > 0 && iconText.indexOf(_fromText) == -1 && iconText.indexOf(_toText) == -1
+
                 id: to
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
@@ -108,7 +114,7 @@ Column {
             }
         }
 
-        ValueButton {
+        ValueButton {         
             id: time
             width: parent.width - date.width
             //% "Time"

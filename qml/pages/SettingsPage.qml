@@ -79,7 +79,7 @@ Page {
 
             GlassButton {
                 id: favouriteFromStation
-                link: Qt.resolvedUrl("StationListPage.qml")
+                link: Qt.resolvedUrl("StationSelectorPage.qml")
                 type: 1
                 iconSource: "qrc:///icons/icon-train.png"
                 iconText: settings.favouriteFromStation.length > 0?
@@ -94,7 +94,7 @@ Page {
 
             GlassButton {
                 id: favouriteToStation
-                link: Qt.resolvedUrl("StationListPage.qml")
+                link: Qt.resolvedUrl("StationSelectorPage.qml")
                 type: 1
                 iconSource: "qrc:///icons/icon-train.png"
                 iconText: settings.favouriteToStation.length > 0?
