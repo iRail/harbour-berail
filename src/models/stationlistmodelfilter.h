@@ -11,6 +11,11 @@
 
 class StationListModelFilter : public QSortFilterProxyModel
 {
+    Q_OBJECT
+    Q_PROPERTY(QString searchName READ searchName WRITE setSearchName NOTIFY searchNameChanged)
+    Q_PROPERTY(QGeoCoordinate searchLocation READ searchLocation WRITE setSearchLocation NOTIFY searchLocationChanged)
+    Q_PROPERTY(double maxRadiusLocation READ maxRadiusLocation WRITE setMaxRadiusLocation NOTIFY maxRadiusLocationChanged)
+
 public:
     StationListModelFilter();
     StationListModelFilter(StationListModel* stationListModel);
@@ -25,6 +30,11 @@ public:
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+
+signals:
+    void searchNameChanged();
+    void searchLocationChanged();
+    void maxRadiusLocationChanged();
 
 private:
     QString m_searchName;

@@ -23,6 +23,7 @@ Column {
 
     id: header
     width: parent.width
+    Component.onCompleted: searchField.forceActiveFocus()
 
     //% "Stations"
     PageHeader { title: qsTrId("berail-stations") }
@@ -31,7 +32,6 @@ Column {
         id: searchField
         width: parent.width
         onTextChanged: searchString = text
-        Component.onCompleted: searchField.forceActiveFocus()
     }
 }
 

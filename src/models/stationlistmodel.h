@@ -21,7 +21,6 @@
 #include <QtCore/QList>
 
 #include "station.h"
-#include "stationlistmodelfilter.h"
 
 class StationListModel : public QAbstractListModel
 {

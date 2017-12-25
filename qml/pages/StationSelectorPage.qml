@@ -39,15 +39,17 @@ Page {
             id: header
             onSearchStringChanged: {
                 _searchString = header.searchString
-                console.log("Searching for: " + header.searchString)
+                api.stations.searchName = header.searchString
+                console.debug("Searching for: " + api.stations.searchName)
             }
+            onFocusChanged: console.debug("Focus stealing")
         }
         delegate: StationSelectorDelegate {
             id: delegate
             searchString: _searchString
             onClicked: {
-                console.log("Station selected:" + model.name)
                 searchPage.selected(model.name)
+                console.debug("Station selected:" + model.name)
                 pageStack.pop()
             }
         }

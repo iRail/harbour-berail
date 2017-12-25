@@ -1,12 +1,29 @@
 #include "stationlistmodelfilter.h"
 
+#include <QtCore/QtGlobal>
+#include <QtCore/QDebug>
+
 StationListModelFilter::StationListModelFilter()
 {
-    this->stationListFilter()->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
-    this->stationListFilter()->setSortRole(StationListModel::NameRole); // Default Qt::DisplayRole
+    this->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
+    this->setSortRole(StationListModel::NameRole); // Default Qt::DisplayRole
 }
 
-StationListModelFilter::StationListModelFilter(StationListModel* stationListModel)
+StationListModelFilter::StationListModelFilter(StationListModel *stationListModel)
+{
+    this->setSourceModel(stationListModel);
+    this->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
+    this->setSortRole(StationListModel::NameRole); // Default Qt::DisplayRole
+}
+
+StationListModelFilter::StationListModelFilter(StationListModel *stationListModel, StationListModel::Roles sortRole, StationListModel::Roles filterRole)
+{
+    this->setSourceModel(stationListModel);
+    this->setSortRole(sortRole);
+    this->setFilterRole(filterRole);
+}
+
+/*StationListModelFilter::StationListModelFilter(StationListModel* stationListModel)
 {
     this->setSourceModel(stationListModel);
     this->stationListFilter()->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
@@ -18,11 +35,17 @@ StationListModelFilter::StationListModelFilter(StationListModel* stationListMode
     this->setSourceModel(stationListModel);
     this->setSortRole(sortRole);
     this->setFilterRole(filterRole);
-}
+}*/
 
 bool StationListModelFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
-    QModelIndex rowIndex = this->sourceModel()->index(sourceRow, 0, sourceParent);
+    QModelIndex index = this->sourceModel()->index(sourceRow, 0, sourceParent);
+    if(index.isValid()) {
+        QString name = index.data(this->filterRole()).toString();
+        return name.indexOf(this->searchName()) >= 0;
+    }
+    return false;
+
 
     /*switch(this->filterRole())
     {
@@ -37,11 +60,11 @@ bool StationListModelFilter::filterAcceptsRow(int sourceRow, const QModelIndex &
         break;
     }*/
 
-    if(this->filterRole() == StationListModel::NameRole) {
+    /*if(this->filterRole() == StationListModel::NameRole) {
         QString name = this->sourceModel()->data(rowIndex).toString();
         return name.indexOf(this->searchName()) > 0;
     }
-    return false;
+    return true;*/
 }
 
 bool StationListModelFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
@@ -58,10 +81,10 @@ bool StationListModelFilter::lessThan(const QModelIndex &left, const QModelIndex
         return distanceLeft < distanceRight;
         break;
     }*/
-    if(this->filterRole() == StationListModel::NameRole) {
+    if(this->sortRole() == StationListModel::NameRole) {
         return this->sourceModel()->data(left).toString() < this->sourceModel()->data(right).toString();
     }
-    return false;
+    return true;
 }
 
 double StationListModelFilter::maxRadiusLocation() const
