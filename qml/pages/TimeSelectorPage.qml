@@ -14,31 +14,44 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../components"
 
 Dialog {
-    id: datePickerDialog
-    property date _selectedDate: new Date()
-    property date date: new Date()
+    id: timePickerDialog
+
+    property int hour
+    property int minute
+    property date time: new Date(0,0,0, hour, minute)
+
+    onHourChanged: timePicker.hour = hour
+    onMinuteChanged: timePicker.minute = minute
+
+    allowedOrientations: Orientation.All
 
     Column {
+        spacing: Theme.paddingLarge
         width: parent.width
-        spacing: datePickerDialog.isPortrait? Theme.paddingLarge: 0
 
         DialogHeader {}
 
-        Label {
+        TimePicker {
+            id: timePicker
             anchors.horizontalCenter: parent.horizontalCenter
-            text: _selectedDate.toLocaleDateString(Qt.locale(), Locale.LongFormat)
-            font.pixelSize: Theme.fontSizeLarge
-        }
 
-        DatePicker {
-            id: datePicker
-            anchors.horizontalCenter: parent.horizontalCenter
-            date: datePickerDialog.date
-            onDateChanged: _selectedDate = date
+            TimeSelectorClockItem { // ClockItem is Silica Private API, duplicated into TimeSelectorClockItem
+                anchors.centerIn: parent
+                time: timePicker.time
+            }
+        }
+    }
+
+    onDone: {
+        if (result == DialogResult.Accepted) {
+            hour = timePicker.hour
+            minute = timePicker.minute
         }
     }
 
@@ -46,21 +59,19 @@ Dialog {
         width: parent.width
         height: button.height + Theme.paddingLarge
         dock: Dock.Bottom
-        open: datePickerDialog.isPortrait
+        open: timePickerDialog.isPortrait
 
         Button {
             id: button
             anchors.centerIn: parent
-            //% "Today"
-            text: qsTrId("berail-today")
+            //% "Now"
+            text: qsTrId("berail-now")
             onClicked:
             {
-                datePicker.date = new Date()
+                var now = new Date()
+                timePicker.hour = now.getHours()
+                timePicker.minute = now.getMinutes()
             }
         }
-    }
-
-    onAccepted: {
-        date = _selectedDate
     }
 }

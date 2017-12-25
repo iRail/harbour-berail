@@ -34,7 +34,8 @@ PkgConfigBR:
 # Runtime dependencies which are not automatically detected
 Requires:
   - sailfishsilica-qt5 >= 0.10.9 
-  - nemo-qml-plugin-configuration-qt5 >= 0.0.1 #Jolla Harbour only 2.1.0.X and higher
+  - nemo-qml-plugin-configuration-qt5
+  - nemo-qml-plugin-notifications-qt5
 
 # All installed files
 Files:

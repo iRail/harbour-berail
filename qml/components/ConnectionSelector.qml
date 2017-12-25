@@ -14,6 +14,7 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 import QtQuick 2.0
 import QtQml 2.2
 import Sailfish.Silica 1.0
@@ -30,18 +31,13 @@ Column {
     property string _toText: qsTrId("berail-to")
     property bool readyToPlan: settings.favouriteStations? from.iconText.length > 0 && to.iconText.length > 0: false
     signal _changeStations()
+    signal dateSelected()
+    signal timeSelected()
 
     on_ChangeStations: {
         var temp = to.iconText;
         to.iconText = from.iconText;
         from.iconText = temp;
-    }
-
-    PageHeader {
-        // USE SFOS module to automatically retrieve app name TODO
-        title: "BeRail"
-        //% "The official iRail app"
-        description: qsTrId("berail-official-irail-app")
     }
 
     Row {
@@ -52,7 +48,7 @@ Column {
 
             GlassButton {
                 id: from
-                link: Qt.resolvedUrl("StationListPage.qml")
+                link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
                 iconSource: "qrc:///icons/icon-train.png"
                 iconText: settings.favouriteStations? settings.favouriteDepartStation: _fromText
@@ -60,7 +56,7 @@ Column {
 
             GlassButton {
                 id: to
-                link: Qt.resolvedUrl("StationListPage.qml")
+                link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
                 iconSource: "qrc:///icons/icon-train.png"
                 iconText: settings.favouriteStations? settings.favouriteDepartStation: _toText
@@ -107,6 +103,7 @@ Column {
                     newDate.setMinutes(currentDate.getMinutes())
                     newDate.setSeconds(currentDate.getSeconds())
                     currentDate = newDate;
+                    dateSelected()
                 })
             }
         }
@@ -131,6 +128,7 @@ Column {
                     newDate.setMonth(currentDate.getMonth())
                     newDate.setFullYear(currentDate.getFullYear())
                     currentDate = newDate;
+                    timeSelected()
                 })
             }
         }

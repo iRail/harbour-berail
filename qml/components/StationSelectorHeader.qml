@@ -18,24 +18,20 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-ListItem {
-    width: ListView.view.width
-    contentHeight: column.height*1.1
-    enabled: model.hasLink
-    onClicked: enabled? Qt.openUrlExternally(model.link): undefined
+Column {
+    property string searchString
 
-    Column {
-        id: column
+    id: header
+    width: parent.width
+
+    //% "Stations"
+    PageHeader { title: qsTrId("berail-stations") }
+
+    SearchField {
+        id: searchField
         width: parent.width
-        anchors.centerIn: parent
-        spacing: Theme.paddingSmall
-
-        SectionHeader {
-            text: model.title
-        }
-
-        TextLabel {
-            text: model.text
-        }
+        onTextChanged: searchString = text
+        Component.onCompleted: searchField.forceActiveFocus()
     }
 }
+

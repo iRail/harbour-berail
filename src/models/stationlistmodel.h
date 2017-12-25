@@ -21,10 +21,12 @@
 #include <QtCore/QList>
 
 #include "station.h"
+#include "stationlistmodelfilter.h"
 
 class StationListModel : public QAbstractListModel
 {
     Q_OBJECT
+
 public:
     enum Roles {
         IdRole = Qt::UserRole + 1,
@@ -39,6 +41,9 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
     QList<Station *> stationList() const;
     void setStationList(const QList<Station *> &stationList);
+
+signals:
+    void stationListFilterChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

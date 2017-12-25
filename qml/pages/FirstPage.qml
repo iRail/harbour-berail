@@ -14,35 +14,35 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 import QtQuick 2.2
 import Sailfish.Silica 1.0
+import Harbour.BeRail.SFOS 1.0
+import Harbour.BeRail.API 1.0
 import "../components"
 
 Page {
-    property bool _loading: true
+    property int _numberOfDisturbances
 
-    Connections {
-        target: api
-        onDisturbancesChanged: {
-            disturbancesListView.model = api.disturbances.alertListModel
-            _loading = false;
-        }
+    SFOS {
+        id: sfos
     }
 
-    SilicaListView {
-        id: disturbancesListView
+    API {
+        id: api
+        onDisturbancesChanged: _numberOfDisturbances = api.disturbances.length
+        Component.onCompleted: api.getDisturbances()
+    }
+
+    SilicaFlickable {
         anchors.fill: parent
-        header: ConnectionSelectorDelegate {}
-        delegate: AlertListDelegate {}
+        contentHeight: column.height
 
         PullDownMenu {
-            busy: _loading
-            enabled: !busy
-
             MenuItem {
                 //: About PullDownMenu item
                 //% "About"
-                text: qsTr("About")
+                text: qsTrId("berail-about")
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
 
@@ -59,6 +59,26 @@ Page {
                 //% "Settings"
                 text: qsTrId("berail-settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
+        }
+
+        Column {
+            id: column
+            width: parent.width
+
+            PageHeader {
+                title: sfos.appNamePretty
+                //% "The official iRail app"
+                description: qsTrId("berail-official-irail-app")
+            }
+
+            ConnectionSelector {}
+
+            MoreButton {
+                //: Network interruptions
+                //% "Disturbances (%L0)"
+                text: qsTrId("berail-disturbances-number").arg(_numberOfDisturbances)
+                onClicked: pageStack.push(Qt.resolvedUrl("DisturbancesPage.qml"))
             }
         }
     }

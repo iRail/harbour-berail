@@ -14,17 +14,17 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "../components"
 
 Page {
 
-    Component.onDestruction: { // Save the values when user is done
+    // Save the values when user is done
+    Component.onDestruction: {
         settings.rememberLiveboardStation = rememberLiveboardStation.checked
-        if(!rememberLiveboardStation.checked) { // reset to default
-            settings.lastLiveboardStation = ""
-        }
+        rememberLiveboardStation.checked? undefined: settings.savedLiveboardStation = "" // reset to default
         settings.favouriteStationsEnabled = favouriteStations.checked
         settings.favouriteFromStation = favouriteStations.checked? favouriteFromStation.iconText: "" // reset to default
         settings.favouriteToStation = favouriteStations.checked? favouriteToStation.iconText: "" // reset to default
@@ -118,7 +118,7 @@ Page {
                 text: qsTrId("berail-remember-liveboard")
                 //: "Liveboard is a list of trains that arrive or depart from a certain station."
                 //% "Save time by automatically saving your last used station!"
-                description: qsTr("berail-remember-liveboard-hint")
+                description: qsTrId("berail-remember-liveboard-hint")
                 checked: settings.rememberLiveboardStation
             }
         }

@@ -42,7 +42,8 @@ CONFIG += sailfishapp_i18n \
     sailfishapp_i18n_idbased \
     sailfishapp_i18n_unfinished
 
-TRANSLATIONS += translations/harbour-berail-de.ts \
+TRANSLATIONS += translations/harbour-berail.ts \
+translations/harbour-berail-de.ts \
 translations/harbour-berail-nl.ts
 
 DISTFILES += \
@@ -98,7 +99,8 @@ HEADERS += \
     src/models/connectionlistmodel.h \
     src/models/vialistmodel.h \
     src/models/announcements.h \
-    src/models/remarks.h
+    src/models/remarks.h \
+    src/models/stationlistmodelfilter.h
 
 SOURCES += src/harbour-berail.cpp \
     src/logger.cpp \
@@ -120,7 +122,8 @@ SOURCES += src/harbour-berail.cpp \
     src/models/connectionlistmodel.cpp \
     src/models/vialistmodel.cpp \
     src/models/announcements.cpp \
-    src/models/remarks.cpp
+    src/models/remarks.cpp \
+    src/models/stationlistmodelfilter.cpp
 
 OTHER_FILES += qml/harbour-berail.qml \
     qml/cover/CoverPage.qml \

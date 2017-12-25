@@ -44,7 +44,7 @@
 #include "models/liveboard.h"
 #include "models/connection.h"
 #include "models/via.h"
-#include "models/stationlistmodel.h"
+#include "models/stationlistmodelfilter.h"
 #include "models/connectionlistmodel.h"
 #include "models/vialistmodel.h"
 
@@ -58,7 +58,7 @@
 class API: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(StationListModel* stations READ stations WRITE setStations NOTIFY stationsChanged)
+    Q_PROPERTY(StationListModelFilter* stations READ stations WRITE setStations NOTIFY stationsChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(Liveboard* liveboard READ liveboard WRITE setLiveboard NOTIFY liveboardChanged)
     Q_PROPERTY(Vehicle* vehicle READ vehicle WRITE setVehicle NOTIFY vehicleChanged)
@@ -78,8 +78,8 @@ public:
     void setBusy(bool busy);
     QString useragent() const;
     void setUseragent(const QString &useragent);
-    StationListModel* stations() const;
-    void setStations(StationListModel* stations);
+    StationListModelFilter* stations() const;
+    void setStations(StationListModelFilter* stations);
     QLocale::Language language() const;
     void setLanguage(const QLocale::Language &language);
     Disturbances* disturbances() const;
@@ -114,7 +114,7 @@ private:
     bool m_alertsEnabled;
     QString m_useragent;
     QLocale::Language m_language = QLocale::English;
-    StationListModel* m_stations;
+    StationListModelFilter* m_stations;
     Disturbances* m_disturbances;
     Liveboard* m_liveboard;
     Vehicle* m_vehicle;
@@ -131,7 +131,7 @@ private:
     QString parseDateOccupancy(QDateTime time);
     bool parseStringToBool(QString value);
     QNetworkRequest prepareRequest(QUrl url, QUrlQuery parameters);
-    StationListModel* parseStations(QJsonObject json);
+    StationListModelFilter* parseStations(QJsonObject json);
     Disturbances* parseDisturbances(QJsonObject json);
     Vehicle* parseVehicle(QJsonObject json);
     Liveboard* parseLiveboard(QJsonObject json);

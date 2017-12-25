@@ -30,6 +30,7 @@ class Announcements: public QObject
     Q_PROPERTY(QList<Alert*> alerts READ alerts WRITE setAlerts NOTIFY alertsChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
     Q_PROPERTY(AlertListModel* alertListModel READ alertListModel WRITE setAlertListModel NOTIFY alertListModelChanged)
+    Q_PROPERTY(int length READ length NOTIFY lengthChanged)
 
 public:
     explicit Announcements(QList<Alert*> alerts, QDateTime timestamp);
@@ -41,11 +42,13 @@ public:
     void setTimestamp(const QDateTime &timestamp);
     AlertListModel *alertListModel() const;
     void setAlertListModel(AlertListModel *alertListModel);
+    int length() const;
 
 signals:
     void alertsChanged();
     void timestampChanged();
     void alertListModelChanged();
+    void lengthChanged();
 
 private:
     QList<Alert*> m_alerts;

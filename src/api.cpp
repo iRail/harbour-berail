@@ -367,7 +367,7 @@ void API::networkAccessible(QNetworkAccessManager::NetworkAccessibility state)
  * @param json
  * @return QList<Station*>
  */
-StationListModel* API::parseStations(QJsonObject json)
+StationListModelFilter* API::parseStations(QJsonObject json)
 {
     qDebug() << "Parsing stations";
     QList<Station*> stationsList;
@@ -385,7 +385,7 @@ StationListModel* API::parseStations(QJsonObject json)
         qDebug() << "\tName:" << station->name();
     }
 
-    return new StationListModel(stationsList);
+    return new StationListModelFilter(new StationListModel(stationsList));
 }
 
 Disturbances* API::parseDisturbances(QJsonObject json)
@@ -827,12 +827,12 @@ void API::setUseragent(const QString &useragent)
     emit this->useragentChanged();
 }
 
-StationListModel *API::stations() const
+StationListModelFilter *API::stations() const
 {
     return m_stations;
 }
 
-void API::setStations(StationListModel* stations)
+void API::setStations(StationListModelFilter* stations)
 {
     m_stations = stations;
     emit this->stationsChanged();

@@ -104,60 +104,84 @@
         <extracomment>&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>AboutPage</name>
-    <message>
+    <message id="berail-about">
+        <source>About</source>
+        <oldsource>About %0 V%1</oldsource>
+        <extracomment>About PullDownMenu item</extracomment>
+        <translation type="unfinished">Over %1 V%2</translation>
+    </message>
+    <message id="berail-what-is">
+        <source>What&apos;s %0 ?</source>
+        <oldsource>What&apos;s %1 ?</oldsource>
+        <translation type="unfinished">Wat is %1 ?</translation>
+    </message>
+    <message id="berail-what-is-text">
+        <source>%0 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
+        <oldsource>%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</oldsource>
+        <translation type="unfinished">%1 is een opensource applicatie om je reizen met de Belgische spoorwegen te plannen op je Sailfish OS smartphone!</translation>
+    </message>
+    <message id="berail-privacy-licensing">
         <source>Privacy &amp; licensing</source>
-        <translation>Privacy &amp; licentie</translation>
+        <translation type="unfinished">Privacy &amp; licentie</translation>
     </message>
-    <message>
+    <message id="berail-privacy-licensing-text">
+        <source>%0 will never collect any personal information about the user,</source>
+        <oldsource>%1 will never collect any personal information about the user,but this can&apos;t be guaranteed from any third-party company used in %1.\nThis application is released under GPLv3.The source code and the license is available in the Github repo of %1.</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-developer-source">
         <source>Developer &amp; source code</source>
-        <translation>Ontwikkelaar &amp; broncode</translation>
+        <translation type="unfinished">Ontwikkelaar &amp; broncode</translation>
     </message>
-    <message>
-        <source>Source code</source>
-        <translation>Broncode</translation>
-    </message>
-    <message>
-        <source>Powered by</source>
-        <translation>Met dank aan</translation>
-    </message>
-    <message>
-        <source>About %1 V%2</source>
-        <translation>Over %1 V%2</translation>
-    </message>
-    <message>
-        <source>%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!</source>
-        <translation>%1 is een opensource applicatie om je reizen met de Belgische spoorwegen te plannen op je Sailfish OS smartphone!</translation>
-    </message>
-    <message>
-        <source>%1 will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in %1</source>
-        <translation>%1 zal nooit persoonlijke informatie verzamelen over de gebruiker, maar dit kan niet gegarandeerd worden van alle derde partijen die gebruikt worden in %1</translation>
-    </message>
-    <message>
-        <source>This application is released under GPLv3. The source code and the license is available in the Github repo of %1</source>
-        <translation>Deze applicatie is uitgegeven onder de GPLv3-licentie. Broncode en licentie zijn beschikbaar in de GitHub-repository van %1</translation>
-    </message>
-    <message>
+    <message id="berail-donate-with">
         <source>Donate with %1</source>
-        <translation>Doneren met %1</translation>
+        <translation type="unfinished">Doneren met %1</translation>
     </message>
-    <message>
-        <source>%1 can be translated into your language but for that we need your help! You can translate this app on %2</source>
-        <translation>%1 kan in je taal vertaald worden, maar daarvoor hebben we je hulp nodig! Je kan deze app vertalen op %2</translation>
+    <message id="berail-source">
+        <source>Source code</source>
+        <translation type="unfinished">Broncode</translation>
     </message>
-    <message>
-        <source>%1 project</source>
-        <translation>%1 project</translation>
+    <message id="berail-translations">
+        <source>%0 can be translated into your language but for that we need your help! You can translate this app on %1</source>
+        <oldsource>%1 can be translated into your language but for that we need your help! You can translate this app on %2</oldsource>
+        <translation type="unfinished">%1 kan in je taal vertaald worden, maar daarvoor hebben we je hulp nodig! Je kan deze app vertalen op %2</translation>
     </message>
-    <message>
-        <source>Icon by %1</source>
-        <translation>Icoon dankzij %1</translation>
+    <message id="berail-project">
+        <source>%0 project</source>
+        <oldsource>%1 project</oldsource>
+        <translation type="unfinished">%1 project</translation>
     </message>
-    <message>
-        <source>What&apos;s %1 ?</source>
-        <translation>Wat is %1 ?</translation>
+    <message id="berail-icon">
+        <source>%0 icon by %1</source>
+        <oldsource>%1 icon by %2</oldsource>
+        <translation type="unfinished">Icoon dankzij %1</translation>
+    </message>
+    <message id="berail-powered-by">
+        <source>Powered by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-disturbances">
+        <source>Disturbances</source>
+        <extracomment>Network interruptions</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-disturbances-number">
+        <source>Disturbances (%L0)</source>
+        <extracomment>Network interruptions</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-remember-liveboard-hint">
+        <source>Save time by automatically saving your last used station!</source>
+        <extracomment>&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-version">
+        <source>About %0 V%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-stations">
+        <source>Stations</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -165,22 +189,6 @@
     <message>
         <source>BeRail</source>
         <translation>BeRail</translation>
-    </message>
-</context>
-<context>
-    <name>FirstPage</name>
-    <message>
-        <source>About</source>
-        <extracomment>About PullDownMenu item</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SettingsPage</name>
-    <message>
-        <source>berail-remember-liveboard-hint</source>
-        <extracomment>&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

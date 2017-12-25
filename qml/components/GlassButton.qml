@@ -14,6 +14,7 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 
@@ -34,12 +35,15 @@ BackgroundItem {
             break;
         case 1:
             var _page = pageStack.push(link);
-            _page.finished.connect(function(newText) {
+            _page.selected.connect(function(newText) {
                 iconText = newText;
             });
             break;
         case 2:
             pageStack.replace(link);
+            break;
+        case 3:
+            pageStack.push(link);
             break;
         }
     }

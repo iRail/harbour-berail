@@ -18,8 +18,6 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import Nemo.Configuration 1.0
-import Harbour.BeRail.API 1.0
-import Harbour.BeRail.Models 1.0
 import "pages"
 import "components"
 
@@ -28,8 +26,8 @@ ApplicationWindow
     id: app
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
-    allowedOrientations: Orientation.PortraitMask
-    _defaultPageOrientations: Orientation.PortraitMask
+    allowedOrientations: Orientation.All
+    _defaultPageOrientations: Orientation.All
 
     // Colors
     readonly property string blue: "#3f51b5"
@@ -42,6 +40,7 @@ ApplicationWindow
     readonly property string white: "#fffde7"
     readonly property string transparent: "transparent"
 
+    // Enable/Disable fade values
     readonly property real fadeOutValue: 0.4
     readonly property real fadeInValue: 1.0
 
@@ -56,17 +55,6 @@ ApplicationWindow
         property string favouriteFromStation
         property string favouriteToStation
         property string savedLiveboardStation
-    }
-
-    // iRail API
-    API {
-        id: api
-
-        // Get the disturbances and stations at loading time
-        Component.onCompleted: {
-            api.getDisturbances()
-            api.getStations()
-        }
     }
 }
 

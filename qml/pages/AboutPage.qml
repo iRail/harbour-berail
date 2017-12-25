@@ -17,75 +17,102 @@
 
 import QtQuick 2.2
 import Sailfish.Silica 1.0
+import Harbour.BeRail.SFOS 1.0
 import "../components"
 
 Page {
+    SFOS {
+        id: sfos
+    }
+
     SilicaFlickable {
         anchors.fill: parent
-        contentHeight: aboutColumn.height
+        contentHeight: column.height
 
         VerticalScrollDecorator {}
 
         Column {
-            id: aboutColumn
+            id: column
             width: parent.width
             spacing: Theme.paddingLarge
 
-            PageHeader { title: qsTr("About %1 V%2").arg(app.name).arg(app.version) }
+            //% "About %0 V%1"
+            PageHeader { title: qsTrId("berail-version").arg(sfos.appNamePretty).arg(sfos.appVersion) }
 
-            SectionHeader { text: qsTr("What's %1 ?").arg(app.name) }
+            //% "What's %0 ?"
+            SectionHeader { text: qsTrId("berail-what-is").arg(sfos.appNamePretty) }
+
             TextLabel {
-                text: qsTr("%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!").arg(app.name)
+                //% "%0 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!"
+                text: qsTrId("berail-what-is-text").arg(sfos.appNamePretty)
             }
 
-            SectionHeader { text: qsTr("Privacy & licensing") }
+            //% "Privacy & licensing"
+            SectionHeader { text: qsTrId("berail-privacy-licensing") }
+
             TextLabel {
-                text: qsTr("%1 will never collect any personal information about the user, but this can't be guaranteed from any third-party company used in %1").arg(app.name)
-            }
-            TextLabel {
-                text: qsTr("This application is released under GPLv3. The source code and the license is available in the Github repo of %1").arg(app.name)
+                //% "%0 will never collect any personal information about the user,"
+                // "but this can't be guaranteed from any third-party company used in %0.\n"
+                // "This application is released under GPLv3.
+                // "The source code and the license is available in the Github repo of %0."
+                text: qsTrId("berail-privacy-licensing-text").arg(sfos.appNamePretty)
             }
 
-            SectionHeader { text: qsTr("Developer & source code") }
+            //% "Developer & source code"
+            SectionHeader { text: qsTrId("berail-developer-source") }
+
             GlassButton {
                 link: "https://github.com/dylanvanassche"
                 iconSource: "qrc:///icons/icon-github.png"
                 iconText: "Dylan Van Assche"
             }
+
             GlassButton {
                 link: "https://paypal.me/minitreintje"
                 iconSource: "qrc:///icons/icon-paypal.png"
-                iconText: qsTr("Donate with %1").arg("PayPal")
+                //% "Donate with %1"
+                iconText: qsTrId("berail-donate-with").arg("PayPal")
             }
+
             GlassButton {
                 link: "https://github.com/iRail/harbour-berail"
                 iconSource: "qrc:///icons/icon-code.png"
-                iconText: qsTr("Source code")
+                //% "Source code"
+                iconText: qsTrId("berail-source")
             }
+
             TextLabel {
-                text: qsTr("%1 can be translated into your language but for that we need your help! You can translate this app on %2").arg(app.name).arg("Transifex:")
+                //% "%0 can be translated into your language but for that we need your help! You can translate this app on %1"
+                text: qsTrId("berail-translations").arg(sfos.appNamePretty).arg("Transifex:")
             }
+
             GlassButton {
                 link: "https://www.transifex.com/dylanvanassche/harbour-berail"
                 iconSource: "qrc:///icons/icon-translate.png"
-                iconText: qsTr("%1 project").arg("Transifex")
+                //% "%0 project"
+                iconText: qsTrId("berail-project").arg("Transifex")
             }
 
-            SectionHeader { text: qsTr("Powered by") }
+            //% "Powered by"
+            SectionHeader { text: qsTrId("berail-powered-by") }
+
             GlassButton {
                 link: "https://irail.be/"
                 iconSource: "qrc:///icons/icon-irail.png"
                 iconText: "iRail"
             }
+
             GlassButton {
                 link: "https://fontawesome.io/"
                 iconSource: "qrc:///icons/icon-fontawesome.png"
                 iconText: "FontAwesome icons"
             }
+
             GlassButton {
                 link: "https://twitter.com/eLtMosen"
                 iconSource: "qrc:///icons/icon-twitter.png"
-                iconText: qsTr("Icon by %1").arg("Timo Könnecke")
+                //% "%0 icon by %1"
+                iconText: qsTrId("berail-icon").arg(sfos.appNamePretty).arg("Timo Könnecke")
             }
         }
     }

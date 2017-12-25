@@ -65,6 +65,7 @@ void Announcements::setAlerts(const QList<Alert*> &alerts)
     m_alerts = alerts;
     this->setAlertListModel(new AlertListModel(alerts)); // connect QList<Alerts *> to AlertsListModel
     emit this->alertsChanged();
+    emit this->lengthChanged();
 }
 
 QDateTime Announcements::timestamp() const
@@ -87,5 +88,10 @@ void Announcements::setAlertListModel(AlertListModel *alertListModel)
 {
     m_alertListModel = alertListModel;
     emit this->alertListModelChanged();
+}
+
+int Announcements::length() const
+{
+    return this->alerts().length();
 }
 
