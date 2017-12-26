@@ -183,6 +183,12 @@
         <source>Stations</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="berail-liveboard-error">
+        <source>Retrieving liveboard failed, please try again later.</source>
+        <extracomment>Error shown to the user when the liveboard of the station can&apos;t be retrieved</extracomment>
+        <translation type="unfinished"></translation>
+        <extra-The>liveboard is a list of all departing/arriving trains in a station.</extra-The>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>

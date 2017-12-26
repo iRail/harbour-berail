@@ -24,6 +24,8 @@ import "../components"
 Page {
     property int _numberOfDisturbances
 
+    id: page
+
     SFOS {
         id: sfos
     }
@@ -47,18 +49,18 @@ Page {
             }
 
             MenuItem {
+                //: Settings PullDownMenu item
+                //% "Settings"
+                text: qsTrId("berail-settings")
+                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
+
+            MenuItem {
                 //: Liveboard PullDownMenu item
                 //% "Liveboard"
                 //~ A list of all departing/arriving trains in a station.
                 text: qsTrId("berail-liveboard")
                 onClicked: pageStack.push(Qt.resolvedUrl("LiveboardPage.qml"))
-            }
-
-            MenuItem {
-                //: Settings PullDownMenu item
-                //% "Settings"
-                text: qsTrId("berail-settings")
-                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
             }
         }
 

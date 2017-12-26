@@ -38,7 +38,7 @@ API::API()
 
     // Create User-Agent
     qDebug() << SFOS.appVersion();
-    setUseragent(QString("%1/%2 (%3)").arg(SFOS.appNamePretty(), SFOS.appVersion(), SFOS.release()));
+    this->setUseragent(QString("%1/%2 (%3)").arg(SFOS.appNamePretty(), SFOS.appVersion(), SFOS.release()));
 }
 
 /**
@@ -394,7 +394,6 @@ Disturbances* API::parseDisturbances(QJsonObject json)
     QList<Alert*> alertsList;
     QDateTime timestampDisturbances;
     timestampDisturbances.setTime_t(json["timestamp"].toString().toInt());
-    qDebug() << timestampDisturbances;
     QJsonArray alertArray = json["disturbance"].toArray();
 
     // Loop through array and parse the JSON Alerts objects as C++ models
@@ -411,7 +410,8 @@ Disturbances* API::parseDisturbances(QJsonObject json)
     // Save them in a Disturbance object
     Disturbances* disturbances = new Disturbances(alertsList, timestampDisturbances);
     qDebug() << "DISTURBANCES:";
-    qDebug() << "\tAlerts:" << alertsList;
+    qDebug() << "\tTimestamp:" << disturbances->timestamp();
+    qDebug() << "\tAlerts:" << disturbances->alerts();
 
     return disturbances;
 }
@@ -439,7 +439,6 @@ Vehicle* API::parseVehicle(QJsonObject json)
         // Loop through array and parse the JSON Alerts objects as C++ models
         foreach (const QJsonValue &item, alertArray) {
             QJsonObject alertObj = item.toObject();
-            qDebug() << alertObj["id"].toString();
             Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampVehicle);
             alertsList.append(alert);
         }
@@ -495,8 +494,8 @@ Liveboard *API::parseLiveboard(QJsonObject json)
 {
     qDebug() << "Parsing liveboard";
     QJsonObject departureStationObj = json["stationinfo"].toObject();
-    QJsonObject departuresObj = json["departures"].toObject();
-    QJsonArray departureArray = departuresObj["departure"].toArray();
+    QJsonObject departuresObj;
+    QJsonArray departureArray;
     Disturbances* disturbancesLiveboard = new Disturbances();
     IRail::ArrDep arrdep;
     QList<Vehicle*> vehicleList;
@@ -507,18 +506,27 @@ Liveboard *API::parseLiveboard(QJsonObject json)
         departureArray = departuresObj["departure"].toArray();
         arrdep = IRail::ArrDep::Departure;
     }
-    else {
+    else if (json.contains("arrivals")){
         departuresObj = json["arrivals"].toObject();
         departureArray = departuresObj["arrival"].toArray();
         arrdep = IRail::ArrDep::Arrival;
     }
+    else {
+        qCritical() << "Data parsing failed, JSON doesn't match";
+        //: Error shown to the user when the liveboard of the station can't be retrieved
+        //% "Retrieving liveboard failed, please try again later."
+        //~ The liveboard is a list of all departing/arriving trains in a station.
+        emit this->errorOccurred(qtTrId("berail-liveboard-error"));
+        return new Liveboard();
+    }
+
     QDateTime timestampLiveboard;
     timestampLiveboard.setTime_t(json["timestamp"].toString().toInt());
     QGeoCoordinate stationLocation(departureStationObj["locationY"].toString().toDouble(), departureStationObj["locationX"].toString().toDouble());
     Station* station = new Station(departureStationObj["id"].toString(), departureStationObj["standardname"].toString(), stationLocation);
 
     // Loop through array and parse the JSON Stop objects as C++ models
-    foreach (const QJsonValue &item, departureArray) {
+    foreach (const QJsonValue &item, departureArray) { // BUG: not looped
         QJsonObject departure = item.toObject();
         QJsonObject stationObj = departure["stationinfo"].toObject();
         QJsonObject vehicleObj = departure["vehicleinfo"].toObject();
@@ -556,7 +564,6 @@ Liveboard *API::parseLiveboard(QJsonObject json)
             // Loop through array and parse the JSON Alerts objects as C++ models
             foreach (const QJsonValue &item, alertArray) {
                 QJsonObject alertObj = item.toObject();
-                qDebug() << alertObj["id"].toString();
                 Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampLiveboard);
                 alertsList.append(alert);
             }
@@ -578,7 +585,6 @@ Liveboard *API::parseLiveboard(QJsonObject json)
                 disturbances,
                 timestampLiveboard
                 );
-
         // Append vehicle to list
         vehicleList.append(vehicle);
     }
