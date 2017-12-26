@@ -20,10 +20,12 @@ import Sailfish.Silica 1.0
 
 Column {
     property string searchString
+    function forceActiveFocusSearch() {
+        searchField.forceActiveFocus()
+    }
 
     id: header
     width: parent.width
-    Component.onCompleted: searchField.forceActiveFocus()
 
     //% "Stations"
     PageHeader { title: qsTrId("berail-stations") }

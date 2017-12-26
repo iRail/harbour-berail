@@ -15,21 +15,62 @@
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.2
+import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Harbour.BeRail.API 1.0
 import Harbour.BeRail.Models 1.0
 import "../components"
 
 Page {
-    property string stationName: "Brussel-Noord"
+    id: page
+    // For performance reasons we wait until the Page is fully loaded before doing an API request
+    onStatusChanged: status===PageStatus.Active? api.getLiveboard(settings.savedLiveboardStation, new Date(), IRail.Arrival): undefined
 
     API {
         id: api
-        Component.onCompleted: api.getLiveboard(stationName, new Date(), IRail.Arrival)
         onLiveboardChanged: {
-
+            liveboardListView.model = api.liveboard
             console.debug("Liveboard")
+        }
+    }
+
+    SilicaFlickable {
+        anchors.fill: parent
+
+        PullDownMenu {
+            MenuItem {
+                //: When clicked, the user will see a list of station from which the user can choose one.
+                //% "Select station"
+                text: qsTrId("berail-select-station")
+                onClicked: {
+                    var _page = pageStack.push(Qt.resolvedUrl("../pages/StationSelectorPage.qml"));
+                    _page.selected.connect(function(newStation) {
+                        settings.savedLiveboardStation = newStation
+                    });
+                }
+            }
+        }
+
+        LiveboardHeader {
+            id: header
+            anchors { top: parent.top; left: parent.left; right: parent.right }
+        }
+
+        SilicaListView {
+            id: liveboardListView
+            anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+            clip: true // Only paint within it's borders
+            opacity: api.busy? fadeOutValue: fadeInValue
+            Behavior on opacity { FadeAnimator {} }
+            delegate: Label {
+                text: model.station.name
+            }
+        }
+
+        BusyIndicator {
+            anchors.centerIn: parent
+            size: BusyIndicatorSize.Large
+            running: Qt.application.active && api.busy
         }
     }
 }

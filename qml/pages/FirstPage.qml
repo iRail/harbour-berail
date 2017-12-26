@@ -23,6 +23,8 @@ import "../components"
 
 Page {
     property int _numberOfDisturbances
+    // For performance reasons we wait until the Page is fully loaded before doing an API request
+    onStatusChanged: status===PageStatus.Active? api.getDisturbances(): undefined
 
     id: page
 
@@ -33,7 +35,6 @@ Page {
     API {
         id: api
         onDisturbancesChanged: _numberOfDisturbances = api.disturbances.length
-        Component.onCompleted: api.getDisturbances()
     }
 
     SilicaFlickable {
@@ -42,21 +43,21 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                //: About PullDownMenu item
+                //: About title
                 //% "About"
                 text: qsTrId("berail-about")
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
 
             MenuItem {
-                //: Settings PullDownMenu item
+                //: Settings title
                 //% "Settings"
                 text: qsTrId("berail-settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
             }
 
             MenuItem {
-                //: Liveboard PullDownMenu item
+                //: Liveboard title
                 //% "Liveboard"
                 //~ A list of all departing/arriving trains in a station.
                 text: qsTrId("berail-liveboard")

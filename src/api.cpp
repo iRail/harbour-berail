@@ -271,7 +271,7 @@ void API::finished (QNetworkReply *reply)
         emit errorOccurred(reply->errorString());
     }
     else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 302) {
-        qDebug() << "HTTP 301/302: MOVED, following redirect...";
+        qDebug() << "HTTP 301/302: Moved, following redirect...";
     }
     else {
         qDebug() << "Content-Header:" << reply->header(QNetworkRequest::ContentTypeHeader).toString();

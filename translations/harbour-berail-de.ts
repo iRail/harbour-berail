@@ -26,7 +26,7 @@
     </message>
     <message id="berail-liveboard">
         <source>Liveboard</source>
-        <extracomment>Liveboard PullDownMenu item
+        <extracomment>Liveboard title
 ----------
 &quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
         <translation>Echtzeit Ansicht</translation>
@@ -34,7 +34,7 @@
     </message>
     <message id="berail-settings">
         <source>Settings</source>
-        <extracomment>Settings PullDownMenu item</extracomment>
+        <extracomment>Settings title</extracomment>
         <translation>Einstellungen</translation>
     </message>
     <message id="berail-now">
@@ -107,7 +107,7 @@
     <message id="berail-about">
         <source>About</source>
         <oldsource>About %0 V%1</oldsource>
-        <extracomment>About PullDownMenu item</extracomment>
+        <extracomment>About title</extracomment>
         <translation type="unfinished">Über %1 V%2</translation>
     </message>
     <message id="berail-what-is">
@@ -188,6 +188,11 @@
         <extracomment>Error shown to the user when the liveboard of the station can&apos;t be retrieved</extracomment>
         <translation type="unfinished"></translation>
         <extra-The>liveboard is a list of all departing/arriving trains in a station.</extra-The>
+    </message>
+    <message id="berail-select-station">
+        <source>Select station</source>
+        <extracomment>When clicked, the user will see a list of station from which the user can choose one.</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

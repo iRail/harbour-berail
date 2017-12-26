@@ -22,32 +22,35 @@ import "../components"
 
 Page {
     property bool _loading: true
+    // For performance reasons we wait until the Page is fully loaded before doing an API request
+    onStatusChanged: status===PageStatus.Active? api.getDisturbances(): undefined
 
     // iRail API
     API {
         id: api
         // Get the disturbances and stations at launch time
-        Component.onCompleted: api.getDisturbances()
-        onDisturbancesChanged: {
-            disturbancesListView.model = api.disturbances.alertListModel
-            _loading = false;
-        }
+        onDisturbancesChanged: disturbancesListView.model = api.disturbances.alertListModel
+    }
+
+    PageHeader {
+        id: header
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        //: Network interruptions
+        //% "Disturbances"
+        title: qsTrId("berail-disturbances")
     }
 
     SilicaListView {
         id: disturbancesListView
-        anchors.fill: parent
-        header: PageHeader {
-            //: Network interruptions
-            //% "Disturbances"
-            title: qsTrId("berail-disturbances")
-        }
+        anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+        opacity: api.busy? fadeOutValue: fadeInValue
+        Behavior on opacity { FadeAnimator {} }
         delegate: AlertListDelegate {}
+    }
 
-        BusyIndicator {
-            anchors.centerIn: parent
-            size: BusyIndicatorSize.Large
-            running: Qt.application.active && _loading
-        }
+    BusyIndicator {
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: Qt.application.active && api.busy
     }
 }

@@ -58,6 +58,7 @@
 class API: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool busy READ busy WRITE setBusy NOTIFY busyChanged)
     Q_PROPERTY(StationListModelFilter* stations READ stations WRITE setStations NOTIFY stationsChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(Liveboard* liveboard READ liveboard WRITE setLiveboard NOTIFY liveboardChanged)

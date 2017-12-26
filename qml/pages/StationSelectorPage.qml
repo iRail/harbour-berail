@@ -25,13 +25,14 @@ Page {
     signal selected(string station)
 
     id: searchPage
+    // For performance reasons we wait until the Page is fully loaded before doing an API request
+    onStatusChanged: status===PageStatus.Active? api.getStations(): undefined
 
     API {
         id: api
-        Component.onCompleted: api.getStations()
-        onStationsChanged: {
-            stationListView.model = api.stations
-        }
+        onStationsChanged: stationListView.model = api.stations
+        // When list is loaded, set focus on search field
+        onBusyChanged: busy? undefined: header.forceActiveFocusSearch()
     }
 
     // When set as header of the SilicaListView focus is lost almost on every keystroke
@@ -49,6 +50,8 @@ Page {
         id: stationListView
         anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         clip: true // Only paint within it's borders
+        opacity: api.busy? fadeOutValue: fadeInValue
+        Behavior on opacity { FadeAnimator {} }
         delegate: StationSelectorDelegate {
             id: delegate
             searchString: _searchString
@@ -60,4 +63,16 @@ Page {
         }
     }
 
+    BusyIndicator {
+        id: busyIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: Qt.application.active && api.busy
+    }
+
+    // Hide busyIndicator when keyboard is open to avoid an ugly animation
+    Connections {
+        target: Qt.inputMethod
+        onVisibleChanged: Qt.inputMethod.visible? busyIndicator.visible = false: busyIndicator.visible = true;
+    }
 }

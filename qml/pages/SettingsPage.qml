@@ -106,21 +106,6 @@ Page {
 
                 Behavior on opacity { FadeAnimator {} }
             }
-
-            //: "Liveboard is a list of trains that arrive or depart from a certain station."
-            //% "Liveboard"
-            SectionHeader { text: qsTrId("berail-liveboard") }
-
-            TextSwitch {
-                id: rememberLiveboardStation
-                //: "Liveboard is a list of trains that arrive or depart from a certain station."
-                //% "Remember liveboard station"
-                text: qsTrId("berail-remember-liveboard")
-                //: "Liveboard is a list of trains that arrive or depart from a certain station."
-                //% "Save time by automatically saving your last used station!"
-                description: qsTrId("berail-remember-liveboard-hint")
-                checked: settings.rememberLiveboardStation
-            }
         }
     }
 }
