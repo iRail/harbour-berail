@@ -26,9 +26,7 @@
     </message>
     <message id="berail-liveboard">
         <source>Liveboard</source>
-        <extracomment>Liveboard title
-----------
-&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
+        <extracomment>Liveboard title</extracomment>
         <translation>Echtzeit Ansicht</translation>
         <extra-A>list of all departing/arriving trains in a station.</extra-A>
     </message>
@@ -99,11 +97,6 @@
         <source>To</source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="berail-remember-liveboard">
-        <source>Remember liveboard station</source>
-        <extracomment>&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="berail-about">
         <source>About</source>
         <oldsource>About %0 V%1</oldsource>
@@ -170,11 +163,6 @@
         <extracomment>Network interruptions</extracomment>
         <translation type="unfinished"></translation>
     </message>
-    <message id="berail-remember-liveboard-hint">
-        <source>Save time by automatically saving your last used station!</source>
-        <extracomment>&quot;Liveboard is a list of trains that arrive or depart from a certain station.&quot;</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="berail-version">
         <source>About %0 V%1</source>
         <translation type="unfinished"></translation>
@@ -192,6 +180,10 @@
     <message id="berail-select-station">
         <source>Select station</source>
         <extracomment>When clicked, the user will see a list of station from which the user can choose one.</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-canceled">
+        <source>Canceled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

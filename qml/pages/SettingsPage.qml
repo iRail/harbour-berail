@@ -23,8 +23,6 @@ Page {
 
     // Save the values when user is done
     Component.onDestruction: {
-        settings.rememberLiveboardStation = rememberLiveboardStation.checked
-        rememberLiveboardStation.checked? undefined: settings.savedLiveboardStation = "" // reset to default
         settings.favouriteStationsEnabled = favouriteStations.checked
         settings.favouriteFromStation = favouriteStations.checked? favouriteFromStation.iconText: "" // reset to default
         settings.favouriteToStation = favouriteStations.checked? favouriteToStation.iconText: "" // reset to default

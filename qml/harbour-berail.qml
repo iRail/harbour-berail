@@ -43,6 +43,7 @@ ApplicationWindow
     // Enable/Disable fade values
     readonly property real fadeOutValue: 0.4
     readonly property real fadeInValue: 1.0
+    readonly property real fadeSeeThroughValue: 0.7
 
     // App settings
     ConfigurationGroup {
@@ -50,7 +51,6 @@ ApplicationWindow
         path: "/apps/harbour-berail/settings"
 
         property bool rememberLiveboardStation: true
-        property bool favouriteStationsEnabled
         property int timeIs
         property string favouriteFromStation
         property string favouriteToStation

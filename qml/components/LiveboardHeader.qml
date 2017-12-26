@@ -20,11 +20,11 @@ import Sailfish.Silica 1.0
 
 Rectangle {
     property date _currentTime: new Date()
+    signal timeUpdate(date currentTime)
 
     color: blue
     width: parent.width
     height: Theme.itemSizeHuge
-    opacity: 0.8
 
     Timer {
         running: Qt.application.active

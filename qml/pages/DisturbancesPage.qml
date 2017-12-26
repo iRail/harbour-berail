@@ -25,10 +25,8 @@ Page {
     // For performance reasons we wait until the Page is fully loaded before doing an API request
     onStatusChanged: status===PageStatus.Active? api.getDisturbances(): undefined
 
-    // iRail API
     API {
         id: api
-        // Get the disturbances and stations at launch time
         onDisturbancesChanged: disturbancesListView.model = api.disturbances.alertListModel
     }
 

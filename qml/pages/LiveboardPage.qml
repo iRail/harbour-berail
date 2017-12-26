@@ -24,12 +24,12 @@ import "../components"
 Page {
     id: page
     // For performance reasons we wait until the Page is fully loaded before doing an API request
-    onStatusChanged: status===PageStatus.Active? api.getLiveboard(settings.savedLiveboardStation, new Date(), IRail.Arrival): undefined
+    onStatusChanged: status===PageStatus.Active && settings.savedLiveboardStation.length > 0? api.getLiveboard(settings.savedLiveboardStation, new Date(), IRail.Arrival): undefined
 
     API {
         id: api
         onLiveboardChanged: {
-            liveboardListView.model = api.liveboard
+            liveboardListView.model = api.liveboard.vehicleListModel
             console.debug("Liveboard")
         }
     }
@@ -54,16 +54,19 @@ Page {
         LiveboardHeader {
             id: header
             anchors { top: parent.top; left: parent.left; right: parent.right }
+            opacity: fadeSeeThroughValue
         }
 
         SilicaListView {
             id: liveboardListView
             anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
             clip: true // Only paint within it's borders
-            opacity: api.busy? fadeOutValue: fadeInValue
+            opacity: api.busy? fadeOutValue: fadeSeeThroughValue
             Behavior on opacity { FadeAnimator {} }
-            delegate: Label {
-                text: model.station.name
+            delegate: LiveboardDelegate {
+                width: ListView.view.width
+                enabled: false // Disabled until intermediate stops are ready
+                onClicked: model.canceled? undefined: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
             }
         }
 

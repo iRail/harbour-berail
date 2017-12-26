@@ -99,6 +99,7 @@ AlertListModel *Liveboard::alertListModel() const
 void Liveboard::setAlertListModel(AlertListModel *alertListModel)
 {
     m_alertListModel = alertListModel;
+    emit this->alertListModelChanged();
 }
 
 VehicleListModel *Liveboard::vehicleListModel() const
@@ -109,6 +110,7 @@ VehicleListModel *Liveboard::vehicleListModel() const
 void Liveboard::setVehicleListModel(VehicleListModel *vehicleListModel)
 {
     m_vehicleListModel = vehicleListModel;
+    emit this->vehicleListModelChanged();
 }
 
 
