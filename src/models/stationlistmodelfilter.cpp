@@ -38,8 +38,8 @@ bool StationListModelFilter::filterAcceptsRow(int sourceRow, const QModelIndex &
     if(index.isValid()) {
         QVariant rowData = index.data(this->filterRole());
         if(this->filterRole() == StationListModel::NameRole && rowData.isValid()) {
-            QString name = rowData.toString();
-            return name.indexOf(this->searchName()) >= 0;
+            QString name = rowData.toString().toLower().simplified(); // ignore uppercase and remove spaces
+            return name.indexOf(this->searchName().toLower().simplified()) >= 0;
         }
         else if(this->filterRole() == StationListModel::LocationRole && rowData.isValid()) {
             QGeoCoordinate location = rowData.value<QGeoCoordinate>();
