@@ -54,7 +54,7 @@ Column {
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
                 iconSource: "qrc:///icons/icon-train.png"
-                iconText: settings.favouriteStations? settings.favouriteDepartStation: _fromText
+                iconText: settings.favouriteStationsEnabled? settings.favouriteFromStation: _fromText
             }
 
             GlassButton {
@@ -65,7 +65,7 @@ Column {
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
                 iconSource: "qrc:///icons/icon-train.png"
-                iconText: settings.favouriteStations? settings.favouriteDepartStation: _toText
+                iconText: settings.favouriteStationsEnabled? settings.favouriteToStation: _toText
             }
         }
 
