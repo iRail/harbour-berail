@@ -5,86 +5,48 @@
 
 StationListModelFilter::StationListModelFilter()
 {
+    this->setDynamicSortFilter(false); // Dynamic filtering should be deactivated while manipulating the model
+    this->setSortCaseSensitivity(Qt::CaseInsensitive);
     this->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
     this->setSortRole(StationListModel::NameRole); // Default Qt::DisplayRole
+    this->setDynamicSortFilter(true);
 }
 
 StationListModelFilter::StationListModelFilter(StationListModel *stationListModel)
 {
+    this->setDynamicSortFilter(false); // Dynamic filtering should be deactivated while manipulating the model
+    this->setSortCaseSensitivity(Qt::CaseInsensitive);
     this->setSourceModel(stationListModel);
     this->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
     this->setSortRole(StationListModel::NameRole); // Default Qt::DisplayRole
+    this->setDynamicSortFilter(true);
 }
 
 StationListModelFilter::StationListModelFilter(StationListModel *stationListModel, StationListModel::Roles sortRole, StationListModel::Roles filterRole)
 {
+    this->setDynamicSortFilter(false); // Dynamic filtering should be deactivated while manipulating the model
+    this->setSortCaseSensitivity(Qt::CaseInsensitive);
     this->setSourceModel(stationListModel);
     this->setSortRole(sortRole);
     this->setFilterRole(filterRole);
+    this->setDynamicSortFilter(true);
 }
-
-/*StationListModelFilter::StationListModelFilter(StationListModel* stationListModel)
-{
-    this->setSourceModel(stationListModel);
-    this->stationListFilter()->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
-    this->stationListFilter()->setSortRole(StationListModel::NameRole); // Default Qt::DisplayRole
-}
-
-StationListModelFilter::StationListModelFilter(StationListModel* stationListModel, StationListModel::Roles sortRole, StationListModel::Roles filterRole)
-{
-    this->setSourceModel(stationListModel);
-    this->setSortRole(sortRole);
-    this->setFilterRole(filterRole);
-}*/
 
 bool StationListModelFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex index = this->sourceModel()->index(sourceRow, 0, sourceParent);
     if(index.isValid()) {
-        QString name = index.data(this->filterRole()).toString();
-        return name.indexOf(this->searchName()) >= 0;
+        QVariant rowData = index.data(this->filterRole());
+        if(this->filterRole() == StationListModel::NameRole && rowData.isValid()) {
+            QString name = rowData.toString();
+            return name.indexOf(this->searchName()) >= 0;
+        }
+        else if(this->filterRole() == StationListModel::LocationRole && rowData.isValid()) {
+            QGeoCoordinate location = rowData.value<QGeoCoordinate>();
+            return location.distanceTo(this->searchLocation()) <= this->maxRadiusLocation();
+        }
     }
     return false;
-
-
-    /*switch(this->filterRole())
-    {
-    case StationListModel::NameRole:
-        QString name = this->sourceModel()->data(rowIndex).toString();
-        return name.indexOf(this->searchName()) > 0;
-        break;
-
-    case StationListModel::LocationRole:
-        float distance = this->sourceModel()->data(rowIndex).convert(QGeoCoordinate).distanceTo(this->searchLocation());
-        return distance <= this->maxRadiusLocation();
-        break;
-    }*/
-
-    /*if(this->filterRole() == StationListModel::NameRole) {
-        QString name = this->sourceModel()->data(rowIndex).toString();
-        return name.indexOf(this->searchName()) > 0;
-    }
-    return true;*/
-}
-
-bool StationListModelFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
-{
-    /*switch(this->sortRole())
-    {
-    case StationListModel::NameRole:
-        return this->sourceModel()->data(left).toString() < this->sourceModel()->data(right).toString();
-        break;
-
-    case StationListModel::LocationRole:
-        float distanceLeft = this->sourceModel()->data(left).convert(QGeoCoordinate).distanceTo(this->searchLocation());
-        float distanceRight = this->sourceModel()->data(right).convert(QGeoCoordinate).distanceTo(this->searchLocation());
-        return distanceLeft < distanceRight;
-        break;
-    }*/
-    if(this->sortRole() == StationListModel::NameRole) {
-        return this->sourceModel()->data(left).toString() < this->sourceModel()->data(right).toString();
-    }
-    return true;
 }
 
 double StationListModelFilter::maxRadiusLocation() const

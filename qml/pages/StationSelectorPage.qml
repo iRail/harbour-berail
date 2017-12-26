@@ -29,21 +29,26 @@ Page {
     API {
         id: api
         Component.onCompleted: api.getStations()
-        onStationsChanged: stationListView.model = api.stations
+        onStationsChanged: {
+            stationListView.model = api.stations
+        }
+    }
+
+    // When set as header of the SilicaListView focus is lost almost on every keystroke
+    StationSelectorHeader {
+        id: header
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        onSearchStringChanged: {
+            _searchString = header.searchString
+            api.stations.searchName = header.searchString
+            console.debug("Searching for: " + api.stations.searchName)
+        }
     }
 
     SilicaListView {
         id: stationListView
-        anchors.fill: parent
-        header: StationSelectorHeader {
-            id: header
-            onSearchStringChanged: {
-                _searchString = header.searchString
-                api.stations.searchName = header.searchString
-                console.debug("Searching for: " + api.stations.searchName)
-            }
-            onFocusChanged: console.debug("Focus stealing")
-        }
+        anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+        clip: true // Only paint within it's borders
         delegate: StationSelectorDelegate {
             id: delegate
             searchString: _searchString
@@ -54,4 +59,5 @@ Page {
             }
         }
     }
+
 }
