@@ -18,6 +18,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import Nemo.Configuration 1.0
+import Harbour.BeRail.API 1.0
 import "pages"
 import "components"
 
@@ -55,6 +56,10 @@ ApplicationWindow
         property string favouriteFromStation
         property string favouriteToStation
         property string savedLiveboardStation
+    }
+
+    API {
+        id: api
     }
 }
 

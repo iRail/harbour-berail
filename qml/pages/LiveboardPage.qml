@@ -17,7 +17,6 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import Harbour.BeRail.API 1.0
 import Harbour.BeRail.Models 1.0
 import "../components"
 
@@ -26,12 +25,9 @@ Page {
     // For performance reasons we wait until the Page is fully loaded before doing an API request
     onStatusChanged: status===PageStatus.Active && settings.savedLiveboardStation.length > 0? api.getLiveboard(settings.savedLiveboardStation, new Date(), IRail.Arrival): undefined
 
-    API {
-        id: api
-        onLiveboardChanged: {
-            liveboardListView.model = api.liveboard.vehicleListModel
-            console.debug("Liveboard")
-        }
+    Connections {
+        target: api
+        onLiveboardChanged: liveboardListView.model = api.liveboard.vehicleListModel
     }
 
     SilicaFlickable {

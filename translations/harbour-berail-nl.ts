@@ -201,7 +201,7 @@
     <name>CoverPage</name>
     <message>
         <source>BeRail</source>
-        <translation>BeRail</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

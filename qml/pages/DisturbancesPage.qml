@@ -25,8 +25,8 @@ Page {
     // For performance reasons we wait until the Page is fully loaded before doing an API request
     onStatusChanged: status===PageStatus.Active? api.getDisturbances(): undefined
 
-    API {
-        id: api
+    Connections {
+        target: api
         onDisturbancesChanged: disturbancesListView.model = api.disturbances.alertListModel
     }
 

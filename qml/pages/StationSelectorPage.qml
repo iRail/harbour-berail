@@ -17,7 +17,6 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import Harbour.BeRail.API 1.0
 import "../components"
 
 Page {
@@ -28,8 +27,8 @@ Page {
     // For performance reasons we wait until the Page is fully loaded before doing an API request
     onStatusChanged: status===PageStatus.Active? api.getStations(): undefined
 
-    API {
-        id: api
+    Connections {
+        target: api
         onStationsChanged: stationListView.model = api.stations
         // When list is loaded, set focus on search field
         onBusyChanged: busy? undefined: header.forceActiveFocusSearch()

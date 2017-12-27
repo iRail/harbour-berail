@@ -18,7 +18,6 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import Harbour.BeRail.SFOS 1.0
-import Harbour.BeRail.API 1.0
 import "../components"
 
 Page {
@@ -32,8 +31,8 @@ Page {
         id: sfos
     }
 
-    API {
-        id: api
+    Connections {
+        target: api
         onDisturbancesChanged: _numberOfDisturbances = api.disturbances.length
     }
 
