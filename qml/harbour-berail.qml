@@ -50,8 +50,8 @@ ApplicationWindow
         id: settings
         path: "/apps/harbour-berail/settings"
 
-        property bool rememberLiveboardStation: true
         property int timeIs
+        property bool favouriteStationsEnabled
         property string favouriteFromStation
         property string favouriteToStation
         property string savedLiveboardStation

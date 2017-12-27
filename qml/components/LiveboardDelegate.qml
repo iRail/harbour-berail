@@ -17,67 +17,70 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../js/util.js" as Utils
 
 ListItem {
-    Row {
-        id: liveboardRow
-        width: parent.width
-        height: Theme.itemSizeSmall
-        anchors { left: parent.left; right: parent.right; leftMargin: Theme.horizontalPageMargin; rightMargin: Theme.horizontalPageMargin; verticalCenter: parent.verticalCenter }
-        spacing: Theme.paddingLarge
+    Label {
+        id: time
+        anchors { left: parent.left; leftMargin: Theme.horizontalPageMargin; verticalCenter: parent.verticalCenter }
+        truncationMode: TruncationMode.Fade
+        font.bold: true
+        color: yellow
+        text: model.liveboard.scheduledDepartureTime.toLocaleTimeString(Qt.locale(), Locale.ShortFormat).substring(0,5)
+    }
+
+    Label {
+        id: delay
+        anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin; verticalCenter: parent.verticalCenter }
+        truncationMode: TruncationMode.Fade
+        font.bold: true
+        color: red
+        opacity: model.liveboard.departureDelay > 0? 1.0: 0.0 // Keep only the spacing for non delayed trains
+        Behavior on opacity { FadeAnimator {} }
+        visible: model.hasDelay // Only visible when model hasDelay
+        text: Utils.formatDelay(model.liveboard.departureDelay)
+    }
+
+    Rectangle {
+        id: platform
+        color: model.liveboard.isDefaultPlatform? transparent: yellow
+        width: parent.height
+        height: parent.height
+        // Anchor to the right element depending on if the model hasDelay or not
+        anchors { right: model.hasDelay? delay.left: parent.right; rightMargin: model.hasDelay? Theme.paddingLarge: Theme.horizontalPageMargin }
 
         Label {
-            id: departLabel
-            anchors { verticalCenter: parent.verticalCenter }
+            anchors { centerIn: parent }
             truncationMode: TruncationMode.Fade
             font.bold: true
-            color: yellow
-            text: model.liveboard.scheduledDepartureTime.toLocaleTimeString(Qt.locale(), Locale.ShortFormat).substring(0,5)
+            color: model.liveboard.isDefaultPlatform? yellow: black
+            text: model.liveboard.platform
         }
+    }
 
-        Label { // This can be done better using anchors instead of a row! TO DO
-            width: parent.width-departLabel.width-typeLabel.width-trackLabel.width-liveboardRow.spacing*3-(model.hasDelay? delayLabel.width: 0)
-            anchors { verticalCenter: parent.verticalCenter }
-            truncationMode: TruncationMode.Fade
-            font.bold: true
-            color: yellow
-            text: model.liveboard.station.name
+    Label {
+        id: type
+        anchors { right: platform.left; rightMargin: Theme.paddingLarge; verticalCenter: parent.verticalCenter }
+        truncationMode: TruncationMode.Fade
+        font.bold: true
+        color: yellow
+        text: page.isPortrait? Utils.filterId(model.id.split(".")[2]).toString(): // Short ID
+                             model.id.split(".")[2] // Long ID
+    }
+
+    Label {
+        // Scale the direction label depending on all the other labels
+        anchors {
+            left: time.right
+            leftMargin: Theme.paddingLarge
+            right: type.left
+            rightMargin: Theme.paddingLarge
+            verticalCenter: parent.verticalCenter
         }
-
-        Label {
-            id: typeLabel
-            anchors { verticalCenter: parent.verticalCenter }
-            truncationMode: TruncationMode.Fade
-            font.bold: true
-            color: yellow
-            text: page.isPortrait? model.id.split(".")[2].substring(model.id.length-6, model.id.length-4): // Short ID
-                                   model.id.split(".")[2] // Long ID
-        }
-
-        Rectangle {
-            id: trackLabel
-            color: model.liveboard.isDefaultPlatform? transparent: yellow
-            width: parent.height
-            height: parent.height
-
-            Label {
-                anchors { centerIn: parent }
-                truncationMode: TruncationMode.Fade
-                font.bold: true
-                color: model.liveboard.isDefaultPlatform? yellow: black
-                text: model.liveboard.platform
-            }
-        }
-
-        Label {
-            id: delayLabel
-            anchors { verticalCenter: parent.verticalCenter }
-            truncationMode: TruncationMode.Fade
-            font.bold: true
-            color: red
-            visible: model.liveboard.departureDelay > 0
-            text: "+" + model.liveboard.departureDelay/60 // Convert from seconds to minutes
-        }
+        truncationMode: TruncationMode.Fade
+        font.bold: true
+        color: yellow
+        text: model.liveboard.station.name
     }
 
     Rectangle {

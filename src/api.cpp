@@ -273,6 +273,9 @@ void API::finished (QNetworkReply *reply)
     else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 302) {
         qDebug() << "HTTP 301/302: Moved, following redirect...";
     }
+    else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 304) {
+        qDebug() << "HTTP 304: Not-Modified";
+    }
     else {
         qDebug() << "Content-Header:" << reply->header(QNetworkRequest::ContentTypeHeader).toString();
         qDebug() << "Content-Length:" << reply->header(QNetworkRequest::ContentLengthHeader).toULongLong() << "bytes";
@@ -323,6 +326,9 @@ void API::finished (QNetworkReply *reply)
         else {
             // emit error here
             qCritical() << "Received data isn't properly formatted as JSON! QJsonParseError:" << parseError.errorString();
+            //: Error shown to the user when the data is invalid JSON data
+            //% "Invalid JSON data received, please try again later"
+            emit this->errorOccurred(qtTrId("berail-json-error"));
         }
     }
 
@@ -339,7 +345,9 @@ void API::finished (QNetworkReply *reply)
 void API::sslErrors(QNetworkReply* reply, QList<QSslError> sslError)
 {
     qCritical() << "SSL error occured:" << reply->errorString() << sslError;
-    emit errorOccurred(QString("SSL error occured"));
+    //: Error shown to the user when an SSL error occurs due a bad certificate or incorrect time settings.
+    //% "SSL error, please check your device is running with the correct date and time."
+    emit this->errorOccurred(qtTrId("berail-ssl-error"));
 }
 
 /**

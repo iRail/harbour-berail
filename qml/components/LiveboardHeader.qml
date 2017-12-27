@@ -41,7 +41,7 @@ Rectangle {
         truncationMode: TruncationMode.Fade
         horizontalAlignment: Text.AlignHCenter
         text: settings.savedLiveboardStation.length > 0?
-                  settings.savedLiveboardStation:
+                  settings.savedLiveboardStation.substring(0, 23): // Limit the maximum length of the station name
                   //: Liveboard title
                   //% "Liveboard"
                   //~ A list of all departing/arriving trains in a station.

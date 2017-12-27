@@ -186,6 +186,16 @@
         <source>Canceled</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="berail-json-error">
+        <source>Invalid JSON data received, please try again later</source>
+        <extracomment>Error shown to the user when the data is invalid JSON data</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-ssl-error">
+        <source>SSL error, please check your device is running with the correct date and time.</source>
+        <extracomment>Error shown to the user when an SSL error occurs due a bad certificate or incorrect time settings.</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
