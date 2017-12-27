@@ -63,22 +63,22 @@ Page {
 
             GlassButton {
                 link: "https://github.com/dylanvanassche"
-                iconSource: "qrc:///icons/icon-github.png"
-                iconText: "Dylan Van Assche"
+                source: "qrc:///icons/icon-github.png"
+                text: "Dylan Van Assche"
             }
 
             GlassButton {
                 link: "https://paypal.me/minitreintje"
-                iconSource: "qrc:///icons/icon-paypal.png"
+                source: "qrc:///icons/icon-paypal.png"
                 //% "Donate with %1"
-                iconText: qsTrId("berail-donate-with").arg("PayPal")
+                text: qsTrId("berail-donate-with").arg("PayPal")
             }
 
             GlassButton {
                 link: "https://github.com/iRail/harbour-berail"
-                iconSource: "qrc:///icons/icon-code.png"
+                source: "qrc:///icons/icon-code.png"
                 //% "Source code"
-                iconText: qsTrId("berail-source")
+                text: qsTrId("berail-source")
             }
 
             TextLabel {
@@ -88,9 +88,9 @@ Page {
 
             GlassButton {
                 link: "https://www.transifex.com/dylanvanassche/harbour-berail"
-                iconSource: "qrc:///icons/icon-translate.png"
+                source: "qrc:///icons/icon-translate.png"
                 //% "%0 project"
-                iconText: qsTrId("berail-project").arg("Transifex")
+                text: qsTrId("berail-project").arg("Transifex")
             }
 
             //% "Powered by"
@@ -98,21 +98,21 @@ Page {
 
             GlassButton {
                 link: "https://irail.be/"
-                iconSource: "qrc:///icons/icon-irail.png"
-                iconText: "iRail"
+                source: "qrc:///icons/icon-irail.png"
+                text: "iRail"
             }
 
             GlassButton {
                 link: "https://fontawesome.io/"
-                iconSource: "qrc:///icons/icon-fontawesome.png"
-                iconText: "FontAwesome icons"
+                source: "qrc:///icons/icon-fontawesome.png"
+                text: "FontAwesome icons"
             }
 
             GlassButton {
                 link: "https://twitter.com/eLtMosen"
-                iconSource: "qrc:///icons/icon-twitter.png"
+                source: "qrc:///icons/icon-twitter.png"
                 //% "%0 icon by %1"
-                iconText: qsTrId("berail-icon").arg(sfos.appNamePretty).arg("Timo Könnecke")
+                text: qsTrId("berail-icon").arg(sfos.appNamePretty).arg("Timo Könnecke")
             }
         }
     }

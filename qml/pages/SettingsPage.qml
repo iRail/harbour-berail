@@ -79,8 +79,8 @@ Page {
                 id: favouriteFromStation
                 link: Qt.resolvedUrl("StationSelectorPage.qml")
                 type: 1
-                iconSource: "qrc:///icons/icon-train.png"
-                iconText: settings.favouriteFromStation.length > 0?
+                source: "qrc:///icons/icon-train.png"
+                text: settings.favouriteFromStation.length > 0?
                               settings.favouriteFromStation:
                               //% "From"
                               qsTrId("berail-from")
@@ -94,8 +94,8 @@ Page {
                 id: favouriteToStation
                 link: Qt.resolvedUrl("StationSelectorPage.qml")
                 type: 1
-                iconSource: "qrc:///icons/icon-train.png"
-                iconText: settings.favouriteToStation.length > 0?
+                source: "qrc:///icons/icon-train.png"
+                text: settings.favouriteToStation.length > 0?
                               settings.favouriteToStation:
                               //% "To"
                               qsTrId("To")

@@ -19,9 +19,10 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 BackgroundItem {
+    id: button
     property string link
-    property string iconSource
-    property string iconText
+    property string source
+    property string text
     property bool show: true
     property int type
 
@@ -36,7 +37,7 @@ BackgroundItem {
         case 1:
             var _page = pageStack.push(link);
             _page.selected.connect(function(newText) {
-                iconText = newText;
+                button.text = newText;
             });
             break;
         case 2:
@@ -48,7 +49,7 @@ BackgroundItem {
         }
     }
     enabled: link.length
-    visible: iconText.length && show
+    visible: button.text.length && show
 
     Row {
         anchors { left: parent.left; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingLarge; verticalCenter: parent.verticalCenter }
@@ -58,16 +59,16 @@ BackgroundItem {
             id: logo
             width: Theme.iconSizeMedium
             height: width
-            source: iconSource
+            source: button.source
         }
 
         Label {
             width: parent.width - logo.width
             anchors { verticalCenter: parent.verticalCenter }
             font.pixelSize: Theme.fontSizeMedium
-            text: iconText
+            text: button.text
             truncationMode: TruncationMode.Fade
-            visible: iconText.length
+            visible: button.text.length
         }
     }
 }

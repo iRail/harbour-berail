@@ -53,8 +53,8 @@ Column {
                 id: from
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
-                iconSource: "qrc:///icons/icon-train.png"
-                iconText: settings.favouriteStationsEnabled? settings.favouriteFromStation: _fromText
+                source: "qrc:///icons/icon-train.png"
+                text: settings.favouriteStationsEnabled? settings.favouriteFromStation: _fromText
             }
 
             GlassButton {
@@ -64,8 +64,8 @@ Column {
                 id: to
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
-                iconSource: "qrc:///icons/icon-train.png"
-                iconText: settings.favouriteStationsEnabled? settings.favouriteToStation: _toText
+                source: "qrc:///icons/icon-train.png"
+                text: settings.favouriteStationsEnabled? settings.favouriteToStation: _toText
             }
         }
 
@@ -149,8 +149,7 @@ Column {
         onClicked: pageStack.push(Qt.resolvedUrl("TripPage.qml"), {
                                       from: from.iconText,
                                       to: to.iconText,
-                                      time: time.value,
-                                      date: date.value
+                                      date: currentDate,
                                   })
     }
 
