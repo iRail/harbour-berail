@@ -119,7 +119,7 @@ Column {
             width: parent.width - date.width
             //% "Time"
             label: qsTrId("berail-time")
-            value: currentDate.toLocaleTimeString(Qt.locale(), Locale.ShortFormat).substring(0,5) // Remove unused seconds
+            value: currentDate.toLocaleTimeString(Qt.locale(), "HH:mm") // Remove unused seconds
 
             onClicked: {
                 var dialog = pageStack.push("TimeSelectorDialog.qml", {

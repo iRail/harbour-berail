@@ -26,7 +26,7 @@ ListItem {
         truncationMode: TruncationMode.Fade
         font.bold: true
         color: yellow
-        text: model.liveboard.scheduledDepartureTime.toLocaleTimeString(Qt.locale(), Locale.ShortFormat).substring(0,5)
+        text: model.liveboard.scheduledDepartureTime.toLocaleTimeString(Qt.locale(), "HH:mm")
     }
 
     Label {

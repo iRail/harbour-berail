@@ -31,11 +31,47 @@ ListItem {
         spacing: Theme.paddingSmall
 
         SectionHeader {
-            text: model.title
+            text: model.title.split(":")[1].split(".")[0] // Remove "." from the end
         }
 
         TextLabel {
             text: model.text
+        }
+
+        Item {
+           width: parent.width
+           height: Theme.itemSizeSmall
+
+           Label {
+               anchors { right: iconLocation.left; rightMargin: Theme.paddingSmall; verticalCenter: parent.verticalCenter }
+               font.pixelSize: Theme.fontSizeSmall
+               color: Theme.secondaryColor
+               text: model.title.split(":")[0]
+           }
+
+           Image {
+               id: iconLocation
+               anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin; verticalCenter: parent.verticalCenter }
+               source: "image://theme/icon-m-location"
+           }
+        }
+
+        Item {
+           width: parent.width
+           height: Theme.itemSizeSmall
+
+           Label {
+               anchors { right: iconDate.left; rightMargin: Theme.paddingSmall; verticalCenter: parent.verticalCenter }
+               font.pixelSize: Theme.fontSizeSmall
+               color: Theme.secondaryColor
+               text: model.timestamp.toLocaleString(Qt.locale(), "dd MMM yyyy hh:mm");
+           }
+
+           Image {
+               id: iconDate
+               anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin; verticalCenter: parent.verticalCenter }
+               source: "image://theme/icon-m-time-date"
+           }
         }
     }
 }

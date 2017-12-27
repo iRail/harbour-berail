@@ -27,6 +27,6 @@ function formatDelay(delayInSeconds) {
 }
 
 function filterId(id) {
-    var filterRegex = /^(S[0-9])|(ICE)|(P)|(THA)|(IC)|(EUR)/;
+    var filterRegex = /^(S[0-9])|(ICE)|(THA)|(IC)|(EUR)|(P)|(L)/;
     return filterRegex.exec(id)[0];
 }

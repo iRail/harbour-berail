@@ -42,6 +42,7 @@ Page {
         id: disturbancesListView
         anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         opacity: api.busy? fadeOutValue: fadeInValue
+        clip: true // Paint only within it's borders
         Behavior on opacity { FadeAnimator {} }
         delegate: AlertListDelegate {}
     }
