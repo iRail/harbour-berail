@@ -24,9 +24,10 @@ Page {
     // Save the values when user is done
     Component.onDestruction: {
         settings.favouriteStationsEnabled = favouriteStations.checked
-        settings.favouriteFromStation = favouriteStations.checked? favouriteFromStation.iconText: "" // reset to default
-        settings.favouriteToStation = favouriteStations.checked? favouriteToStation.iconText: "" // reset to default
+        settings.favouriteFromStation = favouriteStations.checked? favouriteFromStation.text: "" // reset to default
+        settings.favouriteToStation = favouriteStations.checked? favouriteToStation.text: "" // reset to default
         settings.timeIs = timeIs.currentIndex
+        settings.transportFilter = transportFilter.currentIndex
     }
 
     SilicaFlickable {
@@ -64,6 +65,26 @@ Page {
                 currentIndex: settings.timeIs
                 //% "Select here if you want to use the given time as either the time of arrival or departure."
                 description: qsTrId("berail-time-is-hint")
+            }
+
+            ComboBox {
+                id: transportFilter
+                width: parent.width
+                //% "Show"
+                label: qsTrId("berail-transport-show")
+                menu: ContextMenu {
+                    MenuItem {
+                        //% "all trains"
+                        text: qsTrId("berail-transport-all")
+                    }
+                    MenuItem {
+                        //% "only locale trains"
+                        text: qsTrId("berail-transport-no-international")
+                    }
+                }
+                currentIndex: settings.transportFilter
+                //% "If you like, you can filter out the international trains from your trips."
+                description: qsTrId("berail-transport-hint")
             }
 
             TextSwitch {

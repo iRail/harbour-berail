@@ -53,6 +53,7 @@ Page {
         Behavior on opacity { FadeAnimator {} }
         delegate: StationSelectorDelegate {
             id: delegate
+            width: ListView.view.width
             searchString: _searchString
             onClicked: {
                 searchPage.selected(model.name)

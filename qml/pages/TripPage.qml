@@ -17,9 +17,35 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import Harbour.BeRail.Models 1.0
+import "../components"
+import "../js/util.js" as Utils
 
 Page {
     property string from
     property string to
     property date date
+
+    // For performance reasons we wait until the Page is fully loaded before doing an API request
+    onStatusChanged: status===PageStatus.Active? api.getConnections(from, to, IRail.Arrival, date, Utils.convertTransportType(settings.transportFilter)): undefined
+
+    Connections {
+        target: api
+        onConnectionsChanged: connectionsListView.model = api.connections
+    }
+
+    SilicaListView {
+        id: connectionsListView
+        anchors.fill: parent
+        opacity: api.busy? fadeOutValue: fadeInValue
+        Behavior on opacity { FadeAnimator {} }
+        header: PageHeader {
+            //: The planner for the user it's trips between two stations
+            //% "Trip planner"
+            title: qsTrId("berail-trip-planner")
+        }
+        delegate: TripDelegate {
+            width: ListView.view.width
+        }
+    }
 }

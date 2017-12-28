@@ -52,6 +52,7 @@ ApplicationWindow
         path: "/apps/harbour-berail/settings"
 
         property int timeIs
+        property int transportFilter
         property bool favouriteStationsEnabled
         property string favouriteFromStation
         property string favouriteToStation

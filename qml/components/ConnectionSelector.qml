@@ -35,9 +35,9 @@ Column {
     signal timeSelected()
 
     on_ChangeStations: {
-        var temp = to.iconText;
-        to.iconText = from.iconText;
-        from.iconText = temp;
+        var temp = to.text;
+        to.text = from.text;
+        from.text = temp;
     }
 
     Row {
@@ -48,7 +48,7 @@ Column {
 
             GlassButton {
                 // Valid when a station is set and it's not From or To
-                property bool valid: iconText.length > 0 && iconText.indexOf(_fromText) == -1 && iconText.indexOf(_toText) == -1
+                property bool valid: text.length > 0 && text.indexOf(_fromText) == -1 && text.indexOf(_toText) == -1
 
                 id: from
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
@@ -59,7 +59,7 @@ Column {
 
             GlassButton {
                 // Valid when a station is set and it's not From or To
-                property bool valid: iconText.length > 0 && iconText.indexOf(_fromText) == -1 && iconText.indexOf(_toText) == -1
+                property bool valid: text.length > 0 && text.indexOf(_fromText) == -1 && text.indexOf(_toText) == -1
 
                 id: to
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
@@ -98,7 +98,7 @@ Column {
             label: qsTrId("berail-date")
             value: currentDate.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
             onClicked: {
-                var dialog = pageStack.push(Qt.resolvedUrl("DateSelectorDialog.qml"), {
+                var dialog = pageStack.push(Qt.resolvedUrl("../pages/DateSelectorPage.qml"), {
                                                 date: currentDate
                                             })
 
@@ -120,9 +120,8 @@ Column {
             //% "Time"
             label: qsTrId("berail-time")
             value: currentDate.toLocaleTimeString(Qt.locale(), "HH:mm") // Remove unused seconds
-
             onClicked: {
-                var dialog = pageStack.push("TimeSelectorDialog.qml", {
+                var dialog = pageStack.push("../pages/TimeSelectorPage.qml", {
                                                 hour: currentDate.getHours(),
                                                 minute: currentDate.getMinutes()
                                             })
@@ -146,9 +145,9 @@ Column {
         //% "Plan my trip"
         text: qsTrId("berail-plan-trip")
         enabled: readyToPlan
-        onClicked: pageStack.push(Qt.resolvedUrl("TripPage.qml"), {
-                                      from: from.iconText,
-                                      to: to.iconText,
+        onClicked: pageStack.push(Qt.resolvedUrl("../pages/TripPage.qml"), {
+                                      from: from.text,
+                                      to: to.text,
                                       date: currentDate,
                                   })
     }

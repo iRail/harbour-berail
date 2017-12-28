@@ -30,21 +30,21 @@ Page {
         onDisturbancesChanged: disturbancesListView.model = api.disturbances.alertListModel
     }
 
-    PageHeader {
-        id: header
-        anchors { top: parent.top; left: parent.left; right: parent.right }
-        //: Network interruptions
-        //% "Disturbances"
-        title: qsTrId("berail-disturbances")
-    }
-
     SilicaListView {
         id: disturbancesListView
-        anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+        anchors.fill: parent
         opacity: api.busy? fadeOutValue: fadeInValue
-        clip: true // Paint only within it's borders
         Behavior on opacity { FadeAnimator {} }
-        delegate: AlertListDelegate {}
+        header: PageHeader {
+            //: Network interruptions
+            //% "Disturbances"
+            title: qsTrId("berail-disturbances")
+        }
+        delegate: AlertListDelegate {
+            width: ListView.view.width
+            enabled: model.hasLink
+            onClicked: enabled? Qt.openUrlExternally(model.link): undefined
+        }
     }
 
     BusyIndicator {

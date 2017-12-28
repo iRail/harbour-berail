@@ -67,6 +67,7 @@
     </message>
     <message id="berail-trip-planner">
         <source>Trip planner</source>
+        <extracomment>The planner for the user it&apos;s trips between two stations</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="berail-time-is">
@@ -194,6 +195,28 @@
     <message id="berail-ssl-error">
         <source>SSL error, please check your device is running with the correct date and time.</source>
         <extracomment>Error shown to the user when an SSL error occurs due a bad certificate or incorrect time settings.</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-transport-show">
+        <source>Show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-transport-all">
+        <source>all trains</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-transport-no-international">
+        <source>only locale trains</source>
+        <oldsource>no international trains</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-transport-hint">
+        <source>If you like, you can filter out the international trains from your trips.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-trip-platform">
+        <source>Platform %0</source>
+        <extracomment>The platform where the train arrives or departures</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

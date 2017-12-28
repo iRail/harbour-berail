@@ -1,8 +1,5 @@
 #include "stationlistmodelfilter.h"
 
-#include <QtCore/QtGlobal>
-#include <QtCore/QDebug>
-
 StationListModelFilter::StationListModelFilter()
 {
     this->setDynamicSortFilter(false); // Dynamic filtering should be deactivated while manipulating the model

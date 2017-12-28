@@ -19,10 +19,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 ListItem {
-    width: ListView.view.width
     contentHeight: column.height*1.1
-    enabled: model.hasLink
-    onClicked: enabled? Qt.openUrlExternally(model.link): undefined
 
     Column {
         id: column

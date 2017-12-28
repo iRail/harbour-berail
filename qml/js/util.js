@@ -27,6 +27,15 @@ function formatDelay(delayInSeconds) {
 }
 
 function filterId(id) {
-    var filterRegex = /^(S[0-9])|(ICE)|(THA)|(IC)|(EUR)|(P)|(L)/;
+    var filterRegex = /^(S[0-9])|(ICE)|(THA)|(IC)|(EUR)|(TGV)|(P)|(L)/;
     return filterRegex.exec(id)[0];
+}
+
+function convertTransportType(type) {
+    switch(type) {
+    case 0:
+        return IRail.All
+    case 1:
+        return IRail.NoInternationalTrains
+    }
 }
