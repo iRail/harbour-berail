@@ -31,12 +31,14 @@ public:
         IdRole = Qt::UserRole + 1,
         FromRole = Qt::UserRole + 2,
         ToRole = Qt::UserRole + 3,
-        AlertsRole = Qt::UserRole + 4,
-        RemarksRole = Qt::UserRole + 5,
-        OccupancyRole = Qt::UserRole + 6,
-        DurationRole = Qt::UserRole + 7,
-        ViasRole = Qt::UserRole + 8,
-        TimestampRole = Qt::UserRole + 9
+        FromVehicleRole = Qt::UserRole + 4,
+        ToVehicleRole = Qt::UserRole + 5,
+        AlertsRole = Qt::UserRole + 6,
+        RemarksRole = Qt::UserRole + 7,
+        OccupancyRole = Qt::UserRole + 8,
+        DurationRole = Qt::UserRole + 9,
+        ViasRole = Qt::UserRole + 10,
+        TimestampRole = Qt::UserRole + 11
     };
 
     explicit ConnectionListModel(QList<Connection *> connectionList);

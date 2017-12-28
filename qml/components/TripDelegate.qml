@@ -16,35 +16,55 @@
 */
 
 import QtQuick 2.0
-import QtQuick.Layouts 1.1
 import Sailfish.Silica 1.0
 import "../components"
+import "../js/util.js" as Utils
 
 ListItem {
-    contentHeight: column.height*1.1
+    contentHeight: row.height*1.1
 
-    Column {
-        id: column
-        anchors.centerIn: parent
-        spacing: Theme.paddingSmall/2
+    Row {
+        id: row
         width: parent.width
-
-        TripStationIndicator {
-            time: model.from.scheduledDepartureTime
-            delay: model.from.departureDelay
-            color: green
-            station: model.from.station.name
-            platform: model.from.platform
-            isDefaultPlatform: model.to.isDefaultPlatform
+        anchors {
+            left: parent.left
+            leftMargin: Theme.horizontalPageMargin
+            right: parent.right
+            rightMargin: Theme.horizontalPageMargin
         }
 
-        TripStationIndicator {
-            time: model.to.scheduledDepartureTime
-            delay: model.to.departureDelay
-            color: red
-            station: model.to.station.name
-            platform: model.to.platform
-            isDefaultPlatform: model.to.isDefaultPlatform
+        Column {
+            width: parent.width-meta.width
+            spacing: Theme.paddingSmall/2
+
+            TripStationIndicator {
+                time: model.from.scheduledDepartureTime
+                delay: model.from.departureDelay
+                color: green
+                station: model.from.station.name
+                platform: model.from.platform
+                isDefaultPlatform: model.from.isDefaultPlatform
+            }
+
+            TripStationIndicator {
+                time: model.to.scheduledDepartureTime
+                delay: model.to.departureDelay
+                color: red
+                station: model.to.station.name
+                platform: model.to.platform
+                isDefaultPlatform: model.to.isDefaultPlatform
+            }
+        }
+
+        Column {
+            id: meta
+            width: Theme.itemSizeSmall
+
+            Label {
+                anchors.right: parent.right
+                text: page.isPortrait? Utils.filterId(model.fromVehicleId.split(".")[2]).toString(): // Short ID
+                                             model.fromVehicleId.split(".")[2] // Long ID
+            }
         }
     }
 }

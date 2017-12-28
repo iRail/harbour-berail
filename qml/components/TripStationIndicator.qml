@@ -30,12 +30,7 @@ Row {
     id: indicator
     width: parent.width
     height: Theme.itemSizeSmall*1.1
-    anchors {
-        left: parent.left;
-        leftMargin: Theme.horizontalPageMargin;
-        right: parent.right;
-        rightMargin: Theme.horizontalPageMargin
-    }
+    anchors { left: parent.left; right: parent.right }
     spacing: Theme.paddingLarge
 
     Rectangle {
@@ -71,8 +66,10 @@ Row {
 
     Column {
         id: stationInfo
+        width: parent.width - timeIndicator.width - parent.spacing
 
         Label {
+            anchors { left: parent.left; right: parent.right }
             truncationMode: TruncationMode.Fade
             font.capitalization: Font.AllUppercase
             text: indicator.station

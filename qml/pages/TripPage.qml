@@ -26,6 +26,8 @@ Page {
     property string to
     property date date
 
+    id: page
+
     // For performance reasons we wait until the Page is fully loaded before doing an API request
     onStatusChanged: status===PageStatus.Active? api.getConnections(from, to, IRail.Arrival, date, Utils.convertTransportType(settings.transportFilter)): undefined
 

@@ -16,11 +16,13 @@
 */
 #include "connection.h"
 
-Connection::Connection(int id, Stop* fromStation, Stop* toStation, Disturbances* alerts, Remarks* remarks, IRail::Occupancy occupancy, int duration, ViaListModel* vias, QDateTime timestamp)
+Connection::Connection(int id, Stop* fromStation, Stop* toStation, QString fromVehicleId, QString toVehicleId, Disturbances* alerts, Remarks* remarks, IRail::Occupancy occupancy, int duration, ViaListModel* vias, QDateTime timestamp)
 {
     this->setId(id);
     this->setFrom(fromStation);
     this->setTo(toStation);
+    this->setFromVehicleId(fromVehicleId);
+    this->setToVehicleId(toVehicleId);
     this->setAlerts(alerts);
     this->setRemarks(remarks);
     this->setOccupancy(occupancy);
@@ -86,6 +88,26 @@ void Connection::setTo(Stop *to)
 {
     m_to = to;
     emit this->toChanged();
+}
+
+QString Connection::fromVehicleId() const
+{
+    return m_fromVehicleId;
+}
+
+void Connection::setFromVehicleId(const QString &fromVehicleId)
+{
+    m_fromVehicleId = fromVehicleId;
+}
+
+QString Connection::toVehicleId() const
+{
+    return m_toVehicleId;
+}
+
+void Connection::setToVehicleId(const QString &toVehicleId)
+{
+    m_toVehicleId = toVehicleId;
 }
 
 Disturbances *Connection::alerts() const

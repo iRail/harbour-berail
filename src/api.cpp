@@ -635,8 +635,8 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
         fromTime.setTime_t(departureObj["time"].toString().toInt());
         QDateTime toTime;
         toTime.setTime_t(arrivalObj["time"].toString().toInt());
-        QString departureVehicleId = departureObj["vehicle"].toString();
-        QString arrivalVehicleId = arrivalObj["vehicle"].toString();
+        QString fromVehicleId = departureObj["vehicle"].toString();
+        QString toVehicleId = arrivalObj["vehicle"].toString();
         QList<Via*> viaList;
 
         // Departure Stop
@@ -762,7 +762,7 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
 
         IRail::Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());
         // TO DO: enable disturbances and remarks for the whole connection
-        Connection* connection = new Connection(connectionId, fromStop, toStop, new Disturbances(), new Remarks(), connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections);
+        Connection* connection = new Connection(connectionId, fromStop, toStop, fromVehicleId, toVehicleId, new Disturbances(), new Remarks(), connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections);
         connectionList.append(connection);
         qDebug() << "CONNECTION:";
         qDebug() << "\tFrom:" << connection->from()->station()->name();

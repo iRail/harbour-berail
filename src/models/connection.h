@@ -39,7 +39,18 @@ class Connection: public QObject
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
 
 public:
-    explicit Connection(int id, Stop* fromStation, Stop* toStation, Disturbances* alerts, Remarks* remarks, IRail::Occupancy occupancy, int duration, ViaListModel* vias, QDateTime timestamp);
+    explicit Connection(int id,
+                        Stop* fromStation,
+                        Stop* toStation,
+                        QString fromVehicleId,
+                        QString toVehicleId,
+                        Disturbances* alerts,
+                        Remarks* remarks,
+                        IRail::Occupancy occupancy,
+                        int duration,
+                        ViaListModel* vias,
+                        QDateTime timestamp
+                        );
     int id() const;
     void setId(const int &id);
     IRail::Occupancy occupancy() const;
@@ -52,6 +63,10 @@ public:
     void setFrom(Stop *from);
     Stop *to() const;
     void setTo(Stop *to);
+    QString fromVehicleId() const;
+    void setFromVehicleId(const QString &fromVehicleId);
+    QString toVehicleId() const;
+    void setToVehicleId(const QString &toVehicleId);
     Disturbances *alerts() const;
     void setAlerts(Disturbances *alerts);
     Remarks *remarks() const;
@@ -77,6 +92,8 @@ private:
     int m_id;
     Stop* m_from;
     Stop* m_to;
+    QString m_fromVehicleId;
+    QString m_toVehicleId;
     Disturbances* m_alerts;
     Remarks* m_remarks;
     IRail::Occupancy m_occupancy;

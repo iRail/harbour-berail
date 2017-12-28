@@ -32,6 +32,8 @@ QHash<int, QByteArray> ConnectionListModel::roleNames() const
     roles[IdRole] = "id";
     roles[FromRole] = "from";
     roles[ToRole] = "to";
+    roles[FromVehicleRole] = "fromVehicleId";
+    roles[ToVehicleRole] = "toVehicleId";
     roles[AlertsRole] = "alerts";
     roles[RemarksRole] = "remarks";
     roles[OccupancyRole] = "occupancy";
@@ -54,6 +56,10 @@ QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
         return QVariant(QVariant::fromValue(this->connectionList().at(index.row())->from()));
     case ToRole:
         return QVariant(QVariant::fromValue(this->connectionList().at(index.row())->to()));
+    case FromVehicleRole:
+        return QVariant(this->connectionList().at(index.row())->fromVehicleId());
+    case ToVehicleRole:
+        return QVariant(this->connectionList().at(index.row())->toVehicleId());
     case AlertsRole:
         return QVariant(QVariant::fromValue(this->connectionList().at(index.row())->alerts()));
     case RemarksRole:
