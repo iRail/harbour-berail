@@ -75,3 +75,8 @@ void AlertListModel::setAlertList(const QList<Alert *> &alertList)
 {
     m_alertList = alertList;
 }
+
+int AlertListModel::count() const
+{
+    return this->alertList().length();
+}

@@ -29,7 +29,7 @@ Row {
 
     id: indicator
     width: parent.width
-    height: Theme.itemSizeSmall*1.1
+    height: Theme.itemSizeSmall
     anchors { left: parent.left; right: parent.right }
     spacing: Theme.paddingLarge
 

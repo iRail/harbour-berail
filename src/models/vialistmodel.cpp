@@ -78,3 +78,8 @@ void ViaListModel::setViaList(const QList<Via *> &viaList)
 {
     m_viaList = viaList;
 }
+
+int ViaListModel::count() const
+{
+    return this->viaList().length();
+}

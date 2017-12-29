@@ -44,6 +44,8 @@ public:
     QList<Alert *> alertList() const;
     void setAlertList(const QList<Alert *> &alertList);
 
+    Q_INVOKABLE int count() const;
+
 protected:
     QHash<int, QByteArray> roleNames() const;
 

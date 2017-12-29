@@ -45,6 +45,8 @@ public:
     QList<Via *> viaList() const;
     void setViaList(const QList<Via *> &viaList);
 
+    Q_INVOKABLE int count() const;
+
 protected:
     QHash<int, QByteArray> roleNames() const;
 

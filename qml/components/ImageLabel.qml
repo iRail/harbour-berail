@@ -14,25 +14,26 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "remarks.h"
 
-/**
- * @class Remarks
- * @brief Remarks default constructor overide
- */
-Remarks::Remarks()
-{
-    this->setAlerts(QList<Alert*>()); // Init list
-}
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-/**
- * @class Remarks
- * @brief Remarks constructor overide
- * @param alerts
- * @param timestamp
- */
-Remarks::Remarks(QList<Alert*> alerts, QDateTime timestamp)
-{
-    this->setAlerts(alerts);
-    this->setTimestamp(timestamp);
+Row {
+    property string text
+    property string source
+
+    id: imageLabel
+    spacing: Theme.paddingMedium
+
+    Label {
+        id: label
+        text: imageLabel.text
+    }
+
+    Image {
+        width: Theme.iconSizeSmall
+        height: Theme.iconSizeSmall
+        anchors.verticalCenter: parent.verticalCenter
+        source: imageLabel.source
+    }
 }

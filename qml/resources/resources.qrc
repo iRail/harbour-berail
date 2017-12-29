@@ -10,7 +10,7 @@
         <file>icons/icon-train.png</file>
         <file>icons/icon-switch.png</file>
         <file>icons/icon-change.png</file>
-        <file>icons/icon-announcement.png</file>
+        <file>icons/icon-alert.png</file>
         <file>icons/icon-twitter.png</file>
     </qresource>
 </RCC>

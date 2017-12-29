@@ -22,7 +22,7 @@
  */
 Disturbances::Disturbances()
 {
-
+    this->setAlerts(QList<Alert*>()); // Init list
 }
 
 /**

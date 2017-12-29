@@ -626,7 +626,6 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
         QJsonObject fromOccupancyObj = departureObj["occupancy"].toObject();
         QJsonObject toOccupancyObj = arrivalObj["occupancy"].toObject();
         QJsonObject connectionOccupancyObj = item["occupancy"].toObject();
-        QJsonObject connectionAlertsObj = item["alerts"].toObject();
         int connectionDuration = item["duration"].toString().toInt();
         int connectionId = item["id"].toString().toInt();
         QJsonObject viasObj = item["vias"].toObject();
@@ -638,6 +637,8 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
         QString fromVehicleId = departureObj["vehicle"].toString();
         QString toVehicleId = arrivalObj["vehicle"].toString();
         QList<Via*> viaList;
+        QList<Alert*> alertsListConnection;
+        QList<Alert*> remarksListConnection;
 
         // Departure Stop
         QGeoCoordinate fromStationLocation(fromStationObj["locationY"].toString().toDouble(), fromStationObj["locationX"].toString().toDouble());
@@ -678,6 +679,46 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
                 arrivalObj["direction"].toObject()["name"].toString(),
                 this->parseStringToBool(arrivalObj["walking"].toString())
                 );
+
+        // Connection alerts
+        // Return an empty Disturbances object if no alerts are available
+        Disturbances* disturbancesConnection = new Disturbances();
+        if(item.contains("alerts")) {
+            qDebug() << "Alerts detected";
+            QJsonArray alertArray = item["alerts"].toObject()["alert"].toArray();
+
+            // Loop through array and parse the JSON Alerts objects as C++ models
+            foreach (const QJsonValue &item, alertArray) {
+                QJsonObject alertObj = item.toObject();
+                qDebug() << alertObj["id"].toString();
+                QDateTime timestampAlert;
+                timestampAlert.setTime_t(alertObj["startTime"].toString().toInt());
+                Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampAlert);
+                alertsListConnection.append(alert);
+            }
+            // Update the disturbances for the specific item
+            disturbancesConnection->setAlerts(alertsListConnection);
+        }
+
+        // Connection remarks
+        // Return an empty Disturbances object if no alerts are available
+        Remarks* remarksConnection = new Remarks();
+        if(item.contains("remarks")) {
+            qDebug() << "Remarks detected";
+            QJsonArray remarkArray = item["remarks"].toObject()["remark"].toArray();
+
+            // Loop through array and parse the JSON Alerts objects as C++ models
+            foreach (const QJsonValue &item, remarkArray) {
+                QJsonObject alertObj = item.toObject();
+                qDebug() << alertObj["id"].toString();
+                QDateTime timestampAlert;
+                timestampAlert.setTime_t(alertObj["startTime"].toString().toInt());
+                Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampAlert);
+                remarksListConnection.append(alert);
+            }
+            // Update the disturbances for the specific item
+            remarksConnection->setAlerts(remarksListConnection);
+        }
 
         // Handle vias Stops
         foreach (const QJsonValue &via, viasArray) {
@@ -762,7 +803,7 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
 
         IRail::Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());
         // TO DO: enable disturbances and remarks for the whole connection
-        Connection* connection = new Connection(connectionId, fromStop, toStop, fromVehicleId, toVehicleId, new Disturbances(), new Remarks(), connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections);
+        Connection* connection = new Connection(connectionId, fromStop, toStop, fromVehicleId, toVehicleId, disturbancesConnection, remarksConnection, connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections);
         connectionList.append(connection);
         qDebug() << "CONNECTION:";
         qDebug() << "\tFrom:" << connection->from()->station()->name();

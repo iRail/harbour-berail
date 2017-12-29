@@ -63,7 +63,6 @@ DISTFILES += \
     qml/pages/DatePickerPage.qml \
     qml/pages/components/TripItem.qml \
     qml/pages/js/trip.js \
-    qml/pages/TripDetailPage.qml \
     qml/pages/components/LiveBoardItem.qml \
     qml/pages/components/CancelOverlay.qml \
     qml/pages/js/liveboard.js \
