@@ -34,6 +34,8 @@ Page {
         anchors.fill: parent
 
         PullDownMenu {
+            busy: api.busy
+
             MenuItem {
                 //: When clicked, the user will see a list of station from which the user can choose one.
                 //% "Select station"

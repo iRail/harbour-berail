@@ -94,10 +94,6 @@
         <source>Travelling from/to work or school? Then is this option for you! Select your favourite stations below.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="To">
-        <source>To</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="berail-about">
         <source>About</source>
         <oldsource>About %0 V%1</oldsource>
@@ -136,19 +132,9 @@
         <translation type="unfinished">Broncode</translation>
     </message>
     <message id="berail-translations">
-        <source>%0 can be translated into your language but for that we need your help! You can translate this app on %1</source>
-        <oldsource>%1 can be translated into your language but for that we need your help! You can translate this app on %2</oldsource>
+        <source>Translations</source>
+        <oldsource>%0 can be translated into your language but for that we need your help! You can translate this app on %1</oldsource>
         <translation type="unfinished">%1 kan in je taal vertaald worden, maar daarvoor hebben we je hulp nodig! Je kan deze app vertalen op %2</translation>
-    </message>
-    <message id="berail-project">
-        <source>%0 project</source>
-        <oldsource>%1 project</oldsource>
-        <translation type="unfinished">%1 project</translation>
-    </message>
-    <message id="berail-icon">
-        <source>%0 icon by %1</source>
-        <oldsource>%1 icon by %2</oldsource>
-        <translation type="unfinished">Icoon dankzij %1</translation>
     </message>
     <message id="berail-powered-by">
         <source>Powered by</source>
@@ -218,6 +204,18 @@
         <source>Platform %0</source>
         <extracomment>The platform where the train arrives or departures</extracomment>
         <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-translations-text">
+        <source>%0 can be translated into your language but for that we need your help! You can translate this app on %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-translations-project">
+        <source>%0 project</source>
+        <translation type="unfinished">%1 project</translation>
+    </message>
+    <message id="berail-powered-by-icon">
+        <source>%0 icon by %1</source>
+        <translation type="unfinished">Icoon dankzij %1</translation>
     </message>
 </context>
 <context>

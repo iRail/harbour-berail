@@ -51,4 +51,11 @@ Page {
             vias: model.vias
         }
     }
+
+    BusyIndicator {
+        id: busyIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: Qt.application.active && api.busy
+    }
 }

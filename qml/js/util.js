@@ -30,6 +30,10 @@ function formatDelay(delayInSeconds) {
     return "+" + formatTime(delayInSeconds);
 }
 
+function mergeTimeDelay(time, delayInSeconds) {
+    return new Date(time.getTime() + delayInSeconds*1000)
+}
+
 function filterId(id) {
     var filterRegex = /^(S[0-9])|(ICE)|(THA)|(IC)|(EUR)|(TGV)|(P)|(L)/;
     return filterRegex.exec(id)[0];

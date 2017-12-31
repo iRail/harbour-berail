@@ -23,28 +23,51 @@ BackgroundItem {
     property string link
     property string source
     property string text
-    property bool show: true
-    property int type
+    property string placeholderText
+    property bool valid: station.text.indexOf(button._fromText) == -1 && station.text.indexOf(button._toText) == -1
+
+    //% "From"
+    property string _fromText: qsTrId("berail-from")
+    //% "To"
+    property string _toText: qsTrId("berail-to")
 
     width: parent.width
-    height: Theme.itemSizeLarge
+    height: Theme.itemSizeExtraLarge
     anchors { left: parent.left; right: parent.right }
-    onClicked: Qt.openUrlExternally(link)
-    enabled: link.length > 0
-    visible: button.text.length && button.show
+    onClicked: {
+        var _page = pageStack.push(link);
+        _page.selected.connect(function(newText) {
+            button.text = newText;
+        });
+    }
+    enabled: link.length
 
     Row {
         anchors { left: parent.left; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingLarge; verticalCenter: parent.verticalCenter }
         spacing: Theme.paddingMedium
 
-        Image {
-            id: logo
-            width: Theme.iconSizeMedium
-            height: width
-            source: button.source
+        Column {
+            spacing: Theme.paddingSmall
+
+            Image {
+                id: logo
+                width: Theme.iconSizeMedium
+                height: width
+                source: button.source
+            }
+
+            Label {
+                anchors.horizontalCenter: logo.horizontalCenter
+                font.pixelSize: Theme.fontSizeTiny
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignHCenter
+                visible: button.valid
+                text: button.placeholderText
+            }
         }
 
         Label {
+            id: station
             width: parent.width - logo.width
             anchors { verticalCenter: parent.verticalCenter }
             font.pixelSize: Theme.fontSizeMedium

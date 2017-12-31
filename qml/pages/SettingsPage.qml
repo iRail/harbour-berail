@@ -96,30 +96,32 @@ Page {
                 checked: settings.favouriteStationsEnabled
             }
 
-            GlassButton {
+            GlassStationButton {
                 id: favouriteFromStation
                 link: Qt.resolvedUrl("StationSelectorPage.qml")
-                type: 1
                 source: "qrc:///icons/icon-train.png"
                 text: settings.favouriteFromStation.length > 0?
                               settings.favouriteFromStation:
                               //% "From"
                               qsTrId("berail-from")
+                placeholderText: //% "From"
+                                 qsTrId("berail-from")
                 enabled: favouriteStations.checked
                 opacity: enabled? app.fadeInValue: app.fadeOutValue
 
                 Behavior on opacity { FadeAnimator {} }
             }
 
-            GlassButton {
+            GlassStationButton {
                 id: favouriteToStation
                 link: Qt.resolvedUrl("StationSelectorPage.qml")
-                type: 1
                 source: "qrc:///icons/icon-train.png"
                 text: settings.favouriteToStation.length > 0?
                               settings.favouriteToStation:
                               //% "To"
-                              qsTrId("To")
+                              qsTrId("berail-to")
+                placeholderText: //% "To"
+                                 qsTrId("berail-to")
                 enabled: favouriteStations.checked
                 opacity: enabled? app.fadeInValue: app.fadeOutValue
 

@@ -29,7 +29,7 @@ Column {
     property string _fromText: qsTrId("berail-from")
     //% "To"
     property string _toText: qsTrId("berail-to")
-    property bool readyToPlan: from.valid && to.valid
+    property bool readyToPlan: from.valid && to.valid && from.text != to.text
     signal _changeStations()
     signal dateSelected()
     signal timeSelected()
@@ -46,27 +46,63 @@ Column {
         Column {
             width: parent.width - Theme.itemSizeMedium
 
-            GlassButton {
+            /*GlassButton {
                 // Valid when a station is set and it's not From or To
                 property bool valid: text.length > 0 && text.indexOf(_fromText) == -1 && text.indexOf(_toText) == -1
 
                 id: from
+                height: Theme.itemSizeLarge + fromLabel.height + Theme.paddingSmall // Provide padding
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
                 source: "qrc:///icons/icon-train.png"
                 text: settings.favouriteStationsEnabled? settings.favouriteFromStation: _fromText
+
+
+            }*/
+
+            GlassStationButton {
+                id: from
+                link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
+                source: "qrc:///icons/icon-train.png"
+                text: settings.favouriteStationsEnabled? settings.favouriteFromStation: _fromText
+                placeholderText: _fromText
             }
 
-            GlassButton {
+            GlassStationButton {
+                id: to
+                link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
+                source: "qrc:///icons/icon-train.png"
+                text: settings.favouriteStationsEnabled? settings.favouriteToStation: _toText
+                placeholderText: _toText
+            }
+
+            /*GlassButton {
                 // Valid when a station is set and it's not From or To
                 property bool valid: text.length > 0 && text.indexOf(_fromText) == -1 && text.indexOf(_toText) == -1
 
                 id: to
+                height: Theme.itemSizeLarge + toLabel.height + Theme.paddingSmall // Provide padding
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
                 type: 1
                 source: "qrc:///icons/icon-train.png"
                 text: settings.favouriteStationsEnabled? settings.favouriteToStation: _toText
-            }
+
+                Label {
+                    id: toLabel
+                    // Center on GlassButton icon
+                    anchors {
+                        left: parent.left;
+                        leftMargin: -width/2 + Theme.paddingLarge + Theme.iconSizeMedium/2
+                        bottom: parent.bottom
+                        bottomMargin: Theme.paddingSmall/2
+                    }
+                    font.pixelSize: Theme.fontSizeTiny
+                    color: Theme.highlightColor
+                    horizontalAlignment: Text.AlignHCenter
+                    visible: parent.text.indexOf(_fromText) == -1 && parent.text.indexOf(_toText) == -1
+                    text: _toText
+                }
+            }*/
         }
 
         BackgroundItem {
@@ -114,7 +150,7 @@ Column {
             }
         }
 
-        ValueButton {         
+        ValueButton {
             id: time
             width: parent.width - date.width
             //% "Time"

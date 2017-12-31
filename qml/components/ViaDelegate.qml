@@ -24,11 +24,13 @@ ListItem {
     property string vehicleDirection
     property bool vehicleLeft
     property bool vehicleArrived
-    property string station
     property date arrivedDate
-    property date leftDate
+    property int arrivedDelay
     property string arrivedPlatform
+    property date leftDate
+    property int leftDelay
     property string leftPlatform
+    property string station
     property int between
 
     id: via
@@ -46,9 +48,9 @@ ListItem {
         color: via.vehicleLeft? Theme.secondaryHighlightColor: Theme.secondaryColor
 
         Rectangle {
-            // Creates a black background to avoid ugly overlaps due the fact that the Theme colors are partly transparent
-            width: Theme.iconSizeSmall*1.3 // Theme.iconSizeMedium is too big
-            height: Theme.iconSizeSmall*1.3
+            // Creates a darker background to avoid ugly overlaps due the fact that the Theme colors are partly transparent
+            width: Theme.iconSizeSmall*1.25 // Theme.iconSizeMedium is too big
+            height: Theme.iconSizeSmall*1.25
             anchors.centerIn: parent
             radius: width/2
             color: black
@@ -70,12 +72,32 @@ ListItem {
 
         Label {
             font.capitalization: Font.SmallCaps
-            text: via.arrivedDate.toLocaleTimeString(Qt.locale(), "HH:mm")
+            text: Utils.mergeTimeDelay(via.arrivedDate, via.arrivedDelay).toLocaleTimeString(Qt.locale(), "HH:mm")
+
+            Rectangle {
+                // Make the Rectangle a little bit bigger then the time indicator
+                anchors.centerIn: parent
+                width: parent.width*1.2
+                height: parent.height*1.05
+                radius: parent.width/4
+                opacity: Theme.highlightBackgroundOpacity
+                color: via.arrivedDelay > 0? yellow: transparent
+            }
         }
 
         Label {
             font.capitalization: Font.SmallCaps
-            text: via.leftDate.toLocaleTimeString(Qt.locale(), "HH:mm")
+            text: Utils.mergeTimeDelay(via.leftDate, via.leftDelay).toLocaleTimeString(Qt.locale(), "HH:mm")
+
+            Rectangle {
+                // Make the Rectangle a little bit bigger then the time indicator
+                anchors.centerIn: parent
+                width: parent.width*1.2
+                height: parent.height*1.05
+                radius: parent.width/4
+                opacity: Theme.highlightBackgroundOpacity
+                color: via.leftDelay > 0? yellow: transparent
+            }
         }
     }
 

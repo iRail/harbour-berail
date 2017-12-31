@@ -41,6 +41,8 @@ Page {
         contentHeight: column.height
 
         PullDownMenu {
+            busy: api.busy
+
             MenuItem {
                 //: About title
                 //% "About"

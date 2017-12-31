@@ -73,7 +73,8 @@ DISTFILES += \
     qml/pages/components/DisturbancesView.qml \
     qml/pages/DisturbancesPage.qml \
     qml/pages/SettingsPage.qml \
-    translations/harbour-berail-en.ts
+    translations/harbour-berail-en.ts \
+    qml/components/GlassStationButton.qml
 
 RESOURCES += \
     qml/resources/resources.qrc

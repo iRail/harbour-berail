@@ -34,7 +34,7 @@ Page {
         Column {
             id: column
             width: parent.width
-            spacing: Theme.paddingLarge
+            spacing: Theme.paddingMedium
 
             //% "About %0 V%1"
             PageHeader { title: qsTrId("berail-version").arg(sfos.appNamePretty).arg(sfos.appVersion) }
@@ -81,16 +81,19 @@ Page {
                 text: qsTrId("berail-source")
             }
 
+            //% "Translations"
+            SectionHeader { text: qsTrId("berail-translations") }
+
             TextLabel {
                 //% "%0 can be translated into your language but for that we need your help! You can translate this app on %1"
-                text: qsTrId("berail-translations").arg(sfos.appNamePretty).arg("Transifex:")
+                text: qsTrId("berail-translations-text").arg(sfos.appNamePretty).arg("Transifex:")
             }
 
             GlassButton {
                 link: "https://www.transifex.com/dylanvanassche/harbour-berail"
                 source: "qrc:///icons/icon-translate.png"
                 //% "%0 project"
-                text: qsTrId("berail-project").arg("Transifex")
+                text: qsTrId("berail-translations-project").arg("Transifex")
             }
 
             //% "Powered by"
@@ -112,7 +115,7 @@ Page {
                 link: "https://twitter.com/eLtMosen"
                 source: "qrc:///icons/icon-twitter.png"
                 //% "%0 icon by %1"
-                text: qsTrId("berail-icon").arg(sfos.appNamePretty).arg("Timo Könnecke")
+                text: qsTrId("berail-powered-by-icon").arg(sfos.appNamePretty).arg("Timo Könnecke")
             }
         }
     }
