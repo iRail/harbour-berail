@@ -21,10 +21,21 @@ import "../components"
 import "../js/util.js" as Utils
 
 ListItem {
+    id: trip
     property bool _showVias: false
+    property var vias
 
     contentHeight: row.height + Theme.paddingLarge
-    onClicked: _showVias == true? _showVias = false: _showVias = true
+    enabled: false
+
+    // ViaListView blocks the ListItem to capture the touch interactions
+    BackgroundItem {
+        id: touchArea
+        anchors.fill: parent
+        z: 1
+        onClicked: _showVias == true? _showVias = false: _showVias = true
+        enabled: vias.count() > 0
+    }
 
     Row {
         id: row
@@ -58,14 +69,23 @@ ListItem {
                 visible: _showVias
                 opacity: api.busy? fadeOutValue: 1.0
                 Behavior on opacity { FadeAnimator {} }
-                model: 6
+                Behavior on height { NumberAnimation { duration: animationExpansionValue } }
+                model: vias
                 delegate: ViaDelegate {
                     width: ListView.view.width
                     enabled: false // Nothing to click on
-                    vehicleLeft: index < 2
+                    vehicleId: model.vehicleId
+                    vehicleDirection: model.departure.direction
+                    vehicleArrived: model.arrival.left
+                    arrivedDate: model.arrival.scheduledArrivalTime
+                    arrivedPlatform: model.arrival.platform
+                    vehicleLeft: model.departure.left
+                    leftDate: model.departure.scheduledDepartureTime
+                    leftPlatform: model.departure.platform
+                    station: model.station.name
+                    between: model.timeBetween
                 }
             }
-
 
             TripStationIndicator {
                 time: model.to.scheduledDepartureTime
@@ -82,10 +102,11 @@ ListItem {
             width: Theme.itemSizeSmall
             spacing: Theme.paddingSmall
 
-            Label {
+            ImageLabel {
                 anchors.right: parent.right
                 text: page.isPortrait? Utils.filterId(model.fromVehicleId.split(".")[2]).toString(): // Short ID
-                                             model.fromVehicleId.split(".")[2] // Long ID
+                                       model.fromVehicleId.split(".")[2] // Long ID
+                source: Utils.convertOccupancyType(model.occupancy)
             }
 
             ImageLabel {
@@ -97,8 +118,8 @@ ListItem {
 
             ImageLabel {
                 anchors.right: parent.right
-                visible: model.vias.count() > 0
-                text: model.vias.count()
+                visible: vias.count() > 0
+                text: vias.count()
                 source: "qrc:///icons/icon-change.png"
             }
         }

@@ -72,6 +72,7 @@ Row {
             anchors { left: parent.left; right: parent.right }
             truncationMode: TruncationMode.Fade
             font.capitalization: Font.AllUppercase
+            font.bold: true
             text: indicator.station
         }
 

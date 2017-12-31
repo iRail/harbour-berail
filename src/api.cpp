@@ -730,7 +730,7 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             QJsonObject viaDeparturePlatformObj = viaDepartureObj["platforminfo"].toObject();
             QJsonObject viaArrivalOccupancyObj = viaArrivalObj["occupancy"].toObject();
             QJsonObject viaDepartureOccupancyObj = viaDepartureObj["occupancy"].toObject();
-            QString viaVehicleId = viaObj["vehicle"].toString();
+            QString viaVehicleId = viaDepartureObj["vehicle"].toString();
             int viaTimeBetween = viaObj["timeBetween"].toString().toInt();
             QDateTime viaArrivalTime;
             viaArrivalTime.setTime_t(viaArrivalObj["time"].toString().toInt());

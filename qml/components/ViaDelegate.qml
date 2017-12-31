@@ -17,14 +17,28 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../js/util.js" as Utils
 
 ListItem {
-    id: via
+    property string vehicleId
+    property string vehicleDirection
     property bool vehicleLeft
+    property bool vehicleArrived
+    property string station
+    property date arrivedDate
+    property date leftDate
+    property string arrivedPlatform
+    property string leftPlatform
+    property int between
+
+    id: via
+    height: Theme.itemSizeHuge*1.1
+    width: parent.width
 
     Rectangle {
+        id: stopIndicator
         width: Theme.iconSizeExtraSmall
-        height: via.contentHeight
+        height: via.height
         anchors {
             left: parent.left
             leftMargin: (Theme.itemSizeMedium-width)/2 // Center in TripStationIndicator Rectangle
@@ -46,6 +60,57 @@ ListItem {
                 radius: width/2
                 color: via.vehicleLeft? Theme.secondaryHighlightColor: Theme.secondaryColor
             }
+        }
+    }
+
+    Column {
+        id: timeIndicator
+        width: childrenRect.width // Follow the size of the children
+        anchors { left: stopIndicator.right; leftMargin: Theme.paddingLarge; verticalCenter: stopIndicator.verticalCenter }
+
+        Label {
+            font.capitalization: Font.SmallCaps
+            text: via.arrivedDate.toLocaleTimeString(Qt.locale(), "HH:mm")
+        }
+
+        Label {
+            font.capitalization: Font.SmallCaps
+            text: via.leftDate.toLocaleTimeString(Qt.locale(), "HH:mm")
+        }
+    }
+
+    Column {
+        anchors {
+            left: timeIndicator.right
+            leftMargin: Theme.paddingMedium
+            right: parent.right
+            verticalCenter: stopIndicator.verticalCenter
+        }
+
+        Label {
+            anchors { left: parent.left; right: parent.right }
+            truncationMode: TruncationMode.Fade
+            font.capitalization: Font.SmallCaps
+            font.bold: true
+            text: via.station
+        }
+
+        Label {
+            anchors { left: parent.left; right: parent.right }
+            truncationMode: TruncationMode.Fade
+            font.pixelSize: Theme.fontSizeExtraSmall
+            text: (page.isPortrait? Utils.filterId(via.vehicleId.split(".")[2]): via.vehicleId.split(".")[2]) + ": " + vehicleDirection
+        }
+
+        Label {
+            anchors { left: parent.left; right: parent.right }
+            truncationMode: TruncationMode.Fade
+            font.pixelSize: Theme.fontSizeExtraSmall
+            //: The platform where the train arrives or departures
+            //% "Platform %0"
+            text: qsTrId("berail-trip-platform").arg(via.arrivedPlatform)
+                  + " → %0".arg(via.leftPlatform)
+                  + " | ⏱" + Utils.formatTime(via.between)
         }
     }
 }

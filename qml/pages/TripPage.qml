@@ -48,6 +48,7 @@ Page {
         }
         delegate: TripDelegate {
             width: ListView.view.width
+            vias: model.vias
         }
     }
 }

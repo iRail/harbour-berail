@@ -15,15 +15,19 @@
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-function formatDelay(delayInSeconds) {
-    var delayMinutes = delayInSeconds/60; // Convert to minutes
-    var delayHours = Math.floor(delayMinutes/60); // Convert to hours
+function formatTime(timeInSeconds) {
+    var minutes = timeInSeconds/60; // Convert to minutes
+    var hours = Math.floor(minutes/60); // Convert to hours
 
-    if(delayMinutes < 10) { // Add leading zero if needed
-        delayMinutes = "0" + delayMinutes;
+    if(minutes < 10) { // Add leading zero if needed
+        minutes = "0" + minutes;
     }
 
-    return "+" + delayHours + "H" + delayMinutes;
+    return hours + "H" + minutes;
+}
+
+function formatDelay(delayInSeconds) {
+    return "+" + formatTime(delayInSeconds);
 }
 
 function filterId(id) {
@@ -37,5 +41,24 @@ function convertTransportType(type) {
         return IRail.All
     case 1:
         return IRail.NoInternationalTrains
+    }
+}
+
+// QML JS doesn't know Enum types as value, they can be only a return value
+// IRail.High = 3
+// IRail.Medium = 2
+// IRail.Low = 1
+// IRail.Unknown = 0
+function convertOccupancyType(type) {
+    switch(type) {
+    case 3:
+        return "qrc:///icons/icon-occupancy-high.png"
+    case 2:
+        return "qrc:///icons/icon-occupancy-medium.png"
+    case 1:
+        return "qrc:///icons/icon-occupancy-low.png"
+    case 0:
+    default:
+        return "qrc:///icons/icon-occupancy-unknown.png"
     }
 }
