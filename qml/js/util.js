@@ -44,7 +44,7 @@ function convertTransportType(type) {
     }
 }
 
-// QML JS doesn't know Enum types as value, they can be only a return value
+// QML JS doesn't know IRail Enum types as value, they can be only a return value
 // IRail.High = 3
 // IRail.Medium = 2
 // IRail.Low = 1
@@ -52,13 +52,13 @@ function convertTransportType(type) {
 function convertOccupancyType(type) {
     switch(type) {
     case 3:
-        return "qrc:///icons/icon-occupancy-high.png"
+        return "qrc:///icons/icon-occupancy-high.svg"
     case 2:
-        return "qrc:///icons/icon-occupancy-medium.png"
+        return "qrc:///icons/icon-occupancy-medium.svg"
     case 1:
-        return "qrc:///icons/icon-occupancy-low.png"
+        return "qrc:///icons/icon-occupancy-low.svg"
     case 0:
     default:
-        return "qrc:///icons/icon-occupancy-unknown.png"
+        return "qrc:///icons/icon-occupancy-unknown.svg"
     }
 }

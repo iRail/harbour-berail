@@ -12,9 +12,9 @@
         <file>icons/icon-change.png</file>
         <file>icons/icon-alert.png</file>
         <file>icons/icon-twitter.png</file>
-        <file>icons/icon-occupancy-high.png</file>
-        <file>icons/icon-occupancy-low.png</file>
-        <file>icons/icon-occupancy-medium.png</file>
-        <file>icons/icon-occupancy-unknown.png</file>
+        <file>icons/icon-occupancy-high.svg</file>
+        <file>icons/icon-occupancy-low.svg</file>
+        <file>icons/icon-occupancy-medium.svg</file>
+        <file>icons/icon-occupancy-unknown.svg</file>
     </qresource>
 </RCC>
