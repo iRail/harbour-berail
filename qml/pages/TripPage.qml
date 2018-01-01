@@ -50,6 +50,8 @@ Page {
             width: ListView.view.width
             vias: model.vias
         }
+
+        VerticalScrollDecorator {}
     }
 
     BusyIndicator {

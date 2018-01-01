@@ -66,6 +66,8 @@ Page {
                 enabled: false // Disabled until intermediate stops are ready
                 onClicked: model.canceled? undefined: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
             }
+
+            VerticalScrollDecorator {}
         }
 
         BusyIndicator {

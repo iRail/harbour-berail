@@ -61,6 +61,8 @@ Page {
                 pageStack.pop()
             }
         }
+
+        VerticalScrollDecorator {}
     }
 
     BusyIndicator {

@@ -60,6 +60,7 @@ ApplicationWindow
         property string favouriteFromStation
         property string favouriteToStation
         property string savedLiveboardStation
+        property string recentConnections: "[]" // Avoid JSON parsing errors
     }
 
     API {

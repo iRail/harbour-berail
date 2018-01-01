@@ -27,64 +27,134 @@ Page {
 
     id: page
 
-    SFOS {
-        id: sfos
-    }
-
-    Connections {
-        target: api
-        onDisturbancesChanged: _numberOfDisturbances = api.disturbances.length
-    }
-
-    SilicaFlickable {
+    Drawer {
+        id: drawer
         anchors.fill: parent
-        contentHeight: column.height
-
-        PullDownMenu {
-            busy: api.busy
-
-            MenuItem {
-                //: About title
-                //% "About"
-                text: qsTrId("berail-about")
-                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+        hideOnMinimize: true
+        background: SilicaListView {
+            width: parent.width
+            anchors.fill: parent
+            header: PageHeader {
+                //: Recent connections of the user
+                //% "Recent connections"
+                title: qsTrId("berail-recent-connections")
+            }
+            model: recentConnectionsModel
+            delegate: RecentConnectionsDelegate {
+                width: ListView.view.width
+                date: model.date
+                from: model.from
+                to: model.to
+                onClicked: {
+                    drawer.open = false
+                    pageStack.push(Qt.resolvedUrl("../pages/TripPage.qml"), {
+                                              from: model.from,
+                                              to: model.to,
+                                              date: model.date,
+                                          })
+                }
             }
 
-            MenuItem {
-                //: Settings title
-                //% "Settings"
-                text: qsTrId("berail-settings")
-                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
-            }
+            VerticalScrollDecorator {}
+        }
 
-            MenuItem {
-                //: Liveboard title
-                //% "Liveboard"
-                //~ A list of all departing/arriving trains in a station.
-                text: qsTrId("berail-liveboard")
-                onClicked: pageStack.push(Qt.resolvedUrl("LiveboardPage.qml"))
+        ListModel {
+            id: recentConnectionsModel
+
+            // Read the JSON string, convert it to an JSON object and load it into the ListView
+            function update() {
+                var model = JSON.parse(settings.recentConnections)
+                clear()
+                for(var i=0; i < model.length; i++) {
+                    append(model[i])
+                }
+                console.debug("Updated recent connections model")
             }
         }
 
-        Column {
-            id: column
-            width: parent.width
+        SFOS {
+            id: sfos
+        }
 
-            PageHeader {
-                title: sfos.appNamePretty
-                //% "The official iRail app"
-                description: qsTrId("berail-official-irail-app")
+        Connections {
+            target: api
+            onDisturbancesChanged: _numberOfDisturbances = api.disturbances.length
+        }
+
+        Connections {
+            target: settings
+            onRecentConnectionsChanged: console.log("Update history")
+        }
+
+        MouseArea {
+            enabled: drawer.open
+            anchors.fill: parent
+            onClicked: drawer.open = false
+        }
+
+        SilicaFlickable {
+            anchors.fill: parent
+            contentHeight: column.height
+            enabled: !drawer.open
+
+            PullDownMenu {
+                busy: api.busy
+
+                MenuItem {
+                    //: About title
+                    //% "About"
+                    text: qsTrId("berail-about")
+                    onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+                }
+
+                MenuItem {
+                    //: Settings title
+                    //% "Settings"
+                    text: qsTrId("berail-settings")
+                    onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+                }
+
+                MenuItem {
+                    //: Liveboard title
+                    //% "Liveboard"
+                    //~ A list of all departing/arriving trains in a station.
+                    text: qsTrId("berail-liveboard")
+                    onClicked: pageStack.push(Qt.resolvedUrl("LiveboardPage.qml"))
+                }
             }
 
-            ConnectionSelector {}
+            Column {
+                id: column
+                width: parent.width
 
-            MoreButton {
-                //: Network interruptions
-                //% "Disturbances (%L0)"
-                text: qsTrId("berail-disturbances-number").arg(_numberOfDisturbances)
-                enabled: _numberOfDisturbances > 0
-                opacity: enabled? fadeInValue: fadeOutValue
-                onClicked: pageStack.push(Qt.resolvedUrl("DisturbancesPage.qml"))
+                PageHeader {
+                    title: sfos.appNamePretty
+                    //% "The official iRail app"
+                    description: qsTrId("berail-official-irail-app")
+                }
+
+                ConnectionSelector {}
+
+                MoreButton {
+                    //: Recent connections of the user
+                    //% "Recent connections"
+                    text: qsTrId("berail-recent-connections")
+                    enabled: JSON.parse(settings.recentConnections).length > 0
+                    opacity: enabled? fadeInValue: fadeOutValue
+                    onClicked: {
+                        recentConnectionsModel.update() // refresh model
+                        drawer.open = true
+                    }
+                }
+
+                MoreButton {
+                    //: Network interruptions
+                    //% "Disturbances (%L0)"
+                    text: qsTrId("berail-disturbances-number").arg(_numberOfDisturbances)
+                    enabled: _numberOfDisturbances > 0
+                    opacity: enabled? fadeInValue: fadeOutValue
+                    onClicked: pageStack.push(Qt.resolvedUrl("DisturbancesPage.qml"))
+                }
             }
         }
     }

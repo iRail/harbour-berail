@@ -217,6 +217,11 @@
         <source>%0 icon by %1</source>
         <translation type="unfinished">Icoon dankzij %1</translation>
     </message>
+    <message id="berail-recent-connections">
+        <source>Recent connections</source>
+        <extracomment>Recent connections of the user</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>

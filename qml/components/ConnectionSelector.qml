@@ -46,20 +46,6 @@ Column {
         Column {
             width: parent.width - Theme.itemSizeMedium
 
-            /*GlassButton {
-                // Valid when a station is set and it's not From or To
-                property bool valid: text.length > 0 && text.indexOf(_fromText) == -1 && text.indexOf(_toText) == -1
-
-                id: from
-                height: Theme.itemSizeLarge + fromLabel.height + Theme.paddingSmall // Provide padding
-                link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
-                type: 1
-                source: "qrc:///icons/icon-train.png"
-                text: settings.favouriteStationsEnabled? settings.favouriteFromStation: _fromText
-
-
-            }*/
-
             GlassStationButton {
                 id: from
                 link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
@@ -75,34 +61,6 @@ Column {
                 text: settings.favouriteStationsEnabled? settings.favouriteToStation: _toText
                 placeholderText: _toText
             }
-
-            /*GlassButton {
-                // Valid when a station is set and it's not From or To
-                property bool valid: text.length > 0 && text.indexOf(_fromText) == -1 && text.indexOf(_toText) == -1
-
-                id: to
-                height: Theme.itemSizeLarge + toLabel.height + Theme.paddingSmall // Provide padding
-                link: Qt.resolvedUrl("../pages/StationSelectorPage.qml")
-                type: 1
-                source: "qrc:///icons/icon-train.png"
-                text: settings.favouriteStationsEnabled? settings.favouriteToStation: _toText
-
-                Label {
-                    id: toLabel
-                    // Center on GlassButton icon
-                    anchors {
-                        left: parent.left;
-                        leftMargin: -width/2 + Theme.paddingLarge + Theme.iconSizeMedium/2
-                        bottom: parent.bottom
-                        bottomMargin: Theme.paddingSmall/2
-                    }
-                    font.pixelSize: Theme.fontSizeTiny
-                    color: Theme.highlightColor
-                    horizontalAlignment: Text.AlignHCenter
-                    visible: parent.text.indexOf(_fromText) == -1 && parent.text.indexOf(_toText) == -1
-                    text: _toText
-                }
-            }*/
         }
 
         BackgroundItem {
@@ -181,11 +139,37 @@ Column {
         //% "Plan my trip"
         text: qsTrId("berail-plan-trip")
         enabled: readyToPlan
-        onClicked: pageStack.push(Qt.resolvedUrl("../pages/TripPage.qml"), {
+        onClicked: {
+            var connection = { "date": currentDate, "from": from.text, "to": to.text }
+            var history = JSON.parse(settings.recentConnections)
+            var isDuplicate = false
+
+            // Check for duplicates
+            for(var i=0; i<history.length; i++) {
+                if(JSON.stringify(history[i]) == JSON.stringify(connection)) {
+                    isDuplicate = true
+                    console.debug("Duplicate found!")
+                    break
+                }
+            }
+
+            // Add connection to history if no duplicate
+            if(!isDuplicate) {
+                history.unshift(connection)
+            }
+
+            // Remove the oldest entries
+            while(history.length > 3) {
+                history.pop()
+                console.debug("Popping history array...")
+            }
+            settings.recentConnections = JSON.stringify(history) // Nemo.Configuration can't handle JS values without JSON.stringify
+            pageStack.push(Qt.resolvedUrl("../pages/TripPage.qml"), {
                                       from: from.text,
                                       to: to.text,
                                       date: currentDate,
                                   })
+        }
     }
 
     // Spacer
