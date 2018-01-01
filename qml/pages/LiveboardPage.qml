@@ -21,6 +21,9 @@ import Harbour.BeRail.Models 1.0
 import "../components"
 
 Page {
+    property bool _showHint: settings.savedLiveboardStation.length == 0
+    on_ShowHintChanged: _showHint? hint.start(): hint.stop()
+
     id: page
     // For performance reasons we wait until the Page is fully loaded before doing an API request
     onStatusChanged: status===PageStatus.Active && settings.savedLiveboardStation.length > 0? api.getLiveboard(settings.savedLiveboardStation, new Date(), IRail.Arrival): undefined
@@ -74,6 +77,21 @@ Page {
             anchors.centerIn: parent
             size: BusyIndicatorSize.Large
             running: Qt.application.active && api.busy
+        }
+
+        InteractionHintLabel {
+            anchors.bottom: parent.bottom
+            opacity: _showHint? 1.0 : 0.0
+            Behavior on opacity { FadeAnimation {} }
+            //: When clicked, the user will see a list of station from which the user can choose one.
+            //% "Select station"
+            text: qsTrId("berail-select-station")
+        }
+
+        TouchInteractionHint {
+            id: hint
+            loops: Animation.Infinite
+            direction: TouchInteraction.Down
         }
     }
 }
