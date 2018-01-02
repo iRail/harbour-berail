@@ -1,10 +1,13 @@
 #include "stationlistmodelfilter.h"
+#include <QDebug>
+#include <QtGlobal>
 
 StationListModelFilter::StationListModelFilter()
 {
     this->setSortCaseSensitivity(Qt::CaseInsensitive);
     this->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
     this->setSortRole(StationListModel::NameRole); // Default Qt::DisplayRole
+    this->sort(0);
 }
 
 StationListModelFilter::StationListModelFilter(StationListModel *stationListModel)
@@ -13,6 +16,7 @@ StationListModelFilter::StationListModelFilter(StationListModel *stationListMode
     this->setSourceModel(stationListModel);
     this->setFilterRole(StationListModel::NameRole); // Default Qt::DisplayRole
     this->setSortRole(StationListModel::NameRole); // Default Qt::DisplayRole
+    this->sort(0);
 }
 
 StationListModelFilter::StationListModelFilter(StationListModel *stationListModel, StationListModel::Roles sortRole, StationListModel::Roles filterRole)
@@ -21,6 +25,7 @@ StationListModelFilter::StationListModelFilter(StationListModel *stationListMode
     this->setSourceModel(stationListModel);
     this->setSortRole(sortRole);
     this->setFilterRole(filterRole);
+    this->sort(0);
 }
 
 bool StationListModelFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
@@ -38,6 +43,26 @@ bool StationListModelFilter::filterAcceptsRow(int sourceRow, const QModelIndex &
         }
     }
     return false;
+}
+
+bool StationListModelFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    QVariant leftData = this->sourceModel()->data(left, this->sortRole());
+    QVariant rightData = this->sourceModel()->data(right, this->sortRole());
+    if(this->sortRole() == StationListModel::NameRole) {
+        QString leftName = leftData.toString();
+        QString rightName = rightData.toString();
+        return QString::localeAwareCompare(leftName, rightName) < 0;
+    }
+    else if(this->sortRole() == StationListModel::LocationRole) {
+        QGeoCoordinate leftCoordinate = leftData.value<QGeoCoordinate>();
+        QGeoCoordinate rightCoordinate = rightData.value<QGeoCoordinate>();
+        return leftCoordinate.distanceTo(this->searchLocation()) < rightCoordinate.distanceTo(this->searchLocation());
+    }
+    else {
+        qCritical() << "Sorting role not supported:" << this->sortRole();
+        return false;
+    }
 }
 
 double StationListModelFilter::maxRadiusLocation() const
