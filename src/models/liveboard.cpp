@@ -30,6 +30,15 @@ Liveboard::Liveboard()
 
 }
 
+Liveboard::~Liveboard()
+{
+    if(!this->vehicles().isEmpty()) {
+        foreach(Vehicle* item, this->vehicles()) {
+            item->deleteLater();
+        }
+    }
+}
+
 /*********************
  * Getters & Setters *
  *********************/

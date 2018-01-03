@@ -18,6 +18,7 @@
 function formatTime(timeInSeconds) {
     var minutes = timeInSeconds/60; // Convert to minutes
     var hours = Math.floor(minutes/60); // Convert to hours
+    minutes = minutes - hours*60 // Remove the converted hours
 
     if(minutes < 10) { // Add leading zero if needed
         minutes = "0" + minutes;

@@ -29,29 +29,61 @@ Page {
     id: page
 
     // For performance reasons we wait until the Page is fully loaded before doing an API request
-    onStatusChanged: status===PageStatus.Active? api.getConnections(from, to, IRail.Arrival, date, Utils.convertTransportType(settings.transportFilter)): undefined
+    onStatusChanged: status===PageStatus.Active? getData(): undefined
+
+    function getData() {
+        api.getConnections(from, to, IRail.Arrival, date, Utils.convertTransportType(settings.transportFilter))
+    }
 
     Connections {
         target: api
-        onConnectionsChanged: connectionsListView.model = api.connections
+        onConnectionsChanged: {
+            placeholder.enabled = false
+            connectionsListView.model = api.connections
+        }
+        onErrorOccurred: placeholder.enabled = true
+        onNetworkStateChanged: networkState? getData(): undefined
     }
 
-    SilicaListView {
-        id: connectionsListView
+    SilicaFlickable {
         anchors.fill: parent
-        opacity: api.busy? fadeOutValue: fadeInValue
-        Behavior on opacity { FadeAnimator {} }
-        header: PageHeader {
-            //: The planner for the user it's trips between two stations
-            //% "Trip planner"
-            title: qsTrId("berail-trip-planner")
-        }
-        delegate: TripDelegate {
-            width: ListView.view.width
-            vias: model.vias
+        contentHeight: column.height
+
+        Column {
+            id: column
+            width: parent.width
+
+            PageHeader {
+                //: The planner for the user it's trips between two stations
+                //% "Trip planner"
+                title: qsTrId("berail-trip-planner")
+            }
+
+            SilicaListView {
+                id: connectionsListView
+                width: parent.width
+                height: contentHeight
+                opacity: api.busy? fadeOutValue: fadeInValue
+                visible: !placeholder.enabled
+                Behavior on opacity { FadeAnimator {} }
+                delegate: TripDelegate {
+                    width: ListView.view.width
+                    vias: model.vias
+                }
+
+                VerticalScrollDecorator {}
+            }
         }
 
-        VerticalScrollDecorator {}
+        ViewPlaceholder {
+            id: placeholder
+            enabled: false
+            //: To acknowledging a minor mistake 'Oops' is used
+            //% "Oops!"
+            text: qsTrId("berail-oops")
+            //% "Something went wrong, please try again later"
+            hintText: qsTrId("berail-oops-hint")
+        }
     }
 
     BusyIndicator {

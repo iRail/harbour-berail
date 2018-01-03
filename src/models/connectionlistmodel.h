@@ -43,18 +43,34 @@ public:
 
     explicit ConnectionListModel(QList<Connection *> connectionList);
     explicit ConnectionListModel();
+    ~ConnectionListModel();
 
     virtual int rowCount(const QModelIndex&) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
-
     QList<Connection *> connectionList() const;
     void setConnectionList(const QList<Connection *> &connectionList);
+
+    Station *from() const;
+    void setFrom(Station *from);
+    Station *to() const;
+    void setTo(Station *to);
+    QDateTime time() const;
+    void setTime(const QDateTime &time);
+    IRail::Transport transportType() const;
+    void setTransportType(const IRail::Transport &transportType);
+    IRail::ArrDep arrdep() const;
+    void setArrdep(const IRail::ArrDep &arrdep);
 
 protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
     QList<Connection *> m_connectionList;
+    Station* m_from;
+    Station* m_to;
+    QDateTime m_time;
+    IRail::Transport m_transportType;
+    IRail::ArrDep m_arrdep;
 };
 
 #endif // CONNECTIONLISTMODEL_H

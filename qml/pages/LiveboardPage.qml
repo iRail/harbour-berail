@@ -26,11 +26,23 @@ Page {
 
     id: page
     // For performance reasons we wait until the Page is fully loaded before doing an API request
-    onStatusChanged: status===PageStatus.Active && settings.savedLiveboardStation.length > 0? api.getLiveboard(settings.savedLiveboardStation, new Date(), IRail.Arrival): undefined
+    onStatusChanged: status===PageStatus.Active? getData() : undefined
+
+    function getData() {
+        if(settings.savedLiveboardStation.length > 0)
+        {
+            api.getLiveboard(settings.savedLiveboardStation, new Date(), IRail.Arrival)
+        }
+    }
 
     Connections {
         target: api
-        onLiveboardChanged: liveboardListView.model = api.liveboard.vehicleListModel
+        onLiveboardChanged: {
+            placeholder.enabled = false
+            liveboardListView.model = api.liveboard.vehicleListModel
+        }
+        onErrorOccurred: placeholder.enabled = true
+        onNetworkStateChanged: networkState? getData(): undefined
     }
 
     SilicaFlickable {
@@ -63,6 +75,7 @@ Page {
             anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
             clip: true // Only paint within it's borders
             opacity: api.busy? fadeOutValue: fadeSeeThroughValue
+            visible: !placeholder.enabled
             Behavior on opacity { FadeAnimator {} }
             delegate: LiveboardDelegate {
                 width: ListView.view.width
@@ -92,6 +105,16 @@ Page {
             id: hint
             loops: Animation.Infinite
             direction: TouchInteraction.Down
+        }
+
+        ViewPlaceholder {
+            id: placeholder
+            enabled: false
+            //: To acknowledging a minor mistake 'Oops' is used
+            //% "Oops!"
+            text: qsTrId("berail-oops")
+            //% "Something went wrong, please try again later"
+            hintText: qsTrId("berail-oops-hint")
         }
     }
 }

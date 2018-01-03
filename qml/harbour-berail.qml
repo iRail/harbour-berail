@@ -19,6 +19,7 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 import Nemo.Configuration 1.0
 import Harbour.BeRail.API 1.0
+import Harbour.BeRail.SFOS 1.0
 import "pages"
 import "components"
 
@@ -63,8 +64,13 @@ ApplicationWindow
         property string recentConnections: "[]" // Avoid JSON parsing errors
     }
 
+    SFOS {
+        id: sfos
+    }
+
     API {
         id: api
+        onErrorOccurred: sfos.createToaster(errorText, "icon-s-high-importance", "x-harbour-berail")
     }
 }
 

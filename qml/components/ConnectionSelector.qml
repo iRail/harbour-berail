@@ -90,7 +90,7 @@ Column {
             width: parent.width/1.75
             //% "Date"
             label: qsTrId("berail-date")
-            value: currentDate.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
+            value: currentDate.toLocaleDateString(Qt.locale(), "d MMM yyyy")
             onClicked: {
                 var dialog = pageStack.push(Qt.resolvedUrl("../pages/DateSelectorPage.qml"), {
                                                 date: currentDate

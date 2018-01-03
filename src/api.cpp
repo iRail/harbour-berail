@@ -30,6 +30,7 @@ API::API()
     QNAMCache = new QNetworkDiskCache(this);
     QNAMCache->setCacheDirectory(SFOS.cacheLocation()+ "/network");
     QNAM->setCache(QNAMCache);
+    this->setNetworkEnabled(QNAM->networkAccessible() > 0);
 
     // Connect QNetworkAccessManager signals
     connect(QNAM, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)), this, SLOT(networkAccessible(QNetworkAccessManager::NetworkAccessibility)));
@@ -239,6 +240,26 @@ void API::getConnections(QString fromStation, QString toStation, IRail::ArrDep a
     QNAM->get(this->prepareRequest(url, parameters));
 }
 
+/*
+ * @brief: Refreshes all the API endpoints
+ * @description: Refreshes all the data from the iRail API endpoints for example after a network outage.
+ * We want to provide the user then as soon as possible the most recent information available.
+ */
+void API::refreshAll()
+{
+    if(this->vehicle()) {
+        this->getVehicle(this->vehicle()->id(), QDateTime(this->vehicle()->date()));
+    }
+    /*if(this->connections()) {
+        this->getConnections(this->connections(),
+    }*/
+    if(this->liveboard() && this->liveboard()->station()) {
+        this->getLiveboard(this->liveboard()->station()->name(), this->liveboard()->timestamp(), this->liveboard()->arrdep());
+    }
+    this->getDisturbances();
+    this->getStations();
+}
+
 /*void API::postOccupancy(QString connectionId, Station* station, Vehicle* vehicle, Occupancy occupancy) {
     {
       "connection": "http://irail.be/connections/8871308/20160722/IC4516",
@@ -266,9 +287,21 @@ void API::getConnections(QString fromStation, QString toStation, IRail::ArrDep a
  */
 void API::finished (QNetworkReply *reply)
 {
-    if(reply->error()) {
-        qCritical() << reply->errorString();
-        emit errorOccurred(reply->errorString());
+    if(!this->networkEnabled()) {
+        qWarning() << "Network inaccesible, can't retrieve API request!";
+    }
+    else if(reply->error()) {
+        if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 500)
+        {
+            qWarning() << reply->errorString();
+            //: Error shown to the user when the iRail API failed to retrieve the requested data
+            //% "iRail API couldn't complete your request!"
+            emit this->errorOccurred(qtTrId("berail-api-error"));
+        }
+        else {
+            qCritical() << reply->errorString();
+            emit this->errorOccurred(reply->errorString());
+        }
     }
     else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 302) {
         qDebug() << "HTTP 301/302: Moved, following redirect...";
@@ -324,7 +357,6 @@ void API::finished (QNetworkReply *reply)
             }
         }
         else {
-            // emit error here
             qCritical() << "Received data isn't properly formatted as JSON! QJsonParseError:" << parseError.errorString();
             //: Error shown to the user when the data is invalid JSON data
             //% "Invalid JSON data received, please try again later"
@@ -360,11 +392,11 @@ void API::networkAccessible(QNetworkAccessManager::NetworkAccessibility state)
 {
     if(state == 0) {
         qInfo() << "Network offline";
-        emit this->networkStateChanged(false);
+        this->setNetworkEnabled(false);
     }
     else {
         qInfo() << "Network online";
-        emit this->networkStateChanged(true);
+        this->setNetworkEnabled(true);
     }
 }
 
@@ -690,7 +722,6 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             // Loop through array and parse the JSON Alerts objects as C++ models
             foreach (const QJsonValue &item, alertArray) {
                 QJsonObject alertObj = item.toObject();
-                qDebug() << alertObj["id"].toString();
                 QDateTime timestampAlert;
                 timestampAlert.setTime_t(alertObj["startTime"].toString().toInt());
                 Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampAlert);
@@ -710,7 +741,6 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             // Loop through array and parse the JSON Alerts objects as C++ models
             foreach (const QJsonValue &item, remarkArray) {
                 QJsonObject alertObj = item.toObject();
-                qDebug() << alertObj["id"].toString();
                 QDateTime timestampAlert;
                 timestampAlert.setTime_t(alertObj["startTime"].toString().toInt());
                 Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampAlert);
@@ -816,8 +846,6 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
 /*********************
  * Getters & Setters *
  *********************/
-
-
 
 /**
  * @class API
@@ -945,4 +973,15 @@ void API::setConnections(ConnectionListModel* connections)
 {
     m_connections = connections;
     emit this->connectionsChanged();
+}
+
+bool API::networkEnabled() const
+{
+    return m_networkEnabled;
+}
+
+void API::setNetworkEnabled(bool networkEnabled)
+{
+    m_networkEnabled = networkEnabled;
+    emit this->networkStateChanged(networkEnabled);
 }

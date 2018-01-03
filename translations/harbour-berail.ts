@@ -222,6 +222,21 @@
         <extracomment>Recent connections of the user</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="berail-oops">
+        <source>Oops!</source>
+        <extracomment>To acknowledging a minor mistake &apos;Oops&apos; is used</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-oops-hint">
+        <source>Something went wrong, please try again later</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="berail-api-error">
+        <source>iRail API couldn&apos;t complete your request!</source>
+        <oldsource>iRail API couldn&apos;t find your data</oldsource>
+        <extracomment>Error shown to the user when the iRail API failed to retrieve the requested data</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>

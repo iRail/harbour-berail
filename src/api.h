@@ -75,6 +75,7 @@ public:
     Q_INVOKABLE void getVehicle(QString id, QDateTime time);
     Q_INVOKABLE void getLiveboard(QString stationName, QDateTime time, IRail::ArrDep arrdep);
     Q_INVOKABLE void getConnections(QString fromStation, QString toStation, IRail::ArrDep arrdep, QDateTime time, IRail::Transport transportType);
+    Q_INVOKABLE void refreshAll();
     bool busy() const;
     void setBusy(bool busy);
     QString useragent() const;
@@ -91,6 +92,8 @@ public:
     void setVehicle(Vehicle *vehicle);
     ConnectionListModel* connections() const;
     void setConnections(ConnectionListModel* connections);
+    bool networkEnabled() const;
+    void setNetworkEnabled(bool networkEnabled);
 
 signals:
     void busyChanged();
@@ -103,7 +106,7 @@ signals:
     void occupancyUpdated();
     void languageChanged();
     void errorOccurred(const QString &errorText);
-    void networkStateChanged(const bool &state);
+    void networkStateChanged(const bool &networkState);
 
 private slots:
     void sslErrors(QNetworkReply* reply, QList<QSslError> sslError);
@@ -111,6 +114,7 @@ private slots:
     void finished (QNetworkReply *reply);
 
 private:
+    bool m_networkEnabled;
     bool m_busy;
     bool m_alertsEnabled;
     QString m_useragent;

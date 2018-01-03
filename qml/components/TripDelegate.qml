@@ -25,7 +25,7 @@ ListItem {
     property bool _showVias: false
     property var vias
 
-    contentHeight: row.height + Theme.paddingLarge
+    contentHeight: row.height + Theme.paddingLarge*2
     enabled: false
 
     // ViaListView blocks the ListItem to capture the touch interactions
@@ -79,9 +79,11 @@ ListItem {
                     vehicleArrived: model.arrival.left
                     arrivedDate: model.arrival.scheduledArrivalTime
                     arrivedPlatform: model.arrival.platform
+                    arrivedDelay: model.arrival.arrivalDelay
                     vehicleLeft: model.departure.left
                     leftDate: model.departure.scheduledDepartureTime
                     leftPlatform: model.departure.platform
+                    leftDelay: model.departure.departureDelay
                     station: model.station.name
                     between: model.timeBetween
                 }
@@ -111,17 +113,17 @@ ListItem {
 
             ImageLabel {
                 anchors.right: parent.right
-                visible: model.alerts.alertListModel.count() > 0
-                text: model.alerts.alertListModel.count()
-                source: "qrc:///icons/icon-alert.png"
-            }
-
-            ImageLabel {
-                anchors.right: parent.right
                 visible: vias.count() > 0
                 text: vias.count()
                 source: "qrc:///icons/icon-change.png"
             }
+
+            ImageLabel {
+                anchors.right: parent.right
+                visible: model.alerts.alertListModel.count() > 0
+                text: model.alerts.alertListModel.count()
+                source: "qrc:///icons/icon-alert.png"
+            } 
         }
     }
 }

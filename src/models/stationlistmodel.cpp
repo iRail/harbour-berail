@@ -21,6 +21,15 @@ StationListModel::StationListModel(QList<Station *> stationList)
     this->setStationList(stationList);
 }
 
+StationListModel::~StationListModel()
+{
+    if(!this->stationList().isEmpty()) {
+        foreach(Station* item, this->stationList()) {
+            item->deleteLater();
+        }
+    }
+}
+
 QHash<int, QByteArray> StationListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

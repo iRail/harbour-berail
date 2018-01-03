@@ -40,10 +40,8 @@ public:
 
     virtual int rowCount(const QModelIndex&) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
-
     QList<Alert *> alertList() const;
     void setAlertList(const QList<Alert *> &alertList);
-
     Q_INVOKABLE int count() const;
 
 protected:

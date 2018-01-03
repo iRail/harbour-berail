@@ -53,6 +53,6 @@ Rectangle {
         font.bold: true
         truncationMode: TruncationMode.Fade
         horizontalAlignment: Text.AlignLeft
-        text: _currentTime.toLocaleTimeString(Qt.locale(), Locale.ShortFormat)
+        text: _currentTime.toLocaleTimeString(Qt.locale(), "HH:mm:ss")
     }
 }

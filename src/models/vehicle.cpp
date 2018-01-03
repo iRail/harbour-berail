@@ -28,6 +28,15 @@ Vehicle::Vehicle(QString id, QDate date, QList<Stop*> stops, QGeoCoordinate loca
     this->setTimestamp(timestamp);
 }
 
+Vehicle::~Vehicle()
+{
+    if(!this->stops().isEmpty()) {
+        foreach(Stop* item, this->stops()) {
+            item->deleteLater();
+        }
+    }
+}
+
 /*********************
  * Getters & Setters *
  *********************/

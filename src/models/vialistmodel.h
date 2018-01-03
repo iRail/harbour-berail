@@ -38,13 +38,12 @@ public:
 
     explicit ViaListModel(QList<Via *> alertList);
     explicit ViaListModel();
+    ~ViaListModel();
 
     virtual int rowCount(const QModelIndex&) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
-
     QList<Via *> viaList() const;
     void setViaList(const QList<Via *> &viaList);
-
     Q_INVOKABLE int count() const;
 
 protected:

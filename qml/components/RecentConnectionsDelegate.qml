@@ -41,7 +41,7 @@ ListItem {
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: Theme.fontSizeSmall
-            text: date.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
+            text: date.toLocaleDateString(Qt.locale(), "d MMM yyyy")
         }
     }
 

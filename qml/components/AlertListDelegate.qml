@@ -42,6 +42,7 @@ ListItem {
            Label {
                width: parent.width - iconLocation.width
                anchors { right: iconLocation.left; rightMargin: Theme.paddingSmall; verticalCenter: parent.verticalCenter }
+               horizontalAlignment: Text.AlignRight
                font.pixelSize: Theme.fontSizeSmall
                truncationMode: TruncationMode.Fade
                color: Theme.secondaryColor
@@ -62,6 +63,7 @@ ListItem {
            Label {
                width: parent.width - iconDate.width
                anchors { right: iconDate.left; rightMargin: Theme.paddingSmall; verticalCenter: parent.verticalCenter }
+               horizontalAlignment: Text.AlignRight
                font.pixelSize: Theme.fontSizeSmall
                truncationMode: TruncationMode.Fade
                color: Theme.secondaryColor

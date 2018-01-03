@@ -21,6 +21,15 @@ ViaListModel::ViaListModel(QList<Via *> viaList)
     this->setViaList(viaList);
 }
 
+ViaListModel::~ViaListModel()
+{
+    if(!this->viaList().isEmpty()) {
+        foreach(Via* item, this->viaList()) {
+            item->deleteLater();
+        }
+    }
+}
+
 QHash<int, QByteArray> ViaListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

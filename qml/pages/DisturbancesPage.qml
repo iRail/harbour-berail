@@ -23,27 +23,59 @@ import "../components"
 Page {
     property bool _loading: true
     // For performance reasons we wait until the Page is fully loaded before doing an API request
-    onStatusChanged: status===PageStatus.Active? api.getDisturbances(): undefined
+    onStatusChanged: status===PageStatus.Active? getData(): undefined
+
+    function getData() {
+        api.getDisturbances()
+    }
 
     Connections {
         target: api
-        onDisturbancesChanged: disturbancesListView.model = api.disturbances.alertListModel
+        onDisturbancesChanged: {
+            placeholder.enabled = false
+            disturbancesListView.model = api.disturbances.alertListModel
+        }
+        onErrorOccurred: placeholder.enabled = true
+        onNetworkStateChanged: networkState? getData(): undefined
     }
 
-    SilicaListView {
-        id: disturbancesListView
+    SilicaFlickable {
         anchors.fill: parent
-        opacity: api.busy? fadeOutValue: fadeInValue
-        Behavior on opacity { FadeAnimator {} }
-        header: PageHeader {
-            //: Network interruptions
-            //% "Disturbances"
-            title: qsTrId("berail-disturbances")
+        contentHeight: column.height
+
+        Column {
+            id: column
+            width: parent.width
+
+            PageHeader {
+                //: Network interruptions
+                //% "Disturbances"
+                title: qsTrId("berail-disturbances")
+            }
+
+            SilicaListView {
+                id: disturbancesListView
+                width: parent.width
+                height: contentHeight
+                opacity: api.busy? fadeOutValue: fadeInValue
+                visible: !placeholder.enabled
+                Behavior on opacity { FadeAnimator {} }
+                delegate: AlertListDelegate {
+                    width: ListView.view.width
+                    enabled: model.hasLink
+                    onClicked: enabled? Qt.openUrlExternally(model.link): undefined
+                }
+            }
         }
-        delegate: AlertListDelegate {
-            width: ListView.view.width
-            enabled: model.hasLink
-            onClicked: enabled? Qt.openUrlExternally(model.link): undefined
+
+        ViewPlaceholder {
+            id: placeholder
+            enabled: false
+            //: To acknowledging a minor mistake 'Oops' is used
+            //% "Oops!"
+            text: qsTrId("berail-oops")
+            //% "Something went wrong, please try again later"
+            hintText: qsTrId("berail-oops-hint")
         }
     }
 

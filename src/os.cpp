@@ -21,7 +21,6 @@
  *      - release name
  *      - version
  *      - device
- *      - network status (DBus)
  *      - notifications
  *      - XDG_CACHE_HOME
  *      - XDG_CONFIG_HOME

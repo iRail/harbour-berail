@@ -42,6 +42,8 @@ class Liveboard: public QObject
 public:
     explicit Liveboard(Station* station, QList<Vehicle*> vehicles, QDateTime time, IRail::ArrDep arrdep, Disturbances* disturbances);
     explicit Liveboard();
+    ~Liveboard();
+
     Station *station() const;
     void setStation(Station *station);
     QList<Vehicle*> vehicles() const;

@@ -35,6 +35,7 @@ public:
 
     explicit StationListModel(QList<Station *> stationList);
     explicit StationListModel();
+    ~StationListModel();
 
     virtual int rowCount(const QModelIndex&) const;
     virtual QVariant data(const QModelIndex &index, int role) const;

@@ -44,8 +44,8 @@ Announcements::Announcements(QList<Alert*> alerts, QDateTime timestamp)
  */
 Announcements::~Announcements()
 {
-    if(!alerts().isEmpty()) {
-        foreach(Alert* item, alerts()) {
+    if(!this->alerts().isEmpty()) {
+        foreach(Alert* item, this->alerts()) {
             item->deleteLater();
         }
     }

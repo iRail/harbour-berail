@@ -33,35 +33,47 @@ ListItem {
     property string station
     property int between
 
+    property date _mergedArrivedTime: Utils.mergeTimeDelay(via.arrivedDate, via.arrivedDelay)
+    property date _mergedLeftTime: Utils.mergeTimeDelay(via.leftDate, via.leftDelay)
+
     id: via
     height: Theme.itemSizeHuge*1.1
     width: parent.width
 
-    Rectangle {
+    Column {
         id: stopIndicator
-        width: Theme.iconSizeExtraSmall
-        height: via.height
         anchors {
             left: parent.left
             leftMargin: (Theme.itemSizeMedium-width)/2 // Center in TripStationIndicator Rectangle
         }
-        color: via.vehicleLeft? Theme.secondaryHighlightColor: Theme.secondaryColor
 
         Rectangle {
-            // Creates a darker background to avoid ugly overlaps due the fact that the Theme colors are partly transparent
+            width: Theme.iconSizeExtraSmall
+            height: via.height/2
+            color: via.vehicleArrived? Theme.secondaryHighlightColor: Theme.secondaryColor
+        }
+
+        Rectangle {
+            width: Theme.iconSizeExtraSmall
+            height: via.height/2
+            color: via.vehicleLeft? Theme.secondaryHighlightColor: Theme.secondaryColor
+        }
+    }
+
+    Rectangle {
+        // Creates a darker background to avoid ugly overlaps due the fact that the Theme colors are partly transparent
+        width: Theme.iconSizeSmall*1.25 // Theme.iconSizeMedium is too big
+        height: Theme.iconSizeSmall*1.25
+        anchors.centerIn: stopIndicator
+        radius: width/2
+        color: black
+
+        Rectangle {
             width: Theme.iconSizeSmall*1.25 // Theme.iconSizeMedium is too big
             height: Theme.iconSizeSmall*1.25
             anchors.centerIn: parent
             radius: width/2
-            color: black
-
-            Rectangle {
-                width: Theme.iconSizeSmall*1.25 // Theme.iconSizeMedium is too big
-                height: Theme.iconSizeSmall*1.25
-                anchors.centerIn: parent
-                radius: width/2
-                color: via.vehicleLeft? Theme.secondaryHighlightColor: Theme.secondaryColor
-            }
+            color: Theme.secondaryColor
         }
     }
 
@@ -72,13 +84,13 @@ ListItem {
 
         Label {
             font.capitalization: Font.SmallCaps
-            text: Utils.mergeTimeDelay(via.arrivedDate, via.arrivedDelay).toLocaleTimeString(Qt.locale(), "HH:mm")
+            text: _mergedArrivedTime.toLocaleTimeString(Qt.locale(), "HH:mm")
 
             Rectangle {
                 // Make the Rectangle a little bit bigger then the time indicator
                 anchors.centerIn: parent
                 width: parent.width*1.2
-                height: parent.height*1.05
+                height: parent.height*0.9
                 radius: parent.width/4
                 opacity: Theme.highlightBackgroundOpacity
                 color: via.arrivedDelay > 0? yellow: transparent
@@ -87,13 +99,13 @@ ListItem {
 
         Label {
             font.capitalization: Font.SmallCaps
-            text: Utils.mergeTimeDelay(via.leftDate, via.leftDelay).toLocaleTimeString(Qt.locale(), "HH:mm")
+            text: _mergedLeftTime.toLocaleTimeString(Qt.locale(), "HH:mm")
 
             Rectangle {
                 // Make the Rectangle a little bit bigger then the time indicator
                 anchors.centerIn: parent
                 width: parent.width*1.2
-                height: parent.height*1.05
+                height: parent.height*0.9
                 radius: parent.width/4
                 opacity: Theme.highlightBackgroundOpacity
                 color: via.leftDelay > 0? yellow: transparent
