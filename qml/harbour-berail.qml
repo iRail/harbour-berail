@@ -26,13 +26,13 @@ import "components"
 
 ApplicationWindow
 {
+    property bool networkStatus
+
     id: app
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: Orientation.All
     _defaultPageOrientations: Orientation.All
-
-    signal networkStatus(bool state)
 
     // Colors
     readonly property string blue: "#3f51b5"
@@ -89,11 +89,11 @@ ApplicationWindow
             typedCall("GetProperties", [], function(properties) {
                 if(properties["State"] == "online") {
                     console.debug("Network connected, loading...")
-                    networkStatus(true)
+                    networkStatus = true
                 }
                 else {
                     console.debug("Offline!")
-                    networkStatus(false)
+                    networkStatus = false
                 }
             },
             function(trace) {
@@ -106,11 +106,11 @@ ApplicationWindow
             if(name == "State") {
                 if(value == "online") {
                     console.debug("Network connected, reloading...")
-                    networkStatus(true)
+                    networkStatus = true
                 }
                 else {
                     console.debug("Offline!")
-                    networkStatus(false)
+                    networkStatus = false
                 }
             }
         }

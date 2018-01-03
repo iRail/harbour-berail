@@ -36,13 +36,17 @@ Page {
     }
 
     Connections {
+        target: app
+        onNetworkStatusChanged: app.networkStatus? getData(): undefined
+    }
+
+    Connections {
         target: api
         onConnectionsChanged: {
             placeholder.enabled = false
             connectionsListView.model = api.connections
         }
         onErrorOccurred: placeholder.enabled = true
-        onNetworkStateChanged: networkState? getData(): undefined
     }
 
     SilicaFlickable {

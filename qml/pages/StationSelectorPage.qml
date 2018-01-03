@@ -32,6 +32,11 @@ Page {
     }
 
     Connections {
+        target: app
+        onNetworkStatusChanged: app.networkStatus? getData(): undefined
+    }
+
+    Connections {
         target: api
         onStationsChanged: {
             placeholder.enabled = false
@@ -40,7 +45,6 @@ Page {
         // When list is loaded, set focus on search field
         onBusyChanged: busy? undefined: header.forceActiveFocusSearch()
         onErrorOccurred: placeholder.enabled = true
-        onNetworkStateChanged: networkState? getData(): undefined
     }
 
     // Hide busyIndicator when keyboard is open to avoid an ugly animation

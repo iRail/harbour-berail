@@ -23,9 +23,13 @@ import "../components"
 Page {
     property int _numberOfDisturbances
     // For performance reasons we wait until the Page is fully loaded before doing an API request
-    onStatusChanged: status===PageStatus.Active? api.getDisturbances(): undefined
+    onStatusChanged: status===PageStatus.Active? getData(): undefined
 
     id: page
+
+    function getData() {
+        api.getDisturbances()
+    }
 
     Drawer {
         id: drawer
@@ -71,6 +75,11 @@ Page {
 
         SFOS {
             id: sfos
+        }
+
+        Connections {
+            target: app
+            onNetworkStatusChanged: app.networkStatus? getData(): undefined
         }
 
         Connections {

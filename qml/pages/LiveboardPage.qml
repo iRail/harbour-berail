@@ -36,13 +36,17 @@ Page {
     }
 
     Connections {
+        target: app
+        onNetworkStatusChanged: app.networkStatus? getData(): undefined
+    }
+
+    Connections {
         target: api
         onLiveboardChanged: {
             placeholder.enabled = false
             liveboardListView.model = api.liveboard.vehicleListModel
         }
         onErrorOccurred: placeholder.enabled = true
-        onNetworkStateChanged: networkState? getData(): undefined
     }
 
     SilicaFlickable {
