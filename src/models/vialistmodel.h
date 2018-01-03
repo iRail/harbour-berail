@@ -28,12 +28,14 @@ class ViaListModel : public QAbstractListModel
 public:
     enum Roles {
         IdRole = Qt::UserRole + 1,
-        ArrivalRole = Qt::UserRole + 2,
-        DepartureRole = Qt::UserRole + 3,
-        StationRole = Qt::UserRole + 4,
-        TimeBetweenRole = Qt::UserRole + 5,
-        VehicleIdRole = Qt::UserRole + 6,
-        DisturbancesRole = Qt::UserRole + 7
+        StopRole = Qt::UserRole + 2,
+        StationRole = Qt::UserRole + 3,
+        ArrivalTimeRole = Qt::UserRole +4,
+        LeftTimeRole = Qt::UserRole + 5,
+        TimeBetweenRole = Qt::UserRole + 6,
+        WillMissViaRole = Qt::UserRole + 7,
+        VehicleIdRole = Qt::UserRole + 8,
+        DisturbancesRole = Qt::UserRole + 9
     };
 
     explicit ViaListModel(QList<Via *> alertList);

@@ -21,10 +21,10 @@ import "../components"
 import "../js/util.js" as Utils
 
 ListItem {
-    id: trip
-    property bool _showVias: false
     property var vias
+    property bool _showVias: false
 
+    id: trip
     contentHeight: row.height + Theme.paddingLarge*2
     enabled: false
 
@@ -74,18 +74,6 @@ ListItem {
                 delegate: ViaDelegate {
                     width: ListView.view.width
                     enabled: false // Nothing to click on
-                    vehicleId: model.vehicleId
-                    vehicleDirection: model.departure.direction
-                    vehicleArrived: model.arrival.left
-                    arrivedDate: model.arrival.scheduledArrivalTime
-                    arrivedPlatform: model.arrival.platform
-                    arrivedDelay: model.arrival.arrivalDelay
-                    vehicleLeft: model.departure.left
-                    leftDate: model.departure.scheduledDepartureTime
-                    leftPlatform: model.departure.platform
-                    leftDelay: model.departure.departureDelay
-                    station: model.station.name
-                    between: model.timeBetween
                 }
             }
 

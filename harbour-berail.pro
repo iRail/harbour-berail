@@ -100,7 +100,9 @@ HEADERS += \
     src/models/vialistmodel.h \
     src/models/announcements.h \
     src/models/remarks.h \
-    src/models/stationlistmodelfilter.h
+    src/models/stationlistmodelfilter.h \
+    src/models/stopvia.h \
+    src/models/stopabstract.h
 
 SOURCES += src/harbour-berail.cpp \
     src/logger.cpp \
@@ -123,7 +125,9 @@ SOURCES += src/harbour-berail.cpp \
     src/models/vialistmodel.cpp \
     src/models/announcements.cpp \
     src/models/remarks.cpp \
-    src/models/stationlistmodelfilter.cpp
+    src/models/stationlistmodelfilter.cpp \
+    src/models/stopvia.cpp \
+    src/models/stopabstract.cpp
 
 OTHER_FILES += qml/harbour-berail.qml \
     qml/cover/CoverPage.qml \

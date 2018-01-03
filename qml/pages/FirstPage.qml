@@ -42,9 +42,6 @@ Page {
             model: recentConnectionsModel
             delegate: RecentConnectionsDelegate {
                 width: ListView.view.width
-                date: model.date
-                from: model.from
-                to: model.to
                 onClicked: {
                     drawer.open = false
                     pageStack.push(Qt.resolvedUrl("../pages/TripPage.qml"), {

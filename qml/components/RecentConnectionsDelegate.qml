@@ -19,9 +19,6 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 ListItem {
-    property date date
-    property string from
-    property string to
     contentHeight: Theme.itemSizeLarge
 
     Column {
@@ -35,13 +32,13 @@ ListItem {
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: Theme.fontSizeSmall
-            text: date.toLocaleTimeString(Qt.locale(), "HH:mm")
+            text: new Date(model.date).toLocaleTimeString(Qt.locale(), "HH:mm")
         }
 
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: Theme.fontSizeSmall
-            text: date.toLocaleDateString(Qt.locale(), "d MMM yyyy")
+            text: new Date(model.date).toLocaleDateString(Qt.locale(), "d MMM yyyy")
         }
     }
 
@@ -60,7 +57,7 @@ ListItem {
             truncationMode: TruncationMode.Fade
             font.capitalization: Font.SmallCaps
             font.bold: true
-            text: from
+            text: model.from
         }
 
         Label {
@@ -68,7 +65,7 @@ ListItem {
             truncationMode: TruncationMode.Fade
             font.capitalization: Font.SmallCaps
             font.bold: true
-            text: to
+            text: model.to
         }
     }
 }

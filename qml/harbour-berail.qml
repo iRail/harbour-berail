@@ -18,6 +18,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import Nemo.Configuration 1.0
+import Nemo.DBus 2.0
 import Harbour.BeRail.API 1.0
 import Harbour.BeRail.SFOS 1.0
 import "pages"
@@ -30,6 +31,8 @@ ApplicationWindow
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: Orientation.All
     _defaultPageOrientations: Orientation.All
+
+    signal networkStatus(bool state)
 
     // Colors
     readonly property string blue: "#3f51b5"
@@ -71,6 +74,46 @@ ApplicationWindow
     API {
         id: api
         onErrorOccurred: sfos.createToaster(errorText, "icon-s-high-importance", "x-harbour-berail")
+    }
+
+    DBusInterface {
+        bus: DBus.SystemBus
+        service: "net.connman"
+        path: "/"
+        iface: "net.connman.Manager"
+        signalsEnabled: true
+        Component.onCompleted: getStatus() // Init
+
+        // Methods
+        function getStatus() {
+            typedCall("GetProperties", [], function(properties) {
+                if(properties["State"] == "online") {
+                    console.debug("Network connected, loading...")
+                    networkStatus(true)
+                }
+                else {
+                    console.debug("Offline!")
+                    networkStatus(false)
+                }
+            },
+            function(trace) {
+                console.error("Network state couldn't be retrieved: " + trace)
+            })
+        }
+
+        // Signals
+        function propertyChanged(name, value) {
+            if(name == "State") {
+                if(value == "online") {
+                    console.debug("Network connected, reloading...")
+                    networkStatus(true)
+                }
+                else {
+                    console.debug("Offline!")
+                    networkStatus(false)
+                }
+            }
+        }
     }
 }
 

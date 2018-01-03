@@ -47,6 +47,8 @@
 #include "models/stationlistmodelfilter.h"
 #include "models/connectionlistmodel.h"
 #include "models/vialistmodel.h"
+#include "models/stop.h"
+#include "models/stopvia.h"
 
 #define STATIONS_ENDPOINT "https://api.irail.be/stations"
 #define LIVEBOARD_ENDPOINT "https://api.irail.be/liveboard"

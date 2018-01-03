@@ -759,9 +759,9 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             QJsonObject viaArrivalPlatformObj = viaArrivalObj["platforminfo"].toObject();
             QJsonObject viaDeparturePlatformObj = viaDepartureObj["platforminfo"].toObject();
             QJsonObject viaArrivalOccupancyObj = viaArrivalObj["occupancy"].toObject();
-            QJsonObject viaDepartureOccupancyObj = viaDepartureObj["occupancy"].toObject();
+            //QJsonObject viaDepartureOccupancyObj = viaDepartureObj["occupancy"].toObject(); // Unused
             QString viaVehicleId = viaDepartureObj["vehicle"].toString();
-            int viaTimeBetween = viaObj["timeBetween"].toString().toInt();
+            //int viaTimeBetween = viaObj["timeBetween"].toString().toInt(); // Unused
             QDateTime viaArrivalTime;
             viaArrivalTime.setTime_t(viaArrivalObj["time"].toString().toInt());
             QDateTime viaDepartureTime;
@@ -773,39 +773,25 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             Station* viaStation = new Station(viaStationObj["id"].toString(), viaStationObj["standardname"].toString(), viaStationLocation);
 
             // Arrival via
-            Stop* viaStopArrival = new Stop(viaArrivalObj["id"].toString().toInt(),
+            StopVia* viaStop = new StopVia(viaArrivalObj["id"].toString().toInt(),
                     viaStation,
                     viaArrivalPlatformObj["name"].toString(),
                     this->parseStringToBool(viaArrivalPlatformObj["normal"].toString()),
-                    viaArrivalObj["delay"].toString().toInt(),
-                    viaArrivalTime,
-                    this->parseStringToBool(viaArrivalObj["canceled"].toString()),
-                    viaArrivalObj["delay"].toString().toInt(),
-                    viaArrivalTime,
-                    this->parseStringToBool(viaArrivalObj["canceled"].toString()),
-                    this->parseStringToBool(viaArrivalObj["arrived"].toString()),
-                    this->parseOccupancy(viaArrivalOccupancyObj["name"].toString()),
-                    this->parseStringToBool(viaArrivalObj["isExtraStop"].toString()),
-                    viaArrivalObj["direction"].toObject()["name"].toString(),
-                    this->parseStringToBool(viaArrivalObj["walking"].toString())
-                    );
-
-            // Departure via
-            Stop* viaStopDeparture = new Stop(viaDepartureObj["id"].toString().toInt(),
-                    viaStation,
                     viaDeparturePlatformObj["name"].toString(),
                     this->parseStringToBool(viaDeparturePlatformObj["normal"].toString()),
                     viaDepartureObj["delay"].toString().toInt(),
                     viaDepartureTime,
                     this->parseStringToBool(viaDepartureObj["canceled"].toString()),
-                    viaDepartureObj["delay"].toString().toInt(),
-                    viaDepartureTime,
-                    this->parseStringToBool(viaDepartureObj["canceled"].toString()),
+                    viaArrivalObj["delay"].toString().toInt(),
+                    viaArrivalTime,
+                    this->parseStringToBool(viaArrivalObj["canceled"].toString()),
+                    this->parseStringToBool(viaArrivalObj["arrived"].toString()),
                     this->parseStringToBool(viaDepartureObj["left"].toString()),
-                    this->parseOccupancy(viaDepartureOccupancyObj["name"].toString()),
-                    this->parseStringToBool(viaDepartureObj["isExtraStop"].toString()),
+                    this->parseOccupancy(viaArrivalOccupancyObj["name"].toString()),
+                    this->parseStringToBool(viaArrivalObj["isExtraStop"].toString()),
+                    viaArrivalObj["direction"].toObject()["name"].toString(),
                     viaDepartureObj["direction"].toObject()["name"].toString(),
-                    this->parseStringToBool(viaDepartureObj["walking"].toString())
+                    this->parseStringToBool(viaArrivalObj["walking"].toString())
                     );
 
             // Return an empty Disturbances object if no alerts are available
@@ -828,7 +814,7 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             }
 
             // Append Via to viaList
-            viaList.append(new Via(viaStopArrival, viaStopDeparture, viaStation, viaTimeBetween, viaVehicleId, viaDisturbances));
+            viaList.append(new Via(viaStop, viaVehicleId, viaDisturbances));
         }
 
         IRail::Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());

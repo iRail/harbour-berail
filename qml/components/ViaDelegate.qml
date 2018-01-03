@@ -20,22 +20,6 @@ import Sailfish.Silica 1.0
 import "../js/util.js" as Utils
 
 ListItem {
-    property string vehicleId
-    property string vehicleDirection
-    property bool vehicleLeft
-    property bool vehicleArrived
-    property date arrivedDate
-    property int arrivedDelay
-    property string arrivedPlatform
-    property date leftDate
-    property int leftDelay
-    property string leftPlatform
-    property string station
-    property int between
-
-    property date _mergedArrivedTime: Utils.mergeTimeDelay(via.arrivedDate, via.arrivedDelay)
-    property date _mergedLeftTime: Utils.mergeTimeDelay(via.leftDate, via.leftDelay)
-
     id: via
     height: Theme.itemSizeHuge*1.1
     width: parent.width
@@ -50,13 +34,17 @@ ListItem {
         Rectangle {
             width: Theme.iconSizeExtraSmall
             height: via.height/2
-            color: via.vehicleArrived? Theme.secondaryHighlightColor: Theme.secondaryColor
+            // We don't use at the moment the property vehicleArrived since it's buggy on the API side
+            // new Date() is required to compare it with the current Date
+            color: new Date(model.arrivalTime) < new Date()? Theme.secondaryHighlightColor: Theme.secondaryColor
         }
 
         Rectangle {
             width: Theme.iconSizeExtraSmall
             height: via.height/2
-            color: via.vehicleLeft? Theme.secondaryHighlightColor: Theme.secondaryColor
+            // We don't use at the moment the property vehicleLeft since it's buggy on the API side
+            // new Date() is required to compare it with the current Date
+            color: new Date(model.departureTime) < new Date()? Theme.secondaryHighlightColor: Theme.secondaryColor
         }
     }
 
@@ -84,7 +72,7 @@ ListItem {
 
         Label {
             font.capitalization: Font.SmallCaps
-            text: _mergedArrivedTime.toLocaleTimeString(Qt.locale(), "HH:mm")
+            text: model.arrivalTime.toLocaleTimeString(Qt.locale(), "HH:mm")
 
             Rectangle {
                 // Make the Rectangle a little bit bigger then the time indicator
@@ -99,7 +87,7 @@ ListItem {
 
         Label {
             font.capitalization: Font.SmallCaps
-            text: _mergedLeftTime.toLocaleTimeString(Qt.locale(), "HH:mm")
+            text: model.leftTime.toLocaleTimeString(Qt.locale(), "HH:mm")
 
             Rectangle {
                 // Make the Rectangle a little bit bigger then the time indicator
@@ -126,14 +114,14 @@ ListItem {
             truncationMode: TruncationMode.Fade
             font.capitalization: Font.SmallCaps
             font.bold: true
-            text: via.station
+            text: model.station.name
         }
 
         Label {
             anchors { left: parent.left; right: parent.right }
             truncationMode: TruncationMode.Fade
             font.pixelSize: Theme.fontSizeExtraSmall
-            text: (page.isPortrait? Utils.filterId(via.vehicleId.split(".")[2]): via.vehicleId.split(".")[2]) + ": " + vehicleDirection
+            text: (page.isPortrait? Utils.filterId(model.vehicleId.split(".")[2]): model.vehicleId.split(".")[2]) + ": " + model.stop.departureDirection
         }
 
         Label {
@@ -142,9 +130,9 @@ ListItem {
             font.pixelSize: Theme.fontSizeExtraSmall
             //: The platform where the train arrives or departures
             //% "Platform %0"
-            text: qsTrId("berail-trip-platform").arg(via.arrivedPlatform)
-                  + " → %0".arg(via.leftPlatform)
-                  + " | ⏱" + Utils.formatTime(via.between)
+            text: qsTrId("berail-trip-platform").arg(model.stop.arrivalPlatform)
+                  + " → %0".arg(model.stop.departurePlatform)
+                  + " | ⏱" + Utils.formatTime(model.timeBetween)
         }
     }
 }

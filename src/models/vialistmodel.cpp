@@ -34,10 +34,12 @@ QHash<int, QByteArray> ViaListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[IdRole] = "id";
-    roles[ArrivalRole] = "arrival";
-    roles[DepartureRole] = "departure";
+    roles[StopRole] = "stop";
     roles[StationRole] = "station";
+    roles[ArrivalTimeRole] = "arrivalTime";
+    roles[LeftTimeRole] = "leftTime";
     roles[TimeBetweenRole] = "timeBetween";
+    roles[WillMissViaRole] = "willMissVia";
     roles[VehicleIdRole] = "vehicleId";
     roles[DisturbancesRole] = "disturbances";
     return roles;
@@ -57,14 +59,18 @@ QVariant ViaListModel::data(const QModelIndex &index, int role) const
     switch(role) {
     case IdRole:
         return QVariant(this->viaList().at(index.row())->id());
-    case ArrivalRole:
-        return QVariant(QVariant::fromValue(this->viaList().at(index.row())->arrival()));
-    case DepartureRole:
-        return QVariant(QVariant::fromValue(this->viaList().at(index.row())->departure()));
+    case StopRole:
+        return QVariant(QVariant::fromValue(this->viaList().at(index.row())->stop()));
     case StationRole:
-        return QVariant(QVariant::fromValue(this->viaList().at(index.row())->station()));
+        return QVariant(QVariant::fromValue(this->viaList().at(index.row())->stop()->station()));
+    case ArrivalTimeRole:
+        return QVariant(this->viaList().at(index.row())->arrivalTime());
+    case LeftTimeRole:
+        return QVariant(this->viaList().at(index.row())->leftTime());
     case TimeBetweenRole:
         return QVariant(this->viaList().at(index.row())->timeBetween());
+    case WillMissViaRole:
+        return QVariant(this->viaList().at(index.row())->willMissVia());
     case VehicleIdRole:
         return QVariant(this->viaList().at(index.row())->vehicleId());
     case DisturbancesRole:
