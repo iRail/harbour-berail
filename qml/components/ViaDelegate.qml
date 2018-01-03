@@ -121,18 +121,23 @@ ListItem {
             anchors { left: parent.left; right: parent.right }
             truncationMode: TruncationMode.Fade
             font.pixelSize: Theme.fontSizeExtraSmall
+            color: model.willMissVia? red: Theme.primaryColor
             text: (page.isPortrait? Utils.filterId(model.vehicleId.split(".")[2]): model.vehicleId.split(".")[2]) + ": " + model.stop.departureDirection
         }
 
         Label {
+            //: The user missed the via
+            //% "MISSED"
+            property string _viaDurationMissedText: model.willMissVia? " | " + qsTrId("berail-trip-missed-via"):" | ⏱" + Utils.formatTime(model.timeBetween)
             anchors { left: parent.left; right: parent.right }
             truncationMode: TruncationMode.Fade
             font.pixelSize: Theme.fontSizeExtraSmall
+            color: model.willMissVia? red: Theme.primaryColor
             //: The platform where the train arrives or departures
             //% "Platform %0"
             text: qsTrId("berail-trip-platform").arg(model.stop.arrivalPlatform)
                   + " → %0".arg(model.stop.departurePlatform)
-                  + " | ⏱" + Utils.formatTime(model.timeBetween)
+                  + _viaDurationMissedText
         }
     }
 }

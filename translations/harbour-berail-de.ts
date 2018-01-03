@@ -237,6 +237,11 @@
         <extracomment>Error shown to the user when the iRail API failed to retrieve the requested data</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="berail-trip-missed-via">
+        <source>MISSED</source>
+        <extracomment>The user missed the via</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
