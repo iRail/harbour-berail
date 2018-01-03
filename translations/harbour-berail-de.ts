@@ -242,6 +242,11 @@
         <extracomment>The user missed the via</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="berail-trip-walking">
+        <source>Walk to the next station</source>
+        <extracomment>Sometimes walking is needed between 2 stations</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>

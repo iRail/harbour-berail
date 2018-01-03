@@ -81,7 +81,7 @@ ListItem {
                 height: parent.height*0.9
                 radius: parent.width/4
                 opacity: Theme.highlightBackgroundOpacity
-                color: via.arrivedDelay > 0? yellow: transparent
+                color: model.stop.arrivalDelay > 0? yellow: transparent
             }
         }
 
@@ -96,7 +96,7 @@ ListItem {
                 height: parent.height*0.9
                 radius: parent.width/4
                 opacity: Theme.highlightBackgroundOpacity
-                color: via.leftDelay > 0? yellow: transparent
+                color: model.stop.departureDelay > 0? yellow: transparent
             }
         }
     }
@@ -121,6 +121,7 @@ ListItem {
             anchors { left: parent.left; right: parent.right }
             truncationMode: TruncationMode.Fade
             font.pixelSize: Theme.fontSizeExtraSmall
+            visible: !model.stop.walking
             color: model.willMissVia? red: Theme.primaryColor
             text: (page.isPortrait? Utils.filterId(model.vehicleId.split(".")[2]): model.vehicleId.split(".")[2]) + ": " + model.stop.departureDirection
         }
@@ -132,12 +133,16 @@ ListItem {
             anchors { left: parent.left; right: parent.right }
             truncationMode: TruncationMode.Fade
             font.pixelSize: Theme.fontSizeExtraSmall
+            font.italic: model.stop.walking
             color: model.willMissVia? red: Theme.primaryColor
-            //: The platform where the train arrives or departures
-            //% "Platform %0"
-            text: qsTrId("berail-trip-platform").arg(model.stop.arrivalPlatform)
-                  + " → %0".arg(model.stop.departurePlatform)
-                  + _viaDurationMissedText
+            //: Sometimes walking is needed between 2 stations
+            //% "Walk to the next station"
+            text: model.stop.walking? qsTrId("berail-trip-walking"):
+                                      //: The platform where the train arrives or departures
+                                      //% "Platform %0"
+                                      qsTrId("berail-trip-platform").arg(model.stop.arrivalPlatform)
+                                      + " → %0".arg(model.stop.departurePlatform)
+                                      + _viaDurationMissedText
         }
     }
 }
