@@ -16,8 +16,6 @@
 */
 
 #include "stopvia.h"
-#include <QtGlobal>
-#include <QDebug>
 
 StopVia::StopVia(int id, Station *station, QString arrivalPlatform, bool isDefaultArrivalPlatform, QString departurePlatform, bool isDefaultDeparturePlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool arrived, bool left, IRail::Occupancy occupancy)
 {
@@ -59,11 +57,6 @@ StopVia::StopVia(int id, Station *station, QString arrivalPlatform, bool isDefau
     this->setArrivalDirection(arrivalDirection);
     this->setDepartureDirection(departureDirection);
     this->setWalking(walking);
-
-    qDebug() << "Arrival platform:" << arrivalPlatform;
-    qDebug() << "Departure platform:" << departurePlatform;
-    qDebug() << "Arrival direction:" << arrivalDirection;
-    qDebug() << "Departure direction:" << departureDirection;
 }
 
 QString StopVia::arrivalPlatform() const

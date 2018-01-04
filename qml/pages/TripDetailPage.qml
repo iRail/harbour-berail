@@ -12,20 +12,23 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*   along with BeRail. If not, see <http://www.gnu.org/licenses/>.
 */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import Harbour.BeRail.API 1.0
 import "../components"
 
 Page {
+    property string vehicleId
+    property date date
+    property var _vehicle
+
     // For performance reasons we wait until the Page is fully loaded before doing an API request
     onStatusChanged: status===PageStatus.Active? getData(): undefined
 
     function getData() {
-        api.getDisturbances()
+        api.getVehicle(vehicleId, date)
     }
 
     Connections {
@@ -35,9 +38,12 @@ Page {
 
     Connections {
         target: api
-        onDisturbancesChanged: {
+        onVehicleChanged: {
             placeholder.enabled = false
-            disturbancesListView.model = api.disturbances.alertListModel
+            _vehicle = api.vehicle
+            detailedTripListView.model = _vehicle.stopListModel
+            header.vehicle = _vehicle.id.split(".")[2]
+            header.alertsCount = _vehicle.alertListModel.count()
         }
         onErrorOccurred: placeholder.enabled = true
     }
@@ -50,23 +56,22 @@ Page {
             id: column
             width: parent.width
 
-            PageHeader {
-                //: Network interruptions
-                //% "Disturbances"
-                title: qsTrId("berail-disturbances")
+            TripDetailHeader {
+                id: header
             }
 
             SilicaListView {
-                id: disturbancesListView
+                id: detailedTripListView
                 width: parent.width
                 height: contentHeight
                 opacity: api.busy? fadeOutValue: fadeInValue
                 visible: !placeholder.enabled
                 Behavior on opacity { FadeAnimator {} }
-                delegate: AlertListDelegate {
+                delegate: TripDetailDelegate {
                     width: ListView.view.width
-                    enabled: model.hasLink
-                    onClicked: enabled? Qt.openUrlExternally(model.link): undefined
+                    enabled: false // Nothing to click on
+                    isLastItem: index >= detailedTripListView.count-1
+                    isFirstItem: index == 0
                 }
             }
         }

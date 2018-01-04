@@ -21,6 +21,9 @@ import Harbour.BeRail.Models 1.0
 import "../components"
 
 Page {
+    property var _liveboard
+    property date _date: new Date()
+    property int _arrdep: IRail.Departure
     property bool _showHint: settings.savedLiveboardStation.length == 0
     on_ShowHintChanged: _showHint? hint.start(): hint.stop()
 
@@ -31,7 +34,8 @@ Page {
     function getData() {
         if(settings.savedLiveboardStation.length > 0)
         {
-            api.getLiveboard(settings.savedLiveboardStation, new Date(), IRail.Arrival)
+            _date = new Date() // Refresh the current time
+            api.getLiveboard(settings.savedLiveboardStation, _date, _arrdep)
         }
     }
 
@@ -44,7 +48,8 @@ Page {
         target: api
         onLiveboardChanged: {
             placeholder.enabled = false
-            liveboardListView.model = api.liveboard.vehicleListModel
+            _liveboard = api.liveboard
+            liveboardListView.model = _liveboard.vehicleListModel
         }
         onErrorOccurred: placeholder.enabled = true
     }
@@ -83,8 +88,10 @@ Page {
             Behavior on opacity { FadeAnimator {} }
             delegate: LiveboardDelegate {
                 width: ListView.view.width
-                enabled: false // Disabled until intermediate stops are ready
-                onClicked: model.canceled? undefined: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"))
+                onClicked: model.canceled? undefined: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"), {
+                                                                         vehicleId: model.id,
+                                                                         date: _liveboard.timestamp
+                                                                     })
             }
 
             VerticalScrollDecorator {}

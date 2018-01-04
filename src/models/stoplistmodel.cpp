@@ -32,6 +32,19 @@ QHash<int, QByteArray> StopListModel::roleNames() const
     roles[PlatformRole] = "platform";
     roles[IsDefaultPlatformRole] = "isDefaultPlatform";
     roles[LeftRole] = "left";
+    roles[IdRole] = "id";
+    roles[StationRole] = "station";
+    roles[DepartureDelayRole] = "departureDelay";
+    roles[ScheduledDepartureTimeRole] = "scheduledDepartureTime";
+    roles[DepartureCanceledRole] = "departureCanceled";
+    roles[ArrivalDelayRole] = "arrivalDelay";
+    roles[ScheduledArrivalTimeRole] = "scheduledArrivalTime";
+    roles[ArrivalCanceledRole] = "arrivalCanceled";
+    roles[OccupancyRole] = "occupancy";
+    roles[IsExtraStopRole] = "isExtraStop";
+    roles[WalkingRole] = "walking";
+    roles[RealArrivalTimeRole] = "realArrivalTime";
+    roles[RealDepartureTimeRole] = "realDepartureTime";
     return roles;
 }
 
@@ -71,6 +84,10 @@ QVariant StopListModel::data(const QModelIndex &index, int role) const
         return QVariant(this->stopList().at(index.row())->isExtraStop());
     case WalkingRole:
         return QVariant(this->stopList().at(index.row())->walking());
+    case RealArrivalTimeRole:
+        return QVariant(this->stopList().at(index.row())->realArrivalTime());
+    case RealDepartureTimeRole:
+        return QVariant(this->stopList().at(index.row())->realDepartureTime());
     default:
         return QVariant();
     }

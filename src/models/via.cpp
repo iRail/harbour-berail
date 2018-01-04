@@ -16,6 +16,8 @@
 */
 
 #include "via.h"
+#include <QtGlobal>
+#include <QDebug>
 
 Via::Via(StopVia* stop, QString vehicleId, Disturbances* disturbances)
 {
@@ -26,10 +28,10 @@ Via::Via(StopVia* stop, QString vehicleId, Disturbances* disturbances)
     // Use our own 'timeBetween' instead of the provided one from the iRail API
     // The iRail API ignores the delays from the arrival or departure times
     QDateTime arrivalTime = stop->scheduledArrivalTime();
-    arrivalTime.addSecs(stop->arrivalDelay());
+    arrivalTime = arrivalTime.addSecs((qint64)(stop->arrivalDelay()));
     QDateTime leftTime = stop->scheduledDepartureTime();
-    leftTime.addSecs(stop->departureDelay());
-    this->setTimeBetween(arrivalTime.secsTo(leftTime));
+    leftTime = leftTime.addSecs((qint64)(stop->departureDelay()));
+    this->setTimeBetween((int)(arrivalTime.secsTo(leftTime)));
     this->setWillMissVia(this->timeBetween() < 0);
     this->setArrivalTime(arrivalTime);
     this->setLeftTime(leftTime);

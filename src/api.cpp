@@ -498,7 +498,6 @@ Vehicle* API::parseVehicle(QJsonObject json)
         scheduledDepartureTime.setTime_t(stopObj["scheduledDepartureTime"].toString().toInt());
         scheduledArrivalTime.setTime_t(stopObj["scheduledArrivalTime"].toString().toInt());
 
-
         Stop* stop = new Stop(stopObj["id"].toString().toInt(),
                 station,
                 platformObj["name"].toString(),
@@ -510,7 +509,8 @@ Vehicle* API::parseVehicle(QJsonObject json)
                 scheduledArrivalTime,
                 this->parseStringToBool(stopObj["arrivalCanceled"].toString()),
                 this->parseStringToBool(stopObj["left"].toString()),
-                this->parseOccupancy(occupancyObj["name"].toString())
+                this->parseOccupancy(occupancyObj["name"].toString()),
+                this->parseStringToBool(stopObj["isExtraStop"].toString())
                 );
         stopList.append(stop);
 

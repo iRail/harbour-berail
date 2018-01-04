@@ -50,9 +50,6 @@ ApplicationWindow
     readonly property real fadeInValue: 1.0
     readonly property real fadeSeeThroughValue: 0.7
 
-    // Animations
-    readonly property int animationExpansionValue: 750
-
     // App settings
     ConfigurationGroup {
         id: settings

@@ -20,7 +20,6 @@
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QList>
 
-#include "stopabstractlistmodel.h"
 #include "stop.h"
 #include "station.h"
 
@@ -43,7 +42,9 @@ public:
         PlatformRole = Qt::UserRole + 12,
         IsDefaultPlatformRole = Qt::UserRole + 13,
         LeftRole = Qt::UserRole + 14,
-        DirectionRole = Qt::UserRole + 15
+        DirectionRole = Qt::UserRole + 15,
+        RealArrivalTimeRole = Qt::UserRole + 16,
+        RealDepartureTimeRole = Qt::UserRole + 17
     };
 
     explicit StopListModel(QList<Stop *> stopList);

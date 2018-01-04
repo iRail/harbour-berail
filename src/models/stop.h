@@ -32,8 +32,24 @@ class Stop: public StopAbstract
     Q_PROPERTY(QString platform READ platform WRITE setPlatform NOTIFY platformChanged)
     Q_PROPERTY(bool isDefaultPlatform READ isDefaultPlatform WRITE setIsDefaultPlatform NOTIFY isDefaultPlatformChanged)
     Q_PROPERTY(bool left READ left WRITE setLeft NOTIFY leftChanged)
+    Q_PROPERTY(QDateTime realArrivalTime READ realArrivalTime WRITE setRealArrivalTime NOTIFY realArrivalTimeChanged)
+    Q_PROPERTY(QDateTime realDepartureTime READ realDepartureTime WRITE setRealDepartureTime NOTIFY realDepartureTimeChanged)
 
 public:
+    explicit Stop(int id,
+                  Station* station,
+                  QString platform,
+                  bool isDefaultPlatform,
+                  int departureDelay,
+                  QDateTime scheduledDepartureTime,
+                  bool departureCanceled,
+                  int arrivalDelay,
+                  QDateTime scheduledArrivalTime,
+                  bool arrivalCanceled,
+                  bool left,
+                  IRail::Occupancy occupancy,
+                  bool isExtraStop
+                  );
     explicit Stop(int id,
                   Station* station,
                   QString platform,
@@ -69,13 +85,21 @@ public:
     void setIsDefaultPlatform(bool isDefaultPlatform);
     bool left() const;
     void setLeft(bool left);
+    QDateTime realArrivalTime() const;
+    void setRealArrivalTime(const QDateTime &realArrivalTime);
+    QDateTime realDepartureTime() const;
+    void setRealDepartureTime(const QDateTime &realDepartureTime);
 
 signals:
     void platformChanged();
     void isDefaultPlatformChanged();
     void leftChanged();
+    void realArrivalTimeChanged();
+    void realDepartureTimeChanged();
 
 private:
+    QDateTime m_realArrivalTime;
+    QDateTime m_realDepartureTime;
     QString m_platform;
     bool m_isDefaultPlatform;
     bool m_left;

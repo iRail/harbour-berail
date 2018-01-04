@@ -44,7 +44,7 @@ ListItem {
             height: via.height/2
             // We don't use at the moment the property vehicleLeft since it's buggy on the API side
             // new Date() is required to compare it with the current Date
-            color: new Date(model.departureTime) < new Date()? Theme.secondaryHighlightColor: Theme.secondaryColor
+            color: new Date(model.leftTime) < new Date()? Theme.secondaryHighlightColor: Theme.secondaryColor
         }
     }
 
@@ -134,7 +134,7 @@ ListItem {
             truncationMode: TruncationMode.Fade
             font.pixelSize: Theme.fontSizeExtraSmall
             font.italic: model.stop.walking
-            color: model.willMissVia? red: Theme.primaryColor
+            color: model.willMissVia? Theme.highlightColor: Theme.primaryColor
             //: Sometimes walking is needed between 2 stations
             //% "Walk to the next station"
             text: model.stop.walking? qsTrId("berail-trip-walking"):

@@ -247,6 +247,11 @@
         <extracomment>Sometimes walking is needed between 2 stations</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="berail-trip-extra-stop">
+        <source>Extra stop added by Traffic Control</source>
+        <extracomment>Sometimes Traffic Control adds extra stops in case of disturbances on the network</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>

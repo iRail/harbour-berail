@@ -16,6 +16,31 @@
 */
 
 #include "stop.h"
+#include <QtGlobal>
+#include <QDebug>
+
+Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy, bool isExtraStop)
+{
+    this->setId(id);
+    this->setStation(station);
+    this->setPlatform(platform);
+    this->setIsDefaultPlatform(isDefaultPlatform);
+    this->setDepartureDelay(departureDelay);
+    this->setScheduledDepartureTime(scheduledDepartureTime);
+    this->setDepartureCanceled(departureCanceled);
+    this->setArrivalDelay(arrivalDelay);
+    this->setScheduledArrivalTime(scheduledArrivalTime);
+    this->setArrivalCanceled(arrivalCanceled);
+    this->setLeft(left);
+    this->setOccupancy(occupancy);
+    this->setIsExtraStop(isExtraStop);
+    QDateTime realArrivalTime(scheduledArrivalTime);
+    realArrivalTime = realArrivalTime.addSecs((qint64)(arrivalDelay));
+    QDateTime realDepartureTime(scheduledDepartureTime);
+    realDepartureTime = realDepartureTime.addSecs((qint64)(departureDelay));
+    this->setRealArrivalTime(realArrivalTime);
+    this->setRealDepartureTime(realDepartureTime);
+}
 
 Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy)
 {
@@ -31,6 +56,12 @@ Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, i
     this->setArrivalCanceled(arrivalCanceled);
     this->setLeft(left);
     this->setOccupancy(occupancy);
+    QDateTime realArrivalTime = scheduledArrivalTime;
+    realArrivalTime.addSecs(arrivalDelay);
+    this->setRealArrivalTime(realArrivalTime);
+    QDateTime realDepartureTime = scheduledDepartureTime;
+    realDepartureTime.addSecs(departureDelay);
+    this->setRealDepartureTime(realDepartureTime);
 }
 
 Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy, bool isExtraStop, QString direction, bool walking)
@@ -50,6 +81,12 @@ Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, i
     this->setIsExtraStop(isExtraStop);
     this->setDirection(direction);
     this->setWalking(walking);
+    QDateTime realArrivalTime = scheduledArrivalTime;
+    realArrivalTime.addSecs(arrivalDelay);
+    this->setRealArrivalTime(realArrivalTime);
+    QDateTime realDepartureTime = scheduledDepartureTime;
+    realDepartureTime.addSecs(departureDelay);
+    this->setRealDepartureTime(realDepartureTime);
 }
 
 /*********************
@@ -86,4 +123,24 @@ bool Stop::left() const
 void Stop::setLeft(bool left)
 {
     m_left = left;
+}
+
+QDateTime Stop::realArrivalTime() const
+{
+    return m_realArrivalTime;
+}
+
+void Stop::setRealArrivalTime(const QDateTime &realArrivalTime)
+{
+    m_realArrivalTime = realArrivalTime;
+}
+
+QDateTime Stop::realDepartureTime() const
+{
+    return m_realDepartureTime;
+}
+
+void Stop::setRealDepartureTime(const QDateTime &realDepartureTime)
+{
+    m_realDepartureTime = realDepartureTime;
 }

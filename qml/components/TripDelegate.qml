@@ -69,7 +69,6 @@ ListItem {
                 visible: _showVias
                 opacity: api.busy? fadeOutValue: 1.0
                 Behavior on opacity { FadeAnimator {} }
-                Behavior on height { NumberAnimation { duration: animationExpansionValue } }
                 model: vias
                 delegate: ViaDelegate {
                     width: ListView.view.width
