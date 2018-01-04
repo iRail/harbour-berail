@@ -16,8 +16,6 @@
 */
 
 #include "stop.h"
-#include <QtGlobal>
-#include <QDebug>
 
 Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy, bool isExtraStop)
 {

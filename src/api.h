@@ -23,6 +23,8 @@
 #include <QtCore/QFile>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
+#include <QtCore/QJsonArray>
+#include <QtCore/QJsonValue>
 #include <QtCore/QJsonParseError>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>

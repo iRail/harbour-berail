@@ -21,6 +21,7 @@
 #include <sailfishapp.h>
 #include <QtCore/QScopedPointer>
 #include <QtCore/QString>
+#include <QtCore/QTranslator>
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickView>
 #include <QtQml/QQmlEngine>

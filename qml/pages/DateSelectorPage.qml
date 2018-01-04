@@ -31,7 +31,7 @@ Dialog {
 
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: _selectedDate.toLocaleDateString(Qt.locale(), "d MMM yyyy")
+            text: _selectedDate.toLocaleDateString(Qt.locale(), "d MMMM yyyy")
             font.pixelSize: Theme.fontSizeLarge
         }
 

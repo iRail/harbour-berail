@@ -16,8 +16,6 @@
 */
 
 #include "via.h"
-#include <QtGlobal>
-#include <QDebug>
 
 Via::Via(StopVia* stop, QString vehicleId, Disturbances* disturbances)
 {
