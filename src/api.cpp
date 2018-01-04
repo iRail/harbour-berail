@@ -1,3 +1,19 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   BeRail is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "api.h"
 
 /**
@@ -14,6 +30,7 @@ API::API()
     QNAMCache = new QNetworkDiskCache(this);
     QNAMCache->setCacheDirectory(SFOS.cacheLocation()+ "/network");
     QNAM->setCache(QNAMCache);
+    this->setNetworkEnabled(QNAM->networkAccessible() > 0);
 
     // Connect QNetworkAccessManager signals
     connect(QNAM, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)), this, SLOT(networkAccessible(QNetworkAccessManager::NetworkAccessibility)));
@@ -22,7 +39,7 @@ API::API()
 
     // Create User-Agent
     qDebug() << SFOS.appVersion();
-    setUseragent(QString("%1/%2 (%3)").arg(SFOS.appNamePretty(), SFOS.appVersion(), SFOS.release()));
+    this->setUseragent(QString("%1/%2 (%3)").arg(SFOS.appNamePretty(), SFOS.appVersion(), SFOS.release()));
 }
 
 /**
@@ -223,6 +240,26 @@ void API::getConnections(QString fromStation, QString toStation, IRail::ArrDep a
     QNAM->get(this->prepareRequest(url, parameters));
 }
 
+/*
+ * @brief: Refreshes all the API endpoints
+ * @description: Refreshes all the data from the iRail API endpoints for example after a network outage.
+ * We want to provide the user then as soon as possible the most recent information available.
+ */
+void API::refreshAll()
+{
+    if(this->vehicle()) {
+        this->getVehicle(this->vehicle()->id(), QDateTime(this->vehicle()->date()));
+    }
+    /*if(this->connections()) {
+        this->getConnections(this->connections(),
+    }*/
+    if(this->liveboard() && this->liveboard()->station()) {
+        this->getLiveboard(this->liveboard()->station()->name(), this->liveboard()->timestamp(), this->liveboard()->arrdep());
+    }
+    this->getDisturbances();
+    this->getStations();
+}
+
 /*void API::postOccupancy(QString connectionId, Station* station, Vehicle* vehicle, Occupancy occupancy) {
     {
       "connection": "http://irail.be/connections/8871308/20160722/IC4516",
@@ -250,12 +287,27 @@ void API::getConnections(QString fromStation, QString toStation, IRail::ArrDep a
  */
 void API::finished (QNetworkReply *reply)
 {
-    if(reply->error()) {
-        qCritical() << reply->errorString();
-        emit errorOccurred(reply->errorString());
+    if(!this->networkEnabled()) {
+        qWarning() << "Network inaccesible, can't retrieve API request!";
+    }
+    else if(reply->error()) {
+        if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 500)
+        {
+            qWarning() << reply->errorString();
+            //: Error shown to the user when the iRail API failed to retrieve the requested data
+            //% "iRail API couldn't complete your request!"
+            emit this->errorOccurred(qtTrId("berail-api-error"));
+        }
+        else {
+            qCritical() << reply->errorString();
+            emit this->errorOccurred(reply->errorString());
+        }
     }
     else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 302) {
-        qDebug() << "HTTP 301/302: MOVED, following redirect...";
+        qDebug() << "HTTP 301/302: Moved, following redirect...";
+    }
+    else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 304) {
+        qDebug() << "HTTP 304: Not-Modified";
     }
     else {
         qDebug() << "Content-Header:" << reply->header(QNetworkRequest::ContentTypeHeader).toString();
@@ -305,8 +357,10 @@ void API::finished (QNetworkReply *reply)
             }
         }
         else {
-            // emit error here
             qCritical() << "Received data isn't properly formatted as JSON! QJsonParseError:" << parseError.errorString();
+            //: Error shown to the user when the data is invalid JSON data
+            //% "Invalid JSON data received, please try again later"
+            emit this->errorOccurred(qtTrId("berail-json-error"));
         }
     }
 
@@ -323,7 +377,9 @@ void API::finished (QNetworkReply *reply)
 void API::sslErrors(QNetworkReply* reply, QList<QSslError> sslError)
 {
     qCritical() << "SSL error occured:" << reply->errorString() << sslError;
-    emit errorOccurred(QString("SSL error occured"));
+    //: Error shown to the user when an SSL error occurs due a bad certificate or incorrect time settings.
+    //% "SSL error, please check your device is running with the correct date and time."
+    emit this->errorOccurred(qtTrId("berail-ssl-error"));
 }
 
 /**
@@ -336,11 +392,11 @@ void API::networkAccessible(QNetworkAccessManager::NetworkAccessibility state)
 {
     if(state == 0) {
         qInfo() << "Network offline";
-        emit this->networkStateChanged(false);
+        this->setNetworkEnabled(false);
     }
     else {
         qInfo() << "Network online";
-        emit this->networkStateChanged(true);
+        this->setNetworkEnabled(true);
     }
 }
 
@@ -351,7 +407,7 @@ void API::networkAccessible(QNetworkAccessManager::NetworkAccessibility state)
  * @param json
  * @return QList<Station*>
  */
-StationListModel* API::parseStations(QJsonObject json)
+StationListModelFilter* API::parseStations(QJsonObject json)
 {
     qDebug() << "Parsing stations";
     QList<Station*> stationsList;
@@ -369,7 +425,7 @@ StationListModel* API::parseStations(QJsonObject json)
         qDebug() << "\tName:" << station->name();
     }
 
-    return new StationListModel(stationsList);
+    return new StationListModelFilter(new StationListModel(stationsList));
 }
 
 Disturbances* API::parseDisturbances(QJsonObject json)
@@ -378,7 +434,6 @@ Disturbances* API::parseDisturbances(QJsonObject json)
     QList<Alert*> alertsList;
     QDateTime timestampDisturbances;
     timestampDisturbances.setTime_t(json["timestamp"].toString().toInt());
-    qDebug() << timestampDisturbances;
     QJsonArray alertArray = json["disturbance"].toArray();
 
     // Loop through array and parse the JSON Alerts objects as C++ models
@@ -395,7 +450,8 @@ Disturbances* API::parseDisturbances(QJsonObject json)
     // Save them in a Disturbance object
     Disturbances* disturbances = new Disturbances(alertsList, timestampDisturbances);
     qDebug() << "DISTURBANCES:";
-    qDebug() << "\tAlerts:" << alertsList;
+    qDebug() << "\tTimestamp:" << disturbances->timestamp();
+    qDebug() << "\tAlerts:" << disturbances->alerts();
 
     return disturbances;
 }
@@ -423,7 +479,6 @@ Vehicle* API::parseVehicle(QJsonObject json)
         // Loop through array and parse the JSON Alerts objects as C++ models
         foreach (const QJsonValue &item, alertArray) {
             QJsonObject alertObj = item.toObject();
-            qDebug() << alertObj["id"].toString();
             Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampVehicle);
             alertsList.append(alert);
         }
@@ -443,7 +498,6 @@ Vehicle* API::parseVehicle(QJsonObject json)
         scheduledDepartureTime.setTime_t(stopObj["scheduledDepartureTime"].toString().toInt());
         scheduledArrivalTime.setTime_t(stopObj["scheduledArrivalTime"].toString().toInt());
 
-
         Stop* stop = new Stop(stopObj["id"].toString().toInt(),
                 station,
                 platformObj["name"].toString(),
@@ -455,7 +509,8 @@ Vehicle* API::parseVehicle(QJsonObject json)
                 scheduledArrivalTime,
                 this->parseStringToBool(stopObj["arrivalCanceled"].toString()),
                 this->parseStringToBool(stopObj["left"].toString()),
-                this->parseOccupancy(occupancyObj["name"].toString())
+                this->parseOccupancy(occupancyObj["name"].toString()),
+                this->parseStringToBool(stopObj["isExtraStop"].toString())
                 );
         stopList.append(stop);
 
@@ -479,8 +534,8 @@ Liveboard *API::parseLiveboard(QJsonObject json)
 {
     qDebug() << "Parsing liveboard";
     QJsonObject departureStationObj = json["stationinfo"].toObject();
-    QJsonObject departuresObj = json["departures"].toObject();
-    QJsonArray departureArray = departuresObj["departure"].toArray();
+    QJsonObject departuresObj;
+    QJsonArray departureArray;
     Disturbances* disturbancesLiveboard = new Disturbances();
     IRail::ArrDep arrdep;
     QList<Vehicle*> vehicleList;
@@ -491,18 +546,27 @@ Liveboard *API::parseLiveboard(QJsonObject json)
         departureArray = departuresObj["departure"].toArray();
         arrdep = IRail::ArrDep::Departure;
     }
-    else {
+    else if (json.contains("arrivals")){
         departuresObj = json["arrivals"].toObject();
         departureArray = departuresObj["arrival"].toArray();
         arrdep = IRail::ArrDep::Arrival;
     }
+    else {
+        qCritical() << "Data parsing failed, JSON doesn't match";
+        //: Error shown to the user when the liveboard of the station can't be retrieved
+        //% "Retrieving liveboard failed, please try again later."
+        //~ The liveboard is a list of all departing/arriving trains in a station.
+        emit this->errorOccurred(qtTrId("berail-liveboard-error"));
+        return new Liveboard();
+    }
+
     QDateTime timestampLiveboard;
     timestampLiveboard.setTime_t(json["timestamp"].toString().toInt());
     QGeoCoordinate stationLocation(departureStationObj["locationY"].toString().toDouble(), departureStationObj["locationX"].toString().toDouble());
     Station* station = new Station(departureStationObj["id"].toString(), departureStationObj["standardname"].toString(), stationLocation);
 
     // Loop through array and parse the JSON Stop objects as C++ models
-    foreach (const QJsonValue &item, departureArray) {
+    foreach (const QJsonValue &item, departureArray) { // BUG: not looped
         QJsonObject departure = item.toObject();
         QJsonObject stationObj = departure["stationinfo"].toObject();
         QJsonObject vehicleObj = departure["vehicleinfo"].toObject();
@@ -540,7 +604,6 @@ Liveboard *API::parseLiveboard(QJsonObject json)
             // Loop through array and parse the JSON Alerts objects as C++ models
             foreach (const QJsonValue &item, alertArray) {
                 QJsonObject alertObj = item.toObject();
-                qDebug() << alertObj["id"].toString();
                 Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampLiveboard);
                 alertsList.append(alert);
             }
@@ -562,7 +625,6 @@ Liveboard *API::parseLiveboard(QJsonObject json)
                 disturbances,
                 timestampLiveboard
                 );
-
         // Append vehicle to list
         vehicleList.append(vehicle);
     }
@@ -596,7 +658,6 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
         QJsonObject fromOccupancyObj = departureObj["occupancy"].toObject();
         QJsonObject toOccupancyObj = arrivalObj["occupancy"].toObject();
         QJsonObject connectionOccupancyObj = item["occupancy"].toObject();
-        QJsonObject connectionAlertsObj = item["alerts"].toObject();
         int connectionDuration = item["duration"].toString().toInt();
         int connectionId = item["id"].toString().toInt();
         QJsonObject viasObj = item["vias"].toObject();
@@ -605,9 +666,11 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
         fromTime.setTime_t(departureObj["time"].toString().toInt());
         QDateTime toTime;
         toTime.setTime_t(arrivalObj["time"].toString().toInt());
-        QString departureVehicleId = departureObj["vehicle"].toString();
-        QString arrivalVehicleId = arrivalObj["vehicle"].toString();
+        QString fromVehicleId = departureObj["vehicle"].toString();
+        QString toVehicleId = arrivalObj["vehicle"].toString();
         QList<Via*> viaList;
+        QList<Alert*> alertsListConnection;
+        QList<Alert*> remarksListConnection;
 
         // Departure Stop
         QGeoCoordinate fromStationLocation(fromStationObj["locationY"].toString().toDouble(), fromStationObj["locationX"].toString().toDouble());
@@ -649,6 +712,44 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
                 this->parseStringToBool(arrivalObj["walking"].toString())
                 );
 
+        // Connection alerts
+        // Return an empty Disturbances object if no alerts are available
+        Disturbances* disturbancesConnection = new Disturbances();
+        if(item.contains("alerts")) {
+            qDebug() << "Alerts detected";
+            QJsonArray alertArray = item["alerts"].toObject()["alert"].toArray();
+
+            // Loop through array and parse the JSON Alerts objects as C++ models
+            foreach (const QJsonValue &item, alertArray) {
+                QJsonObject alertObj = item.toObject();
+                QDateTime timestampAlert;
+                timestampAlert.setTime_t(alertObj["startTime"].toString().toInt());
+                Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampAlert);
+                alertsListConnection.append(alert);
+            }
+            // Update the disturbances for the specific item
+            disturbancesConnection->setAlerts(alertsListConnection);
+        }
+
+        // Connection remarks
+        // Return an empty Disturbances object if no alerts are available
+        Remarks* remarksConnection = new Remarks();
+        if(item.contains("remarks")) {
+            qDebug() << "Remarks detected";
+            QJsonArray remarkArray = item["remarks"].toObject()["remark"].toArray();
+
+            // Loop through array and parse the JSON Alerts objects as C++ models
+            foreach (const QJsonValue &item, remarkArray) {
+                QJsonObject alertObj = item.toObject();
+                QDateTime timestampAlert;
+                timestampAlert.setTime_t(alertObj["startTime"].toString().toInt());
+                Alert* alert = new Alert(alertObj["id"].toString().toInt(), alertObj["title"].toString(), alertObj["description"].toString(), timestampAlert);
+                remarksListConnection.append(alert);
+            }
+            // Update the disturbances for the specific item
+            remarksConnection->setAlerts(remarksListConnection);
+        }
+
         // Handle vias Stops
         foreach (const QJsonValue &via, viasArray) {
             QJsonObject viaObj = via.toObject();
@@ -658,9 +759,9 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             QJsonObject viaArrivalPlatformObj = viaArrivalObj["platforminfo"].toObject();
             QJsonObject viaDeparturePlatformObj = viaDepartureObj["platforminfo"].toObject();
             QJsonObject viaArrivalOccupancyObj = viaArrivalObj["occupancy"].toObject();
-            QJsonObject viaDepartureOccupancyObj = viaDepartureObj["occupancy"].toObject();
-            QString viaVehicleId = viaObj["vehicle"].toString();
-            int viaTimeBetween = viaObj["timeBetween"].toString().toInt();
+            //QJsonObject viaDepartureOccupancyObj = viaDepartureObj["occupancy"].toObject(); // Unused
+            QString viaVehicleId = viaDepartureObj["vehicle"].toString();
+            //int viaTimeBetween = viaObj["timeBetween"].toString().toInt(); // Unused
             QDateTime viaArrivalTime;
             viaArrivalTime.setTime_t(viaArrivalObj["time"].toString().toInt());
             QDateTime viaDepartureTime;
@@ -672,39 +773,25 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             Station* viaStation = new Station(viaStationObj["id"].toString(), viaStationObj["standardname"].toString(), viaStationLocation);
 
             // Arrival via
-            Stop* viaStopArrival = new Stop(viaArrivalObj["id"].toString().toInt(),
+            StopVia* viaStop = new StopVia(viaArrivalObj["id"].toString().toInt(),
                     viaStation,
                     viaArrivalPlatformObj["name"].toString(),
                     this->parseStringToBool(viaArrivalPlatformObj["normal"].toString()),
-                    viaArrivalObj["delay"].toString().toInt(),
-                    viaArrivalTime,
-                    this->parseStringToBool(viaArrivalObj["canceled"].toString()),
-                    viaArrivalObj["delay"].toString().toInt(),
-                    viaArrivalTime,
-                    this->parseStringToBool(viaArrivalObj["canceled"].toString()),
-                    this->parseStringToBool(viaArrivalObj["arrived"].toString()),
-                    this->parseOccupancy(viaArrivalOccupancyObj["name"].toString()),
-                    this->parseStringToBool(viaArrivalObj["isExtraStop"].toString()),
-                    viaArrivalObj["direction"].toObject()["name"].toString(),
-                    this->parseStringToBool(viaArrivalObj["walking"].toString())
-                    );
-
-            // Departure via
-            Stop* viaStopDeparture = new Stop(viaDepartureObj["id"].toString().toInt(),
-                    viaStation,
                     viaDeparturePlatformObj["name"].toString(),
                     this->parseStringToBool(viaDeparturePlatformObj["normal"].toString()),
                     viaDepartureObj["delay"].toString().toInt(),
                     viaDepartureTime,
                     this->parseStringToBool(viaDepartureObj["canceled"].toString()),
-                    viaDepartureObj["delay"].toString().toInt(),
-                    viaDepartureTime,
-                    this->parseStringToBool(viaDepartureObj["canceled"].toString()),
+                    viaArrivalObj["delay"].toString().toInt(),
+                    viaArrivalTime,
+                    this->parseStringToBool(viaArrivalObj["canceled"].toString()),
+                    this->parseStringToBool(viaArrivalObj["arrived"].toString()),
                     this->parseStringToBool(viaDepartureObj["left"].toString()),
-                    this->parseOccupancy(viaDepartureOccupancyObj["name"].toString()),
-                    this->parseStringToBool(viaDepartureObj["isExtraStop"].toString()),
+                    this->parseOccupancy(viaArrivalOccupancyObj["name"].toString()),
+                    this->parseStringToBool(viaArrivalObj["isExtraStop"].toString()),
+                    viaArrivalObj["direction"].toObject()["name"].toString(),
                     viaDepartureObj["direction"].toObject()["name"].toString(),
-                    this->parseStringToBool(viaDepartureObj["walking"].toString())
+                    this->parseStringToBool(viaArrivalObj["walking"].toString())
                     );
 
             // Return an empty Disturbances object if no alerts are available
@@ -727,12 +814,12 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
             }
 
             // Append Via to viaList
-            viaList.append(new Via(viaStopArrival, viaStopDeparture, viaStation, viaTimeBetween, viaVehicleId, viaDisturbances));
+            viaList.append(new Via(viaStop, viaVehicleId, viaDisturbances));
         }
 
         IRail::Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());
         // TO DO: enable disturbances and remarks for the whole connection
-        Connection* connection = new Connection(connectionId, fromStop, toStop, new Disturbances(), new Disturbances(), connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections);
+        Connection* connection = new Connection(connectionId, fromStop, toStop, fromVehicleId, toVehicleId, disturbancesConnection, remarksConnection, connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections);
         connectionList.append(connection);
         qDebug() << "CONNECTION:";
         qDebug() << "\tFrom:" << connection->from()->station()->name();
@@ -745,8 +832,6 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
 /*********************
  * Getters & Setters *
  *********************/
-
-
 
 /**
  * @class API
@@ -811,12 +896,12 @@ void API::setUseragent(const QString &useragent)
     emit this->useragentChanged();
 }
 
-StationListModel *API::stations() const
+StationListModelFilter *API::stations() const
 {
     return m_stations;
 }
 
-void API::setStations(StationListModel* stations)
+void API::setStations(StationListModelFilter* stations)
 {
     m_stations = stations;
     emit this->stationsChanged();
@@ -874,4 +959,15 @@ void API::setConnections(ConnectionListModel* connections)
 {
     m_connections = connections;
     emit this->connectionsChanged();
+}
+
+bool API::networkEnabled() const
+{
+    return m_networkEnabled;
+}
+
+void API::setNetworkEnabled(bool networkEnabled)
+{
+    m_networkEnabled = networkEnabled;
+    emit this->networkStateChanged(networkEnabled);
 }

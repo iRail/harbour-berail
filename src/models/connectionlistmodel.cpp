@@ -1,8 +1,33 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   BeRail is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "connectionlistmodel.h"
 
 ConnectionListModel::ConnectionListModel(QList<Connection *> connectionList)
 {
     this->setConnectionList(connectionList);
+}
+
+ConnectionListModel::~ConnectionListModel()
+{
+    if(!this->connectionList().isEmpty()) {
+        foreach(Connection* item, this->connectionList()) {
+            item->deleteLater();
+        }
+    }
 }
 
 int ConnectionListModel::rowCount(const QModelIndex &) const
@@ -16,6 +41,8 @@ QHash<int, QByteArray> ConnectionListModel::roleNames() const
     roles[IdRole] = "id";
     roles[FromRole] = "from";
     roles[ToRole] = "to";
+    roles[FromVehicleRole] = "fromVehicleId";
+    roles[ToVehicleRole] = "toVehicleId";
     roles[AlertsRole] = "alerts";
     roles[RemarksRole] = "remarks";
     roles[OccupancyRole] = "occupancy";
@@ -23,6 +50,56 @@ QHash<int, QByteArray> ConnectionListModel::roleNames() const
     roles[ViasRole] = "vias";
     roles[TimestampRole] = "timestamp";
     return roles;
+}
+
+IRail::ArrDep ConnectionListModel::arrdep() const
+{
+    return m_arrdep;
+}
+
+void ConnectionListModel::setArrdep(const IRail::ArrDep &arrdep)
+{
+    m_arrdep = arrdep;
+}
+
+IRail::Transport ConnectionListModel::transportType() const
+{
+    return m_transportType;
+}
+
+void ConnectionListModel::setTransportType(const IRail::Transport &transportType)
+{
+    m_transportType = transportType;
+}
+
+QDateTime ConnectionListModel::time() const
+{
+    return m_time;
+}
+
+void ConnectionListModel::setTime(const QDateTime &time)
+{
+    m_time = time;
+}
+
+Station *ConnectionListModel::to() const
+{
+    return m_to;
+}
+
+void ConnectionListModel::setTo(Station *to)
+{
+    m_to = to;
+}
+
+Station *ConnectionListModel::from() const
+{
+    return m_from;
+}
+
+void ConnectionListModel::setFrom(Station *from)
+{
+    m_from = from;
 }
 
 QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
@@ -38,6 +115,10 @@ QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
         return QVariant(QVariant::fromValue(this->connectionList().at(index.row())->from()));
     case ToRole:
         return QVariant(QVariant::fromValue(this->connectionList().at(index.row())->to()));
+    case FromVehicleRole:
+        return QVariant(this->connectionList().at(index.row())->fromVehicleId());
+    case ToVehicleRole:
+        return QVariant(this->connectionList().at(index.row())->toVehicleId());
     case AlertsRole:
         return QVariant(QVariant::fromValue(this->connectionList().at(index.row())->alerts()));
     case RemarksRole:

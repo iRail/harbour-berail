@@ -1,3 +1,19 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   BeRail is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef API_H
 #define API_H
 
@@ -7,6 +23,8 @@
 #include <QtCore/QFile>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
+#include <QtCore/QJsonArray>
+#include <QtCore/QJsonValue>
 #include <QtCore/QJsonParseError>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
@@ -23,13 +41,16 @@
 #include "os.h"
 #include "models/station.h"
 #include "models/disturbances.h"
+#include "models/remarks.h"
 #include "models/alert.h"
 #include "models/liveboard.h"
 #include "models/connection.h"
 #include "models/via.h"
-#include "models/stationlistmodel.h"
+#include "models/stationlistmodelfilter.h"
 #include "models/connectionlistmodel.h"
 #include "models/vialistmodel.h"
+#include "models/stop.h"
+#include "models/stopvia.h"
 
 #define STATIONS_ENDPOINT "https://api.irail.be/stations"
 #define LIVEBOARD_ENDPOINT "https://api.irail.be/liveboard"
@@ -41,7 +62,8 @@
 class API: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(StationListModel* stations READ stations WRITE setStations NOTIFY stationsChanged)
+    Q_PROPERTY(bool busy READ busy WRITE setBusy NOTIFY busyChanged)
+    Q_PROPERTY(StationListModelFilter* stations READ stations WRITE setStations NOTIFY stationsChanged)
     Q_PROPERTY(Disturbances* disturbances READ disturbances WRITE setDisturbances NOTIFY disturbancesChanged)
     Q_PROPERTY(Liveboard* liveboard READ liveboard WRITE setLiveboard NOTIFY liveboardChanged)
     Q_PROPERTY(Vehicle* vehicle READ vehicle WRITE setVehicle NOTIFY vehicleChanged)
@@ -57,12 +79,13 @@ public:
     Q_INVOKABLE void getVehicle(QString id, QDateTime time);
     Q_INVOKABLE void getLiveboard(QString stationName, QDateTime time, IRail::ArrDep arrdep);
     Q_INVOKABLE void getConnections(QString fromStation, QString toStation, IRail::ArrDep arrdep, QDateTime time, IRail::Transport transportType);
+    Q_INVOKABLE void refreshAll();
     bool busy() const;
     void setBusy(bool busy);
     QString useragent() const;
     void setUseragent(const QString &useragent);
-    StationListModel* stations() const;
-    void setStations(StationListModel* stations);
+    StationListModelFilter* stations() const;
+    void setStations(StationListModelFilter* stations);
     QLocale::Language language() const;
     void setLanguage(const QLocale::Language &language);
     Disturbances* disturbances() const;
@@ -73,6 +96,8 @@ public:
     void setVehicle(Vehicle *vehicle);
     ConnectionListModel* connections() const;
     void setConnections(ConnectionListModel* connections);
+    bool networkEnabled() const;
+    void setNetworkEnabled(bool networkEnabled);
 
 signals:
     void busyChanged();
@@ -85,7 +110,7 @@ signals:
     void occupancyUpdated();
     void languageChanged();
     void errorOccurred(const QString &errorText);
-    void networkStateChanged(const bool &state);
+    void networkStateChanged(const bool &networkState);
 
 private slots:
     void sslErrors(QNetworkReply* reply, QList<QSslError> sslError);
@@ -93,11 +118,12 @@ private slots:
     void finished (QNetworkReply *reply);
 
 private:
+    bool m_networkEnabled;
     bool m_busy;
     bool m_alertsEnabled;
     QString m_useragent;
     QLocale::Language m_language = QLocale::English;
-    StationListModel* m_stations;
+    StationListModelFilter* m_stations;
     Disturbances* m_disturbances;
     Liveboard* m_liveboard;
     Vehicle* m_vehicle;
@@ -114,7 +140,7 @@ private:
     QString parseDateOccupancy(QDateTime time);
     bool parseStringToBool(QString value);
     QNetworkRequest prepareRequest(QUrl url, QUrlQuery parameters);
-    StationListModel* parseStations(QJsonObject json);
+    StationListModelFilter* parseStations(QJsonObject json);
     Disturbances* parseDisturbances(QJsonObject json);
     Vehicle* parseVehicle(QJsonObject json);
     Liveboard* parseLiveboard(QJsonObject json);

@@ -1,4 +1,44 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   BeRail is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "stop.h"
+
+Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy, bool isExtraStop)
+{
+    this->setId(id);
+    this->setStation(station);
+    this->setPlatform(platform);
+    this->setIsDefaultPlatform(isDefaultPlatform);
+    this->setDepartureDelay(departureDelay);
+    this->setScheduledDepartureTime(scheduledDepartureTime);
+    this->setDepartureCanceled(departureCanceled);
+    this->setArrivalDelay(arrivalDelay);
+    this->setScheduledArrivalTime(scheduledArrivalTime);
+    this->setArrivalCanceled(arrivalCanceled);
+    this->setLeft(left);
+    this->setOccupancy(occupancy);
+    this->setIsExtraStop(isExtraStop);
+    QDateTime realArrivalTime(scheduledArrivalTime);
+    realArrivalTime = realArrivalTime.addSecs((qint64)(arrivalDelay));
+    QDateTime realDepartureTime(scheduledDepartureTime);
+    realDepartureTime = realDepartureTime.addSecs((qint64)(departureDelay));
+    this->setRealArrivalTime(realArrivalTime);
+    this->setRealDepartureTime(realDepartureTime);
+}
 
 Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy)
 {
@@ -14,9 +54,12 @@ Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, i
     this->setArrivalCanceled(arrivalCanceled);
     this->setLeft(left);
     this->setOccupancy(occupancy);
-
-    // Autogenerate other fields if not specified
-    // Second constructor might be needed: 1 without direction, 1 with direction, 1 with extraStop, 1 without
+    QDateTime realArrivalTime = scheduledArrivalTime;
+    realArrivalTime.addSecs(arrivalDelay);
+    this->setRealArrivalTime(realArrivalTime);
+    QDateTime realDepartureTime = scheduledDepartureTime;
+    realDepartureTime.addSecs(departureDelay);
+    this->setRealDepartureTime(realDepartureTime);
 }
 
 Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, int departureDelay, QDateTime scheduledDepartureTime, bool departureCanceled, int arrivalDelay, QDateTime scheduledArrivalTime, bool arrivalCanceled, bool left, IRail::Occupancy occupancy, bool isExtraStop, QString direction, bool walking)
@@ -36,33 +79,17 @@ Stop::Stop(int id, Station *station, QString platform, bool isDefaultPlatform, i
     this->setIsExtraStop(isExtraStop);
     this->setDirection(direction);
     this->setWalking(walking);
+    QDateTime realArrivalTime = scheduledArrivalTime;
+    realArrivalTime.addSecs(arrivalDelay);
+    this->setRealArrivalTime(realArrivalTime);
+    QDateTime realDepartureTime = scheduledDepartureTime;
+    realDepartureTime.addSecs(departureDelay);
+    this->setRealDepartureTime(realDepartureTime);
 }
 
 /*********************
  * Getters & Setters *
  *********************/
-
-int Stop::id() const
-{
-    return m_id;
-}
-
-void Stop::setId(int id)
-{
-    m_id = id;
-    emit this->idChanged();
-}
-
-Station *Stop::station() const
-{
-    return m_station;
-}
-
-void Stop::setStation(Station *station)
-{
-    m_station = station;
-    emit this->stationChanged();
-}
 
 QString Stop::platform() const
 {
@@ -86,72 +113,6 @@ void Stop::setIsDefaultPlatform(bool isDefaultPlatform)
     emit this->isDefaultPlatformChanged();
 }
 
-int Stop::departureDelay() const
-{
-    return m_departureDelay;
-}
-
-void Stop::setDepartureDelay(int departureDelay)
-{
-    m_departureDelay = departureDelay;
-    emit this->departureDelayChanged();
-}
-
-QDateTime Stop::scheduledDepartureTime() const
-{
-    return m_scheduledDepartureTime;
-}
-
-void Stop::setScheduledDepartureTime(const QDateTime &scheduledDepartureTime)
-{
-    m_scheduledDepartureTime = scheduledDepartureTime;
-    emit this->scheduledDepartureTimeChanged();
-}
-
-bool Stop::departureCanceled() const
-{
-    return m_departureCanceled;
-}
-
-void Stop::setDepartureCanceled(bool departureCanceled)
-{
-    m_departureCanceled = departureCanceled;
-    emit this->departureCanceledChanged();
-}
-
-int Stop::arrivalDelay() const
-{
-    return m_arrivalDelay;
-}
-
-void Stop::setArrivalDelay(int arrivalDelay)
-{
-    m_arrivalDelay = arrivalDelay;
-    emit this->arrivalDelayChanged();
-}
-
-QDateTime Stop::scheduledArrivalTime() const
-{
-    return m_scheduledArrivalTime;
-}
-
-void Stop::setScheduledArrivalTime(const QDateTime &scheduledArrivalTime)
-{
-    m_scheduledArrivalTime = scheduledArrivalTime;
-    emit this->scheduledArrivalTimeChanged();
-}
-
-bool Stop::arrivalCanceled() const
-{
-    return m_arrivalCanceled;
-}
-
-void Stop::setArrivalCanceled(bool arrivalCanceled)
-{
-    m_arrivalCanceled = arrivalCanceled;
-    emit this->arrivalCanceledChanged();
-}
-
 bool Stop::left() const
 {
     return m_left;
@@ -160,49 +121,24 @@ bool Stop::left() const
 void Stop::setLeft(bool left)
 {
     m_left = left;
-    emit this->leftChanged();
 }
 
-IRail::Occupancy Stop::occupancy() const
+QDateTime Stop::realArrivalTime() const
 {
-    return m_occupancy;
+    return m_realArrivalTime;
 }
 
-void Stop::setOccupancy(const IRail::Occupancy &occupancy)
+void Stop::setRealArrivalTime(const QDateTime &realArrivalTime)
 {
-    m_occupancy = occupancy;
-    emit this->occupancyChanged();
+    m_realArrivalTime = realArrivalTime;
 }
 
-bool Stop::isExtraStop() const
+QDateTime Stop::realDepartureTime() const
 {
-    return m_isExtraStop;
+    return m_realDepartureTime;
 }
 
-void Stop::setIsExtraStop(bool isExtraStop)
+void Stop::setRealDepartureTime(const QDateTime &realDepartureTime)
 {
-    m_isExtraStop = isExtraStop;
-    emit this->isExtraStopChanged();
-}
-
-QString Stop::direction() const
-{
-    return m_direction;
-}
-
-void Stop::setDirection(const QString &direction)
-{
-    m_direction = direction;
-    emit this->directionChanged();
-}
-
-bool Stop::walking() const
-{
-    return m_walking;
-}
-
-void Stop::setWalking(bool walking)
-{
-    m_walking = walking;
-    emit this->walkingChanged();
+    m_realDepartureTime = realDepartureTime;
 }

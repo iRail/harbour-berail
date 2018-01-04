@@ -1,10 +1,28 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   BeRail is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "connection.h"
 
-Connection::Connection(int id, Stop* fromStation, Stop* toStation, Disturbances* alerts, Disturbances* remarks, IRail::Occupancy occupancy, int duration, ViaListModel* vias, QDateTime timestamp)
+Connection::Connection(int id, Stop* fromStation, Stop* toStation, QString fromVehicleId, QString toVehicleId, Disturbances* alerts, Remarks* remarks, IRail::Occupancy occupancy, int duration, ViaListModel* vias, QDateTime timestamp)
 {
     this->setId(id);
     this->setFrom(fromStation);
     this->setTo(toStation);
+    this->setFromVehicleId(fromVehicleId);
+    this->setToVehicleId(toVehicleId);
     this->setAlerts(alerts);
     this->setRemarks(remarks);
     this->setOccupancy(occupancy);
@@ -72,6 +90,26 @@ void Connection::setTo(Stop *to)
     emit this->toChanged();
 }
 
+QString Connection::fromVehicleId() const
+{
+    return m_fromVehicleId;
+}
+
+void Connection::setFromVehicleId(const QString &fromVehicleId)
+{
+    m_fromVehicleId = fromVehicleId;
+}
+
+QString Connection::toVehicleId() const
+{
+    return m_toVehicleId;
+}
+
+void Connection::setToVehicleId(const QString &toVehicleId)
+{
+    m_toVehicleId = toVehicleId;
+}
+
 Disturbances *Connection::alerts() const
 {
     return m_alerts;
@@ -83,12 +121,12 @@ void Connection::setAlerts(Disturbances *alerts)
     emit this->alertsChanged();
 }
 
-Disturbances *Connection::remarks() const
+Remarks *Connection::remarks() const
 {
     return m_remarks;
 }
 
-void Connection::setRemarks(Disturbances *remarks)
+void Connection::setRemarks(Remarks *remarks)
 {
     m_remarks = remarks;
     emit this->remarksChanged();

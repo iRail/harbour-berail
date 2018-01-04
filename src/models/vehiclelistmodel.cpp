@@ -1,3 +1,19 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   BeRail is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "vehiclelistmodel.h"
 
 VehicleListModel::VehicleListModel()
@@ -16,12 +32,24 @@ QHash<int, QByteArray> VehicleListModel::roleNames() const
     roles[IdRole] = "id";
     roles[DateRole] = "date";
     roles[StopsRole] = "stops";
+    roles[LiveboardRole] = "liveboard";
+    roles[HasDelayRole] = "hasDelay";
     roles[LocationRole] = "location";
     roles[CanceledRole] = "canceled";
     roles[OccupancyRole] = "occupancy";
     roles[DisturbancesRole] = "disturbances";
     roles[TimestampRole] = "timestamp";
     return roles;
+}
+
+bool VehicleListModel::hasDelay() const
+{
+    return m_hasDelay;
+}
+
+void VehicleListModel::setHasDelay(bool hasDelay)
+{
+    m_hasDelay = hasDelay;
 }
 
 int VehicleListModel::rowCount(const QModelIndex &) const
@@ -42,6 +70,10 @@ QVariant VehicleListModel::data(const QModelIndex &index, int role) const
         return QVariant(this->vehicleList().at(index.row())->date());
     case StopsRole:
         return QVariant(QVariant::fromValue(this->vehicleList().at(index.row())->stopListModel()));
+    case LiveboardRole:
+        return QVariant(QVariant::fromValue(this->vehicleList().at(index.row())->stops().at(0)));
+    case HasDelayRole:
+        return QVariant(this->hasDelay());
     case LocationRole:
         return QVariant(QVariant::fromValue(this->vehicleList().at(index.row())->location()));
     case CanceledRole:
@@ -69,4 +101,13 @@ QList<Vehicle *> VehicleListModel::vehicleList() const
 void VehicleListModel::setVehicleList(const QList<Vehicle *> &vehicleList)
 {
     m_vehicleList = vehicleList;
+
+    // Scan for delays in model
+    this->setHasDelay(false);
+    foreach(Vehicle * item, vehicleList) {
+        if(item->stops().at(0)->departureDelay() > 0) {
+            this->setHasDelay(true);
+            break;
+        }
+    }
 }

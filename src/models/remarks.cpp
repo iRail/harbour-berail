@@ -6,7 +6,7 @@
 *   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Foobar is distributed in the hope that it will be useful,
+*   BeRail is distributed in the hope that it will be useful,
 *   but WITHOUT ANY WARRANTY; without even the implied warranty of
 *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *   GNU General Public License for more details.
@@ -14,18 +14,25 @@
 *   You should have received a copy of the GNU General Public License
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "remarks.h"
 
-import QtQuick 2.2
-import Sailfish.Silica 1.0
+/**
+ * @class Remarks
+ * @brief Remarks default constructor overide
+ */
+Remarks::Remarks()
+{
+    this->setAlerts(QList<Alert*>()); // Init list
+}
 
-Label {
-    property string labelText
-    anchors { left: parent.left; right: parent.right; leftMargin: Theme.horizontalPageMargin; rightMargin: Theme.horizontalPageMargin }
-    font.pixelSize: Theme.fontSizeMedium
-    wrapMode: Text.WordWrap
-    text: labelText
-
-    Behavior on opacity {
-        FadeAnimation{}
-    }
+/**
+ * @class Remarks
+ * @brief Remarks constructor overide
+ * @param alerts
+ * @param timestamp
+ */
+Remarks::Remarks(QList<Alert*> alerts, QDateTime timestamp)
+{
+    this->setAlerts(alerts);
+    this->setTimestamp(timestamp);
 }

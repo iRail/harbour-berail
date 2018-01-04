@@ -1,3 +1,19 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   BeRail is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef VIALISTMODEL_H
 #define VIALISTMODEL_H
 
@@ -12,22 +28,25 @@ class ViaListModel : public QAbstractListModel
 public:
     enum Roles {
         IdRole = Qt::UserRole + 1,
-        ArrivalRole = Qt::UserRole + 2,
-        DepartureRole = Qt::UserRole + 3,
-        StationRole = Qt::UserRole + 4,
-        TimeBetweenRole = Qt::UserRole + 5,
-        VehicleIdRole = Qt::UserRole + 6,
-        DisturbancesRole = Qt::UserRole + 7
+        StopRole = Qt::UserRole + 2,
+        StationRole = Qt::UserRole + 3,
+        ArrivalTimeRole = Qt::UserRole +4,
+        LeftTimeRole = Qt::UserRole + 5,
+        TimeBetweenRole = Qt::UserRole + 6,
+        WillMissViaRole = Qt::UserRole + 7,
+        VehicleIdRole = Qt::UserRole + 8,
+        DisturbancesRole = Qt::UserRole + 9
     };
 
     explicit ViaListModel(QList<Via *> alertList);
     explicit ViaListModel();
+    ~ViaListModel();
 
     virtual int rowCount(const QModelIndex&) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
-
     QList<Via *> viaList() const;
     void setViaList(const QList<Via *> &viaList);
+    Q_INVOKABLE int count() const;
 
 protected:
     QHash<int, QByteArray> roleNames() const;

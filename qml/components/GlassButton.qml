@@ -6,7 +6,7 @@
 *   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Foobar is distributed in the hope that it will be useful,
+*   BeRail is distributed in the hope that it will be useful,
 *   but WITHOUT ANY WARRANTY; without even the implied warranty of
 *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *   GNU General Public License for more details.
@@ -19,54 +19,38 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 BackgroundItem {
+    id: button
     property string link
-    property string iconSource
-    property string iconText
-    property real itemScale: 1.0
+    property string source
+    property string text
     property bool show: true
-    property int type: 0
+    property int type
 
     width: parent.width
-    height: Theme.itemSizeLarge*1.2*itemScale
+    height: Theme.itemSizeLarge
     anchors { left: parent.left; right: parent.right }
-    onClicked: {
-        switch(type) {
-        case 0:
-            Qt.openUrlExternally(link);
-            break;
-        case 1:
-            var _page = pageStack.push(link);
-            _page.finished.connect(function(station) {
-                iconText = station;
-            });
-            break;
-        case 2:
-            pageStack.replace(link);
-            break;
-        }
-    }
-    enabled: link.length
-    visible: iconText.length && show
+    onClicked: Qt.openUrlExternally(link)
+    enabled: link.length > 0
+    visible: button.text.length && button.show
 
     Row {
-        anchors { left: parent.left; leftMargin: Theme.paddingLarge*itemScale; right: parent.right; rightMargin: Theme.paddingLarge*itemScale; verticalCenter: parent.verticalCenter }
+        anchors { left: parent.left; leftMargin: Theme.paddingLarge; right: parent.right; rightMargin: Theme.paddingLarge; verticalCenter: parent.verticalCenter }
         spacing: Theme.paddingMedium
 
         Image {
             id: logo
-            width: Theme.iconSizeLarge
+            width: Theme.iconSizeMedium
             height: width
-            source: iconSource
-            scale: itemScale
+            source: button.source
         }
 
         Label {
             width: parent.width - logo.width
             anchors { verticalCenter: parent.verticalCenter }
-            font.pixelSize: Theme.fontSizeLarge
-            text: iconText
+            font.pixelSize: Theme.fontSizeMedium
+            text: button.text
             truncationMode: TruncationMode.Fade
-            visible: iconText.length
+            visible: button.text.length
         }
     }
 }

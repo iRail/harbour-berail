@@ -1,5 +1,20 @@
+/*
+*   This file is part of BeRail.
+*
+*   BeRail is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   BeRail is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "liveboard.h"
-
 
 Liveboard::Liveboard(Station* station, QList<Vehicle*> vehicles, QDateTime time, IRail::ArrDep arrdep, Disturbances* disturbances)
 {
@@ -13,6 +28,15 @@ Liveboard::Liveboard(Station* station, QList<Vehicle*> vehicles, QDateTime time,
 Liveboard::Liveboard()
 {
 
+}
+
+Liveboard::~Liveboard()
+{
+    if(!this->vehicles().isEmpty()) {
+        foreach(Vehicle* item, this->vehicles()) {
+            item->deleteLater();
+        }
+    }
 }
 
 /*********************
@@ -84,6 +108,7 @@ AlertListModel *Liveboard::alertListModel() const
 void Liveboard::setAlertListModel(AlertListModel *alertListModel)
 {
     m_alertListModel = alertListModel;
+    emit this->alertListModelChanged();
 }
 
 VehicleListModel *Liveboard::vehicleListModel() const
@@ -94,6 +119,7 @@ VehicleListModel *Liveboard::vehicleListModel() const
 void Liveboard::setVehicleListModel(VehicleListModel *vehicleListModel)
 {
     m_vehicleListModel = vehicleListModel;
+    emit this->vehicleListModelChanged();
 }
 
 

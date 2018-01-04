@@ -6,73 +6,94 @@
 *   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Foobar is distributed in the hope that it will be useful,
+*   BeRail is distributed in the hope that it will be useful,
 *   but WITHOUT ANY WARRANTY; without even the implied warranty of
 *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*   along with BeRail. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.2
+import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "./components"
-import "./js/trip.js" as Trip
+import Harbour.BeRail.Models 1.0
+import "../components"
+import "../js/util.js" as Utils
 
 Page {
     property string from
     property string to
-    property string time
-    property string date
-    property bool succes: true //Wait until changed
-    Component.onCompleted: Trip.load(from, to, time, date)
+    property date date
 
-    SilicaListView {
-        width: parent.width; height: parent.height
-        header: PageHeader { title: qsTr("Trip planner") }
-        model: tripModel
-        delegate: ListItem {
-            width: ListView.view.width
-            contentHeight: item.height
-            //enabled: false //Temp disabled TripDetailPage until we figured out how to show intermediate stops //!item.canceled // Disable TripDetailPage when train is canceled
-            onClicked: pageStack.push(Qt.resolvedUrl("TripDetailPage.qml"), { tripModel: tripModel, indexModel: index })
-            TripItem {
-                id: item
-                departStation: model.depart.station
-                departTime: model.depart.time.time
-                departDelay: model.depart.delay
-                departTrain: model.depart.train
-                departTrack: model.depart.platform
-                departTrackChanged: model.depart.platformChanged
-                arriveStation: model.arrival.station
-                arriveTime: model.arrival.time.time
-                arriveDelay: model.arrival.delay
-                arriveTrain: model.arrival.train
-                arriveTrack: model.arrival.platform
-                arriveTrackChanged: model.arrival.platformChanged
-                canceled: model.depart.canceled || model.arrival.canceled? true: false // When arrive or depart is canceled then this connection is not valid
-                vias: model.vias.number
-                viasModel: model.vias.via
-                alerts: model.alerts.alert
-                showAlerts: false
-                expanded: false
+    id: page
+
+    // For performance reasons we wait until the Page is fully loaded before doing an API request
+    onStatusChanged: status===PageStatus.Active? getData(): undefined
+
+    function getData() {
+        api.getConnections(from, to, IRail.Arrival, date, Utils.convertTransportType(settings.transportFilter))
+    }
+
+    Connections {
+        target: app
+        onNetworkStatusChanged: app.networkStatus? getData(): undefined
+    }
+
+    Connections {
+        target: api
+        onConnectionsChanged: {
+            placeholder.enabled = false
+            connectionsListView.model = api.connections
+        }
+        onErrorOccurred: placeholder.enabled = true
+    }
+
+    SilicaFlickable {
+        anchors.fill: parent
+        contentHeight: column.height
+
+        Column {
+            id: column
+            width: parent.width
+
+            PageHeader {
+                //: The planner for the user it's trips between two stations
+                //% "Trip planner"
+                title: qsTrId("berail-trip-planner")
+            }
+
+            SilicaListView {
+                id: connectionsListView
+                width: parent.width
+                height: contentHeight
+                opacity: api.busy? fadeOutValue: fadeInValue
+                visible: !placeholder.enabled
+                Behavior on opacity { FadeAnimator {} }
+                delegate: TripDelegate {
+                    width: ListView.view.width
+                    vias: model.vias
+                }
+
+                VerticalScrollDecorator {}
             }
         }
 
         ViewPlaceholder {
-            enabled: !succes
-            text: qsTr("No connections found")
-            hintText: qsTr("Try another station") + "..."
+            id: placeholder
+            enabled: false
+            //: To acknowledging a minor mistake 'Oops' is used
+            //% "Oops!"
+            text: qsTrId("berail-oops")
+            //% "Something went wrong, please try again later"
+            hintText: qsTrId("berail-oops-hint")
         }
     }
 
-    LoadIndicator {
-        anchors { fill: parent }
-        show: tripModel.count==0 && succes
-    }
-
-    ListModel {
-        id: tripModel
+    BusyIndicator {
+        id: busyIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: Qt.application.active && api.busy
     }
 }
