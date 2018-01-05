@@ -106,6 +106,7 @@ ListItem {
 
         Label {
             id: station
+            width: parent.width
             truncationMode: TruncationMode.Fade
             font.capitalization: Font.SmallCaps
             font.bold: true

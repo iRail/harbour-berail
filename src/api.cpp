@@ -40,6 +40,10 @@ API::API()
     // Create User-Agent
     qDebug() << SFOS.appVersion();
     this->setUseragent(QString("%1/%2 (%3)").arg(SFOS.appNamePretty(), SFOS.appVersion(), SFOS.release()));
+
+    // Retrieve the system language to supply the right language with the iRail API
+    QLocale locale;
+    this->setLanguage(locale.language());
 }
 
 /**
@@ -295,7 +299,7 @@ void API::finished (QNetworkReply *reply)
         {
             qWarning() << reply->errorString();
             //: Error shown to the user when the iRail API failed to retrieve the requested data
-            //% "iRail API couldn't complete your request!"
+            //% "iRail API couldn't complete your request"
             emit this->errorOccurred(qtTrId("berail-api-error"));
         }
         else {
@@ -378,7 +382,7 @@ void API::sslErrors(QNetworkReply* reply, QList<QSslError> sslError)
 {
     qCritical() << "SSL error occured:" << reply->errorString() << sslError;
     //: Error shown to the user when an SSL error occurs due a bad certificate or incorrect time settings.
-    //% "SSL error, please check your device is running with the correct date and time."
+    //% "SSL error, please check your device is running with the correct date and time"
     emit this->errorOccurred(qtTrId("berail-ssl-error"));
 }
 
@@ -554,7 +558,7 @@ Liveboard *API::parseLiveboard(QJsonObject json)
     else {
         qCritical() << "Data parsing failed, JSON doesn't match";
         //: Error shown to the user when the liveboard of the station can't be retrieved
-        //% "Retrieving liveboard failed, please try again later."
+        //% "Retrieving liveboard failed, please try again later"
         //~ The liveboard is a list of all departing/arriving trains in a station.
         emit this->errorOccurred(qtTrId("berail-liveboard-error"));
         return new Liveboard();

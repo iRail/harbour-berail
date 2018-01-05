@@ -115,8 +115,8 @@
         <translation type="unfinished">Privatsphäre und Lizensierung</translation>
     </message>
     <message id="berail-privacy-licensing-text">
-        <source>%0 will never collect any personal information about the user,</source>
-        <oldsource>%1 will never collect any personal information about the user,but this can&apos;t be guaranteed from any third-party company used in %1.\nThis application is released under GPLv3.The source code and the license is available in the Github repo of %1.</oldsource>
+        <source>%0 will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in %0. This application is released under GPLv3. The source code and the license is available in the Github repo of %0.</source>
+        <oldsource>%0 will never collect any personal information about the user, but this can&apos;t be guaranteed from any third-party company used in %0.\n This application is released under GPLv3. The source code and the license is available in the Github repo of %0.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message id="berail-developer-source">
@@ -124,7 +124,8 @@
         <translation type="unfinished">Entwickler &amp; Quellcode</translation>
     </message>
     <message id="berail-donate-with">
-        <source>Donate with %1</source>
+        <source>Donate with %0</source>
+        <oldsource>Donate with %1</oldsource>
         <translation type="unfinished">Per %1 spenden</translation>
     </message>
     <message id="berail-source">
@@ -159,7 +160,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="berail-liveboard-error">
-        <source>Retrieving liveboard failed, please try again later.</source>
+        <source>Retrieving liveboard failed, please try again later</source>
+        <oldsource>Retrieving liveboard failed, please try again later.</oldsource>
         <extracomment>Error shown to the user when the liveboard of the station can&apos;t be retrieved</extracomment>
         <translation type="unfinished"></translation>
         <extra-The>liveboard is a list of all departing/arriving trains in a station.</extra-The>
@@ -179,7 +181,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="berail-ssl-error">
-        <source>SSL error, please check your device is running with the correct date and time.</source>
+        <source>SSL error, please check your device is running with the correct date and time</source>
+        <oldsource>SSL error, please check your device is running with the correct date and time.</oldsource>
         <extracomment>Error shown to the user when an SSL error occurs due a bad certificate or incorrect time settings.</extracomment>
         <translation type="unfinished"></translation>
     </message>
@@ -232,8 +235,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="berail-api-error">
-        <source>iRail API couldn&apos;t complete your request!</source>
-        <oldsource>iRail API couldn&apos;t find your data</oldsource>
+        <source>iRail API couldn&apos;t complete your request</source>
+        <oldsource>iRail API couldn&apos;t complete your request!</oldsource>
         <extracomment>Error shown to the user when the iRail API failed to retrieve the requested data</extracomment>
         <translation type="unfinished"></translation>
     </message>

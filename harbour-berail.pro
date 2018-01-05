@@ -39,8 +39,7 @@ SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 
 # Enable translations
 CONFIG += sailfishapp_i18n \
-    sailfishapp_i18n_idbased \
-    sailfishapp_i18n_unfinished
+    sailfishapp_i18n_idbased
 
 TRANSLATIONS += translations/harbour-berail.ts \
 translations/harbour-berail-de.ts \
@@ -73,7 +72,6 @@ DISTFILES += \
     qml/pages/components/DisturbancesView.qml \
     qml/pages/DisturbancesPage.qml \
     qml/pages/SettingsPage.qml \
-    translations/harbour-berail-en.ts \
     qml/components/GlassStationButton.qml \
     qml/pages/TripDetailHeader.qml
 
