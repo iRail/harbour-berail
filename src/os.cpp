@@ -40,7 +40,7 @@ OS::OS() {
     // Get SFOS release info
     QStringList querrySFOSList;
     querrySFOSList << "VERSION_ID" << "PRETTY_NAME";
-    dataList = extractFileData("/etc/os-release", querrySFOSList);
+    dataList = this->extractFileData("/etc/os-release", querrySFOSList);
 
     for(int i=0; i<dataList.count(); i++) {
         if(dataList.at(i).first == "VERSION_ID") {
@@ -54,7 +54,7 @@ OS::OS() {
     // Get HW release info
     QStringList querryHWList;
     querryHWList << "NAME";
-    m_device = extractFileData("/etc/hw-release", querryHWList).at(0).second;
+    m_device = this->extractFileData("/etc/hw-release", querryHWList).at(0).second;
 }
 
 /* Reads a file and search for the querries in the querryList using recursion.
@@ -66,7 +66,12 @@ QList<QPair<QString, QString>> OS::extractFileData(QString location, QStringList
     // Init a file object, open it and connect a QTextStream to the file
     QFile file(location);
     QList<QPair<QString, QString>> dataList;
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    // Return empty dataList if file couldn't be opened
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCritical() << "Opening file" << location << "failed";
+        return dataList;
+    }
     QTextStream content(&file);
     content.setAutoDetectUnicode(true);
 
