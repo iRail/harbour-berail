@@ -29,6 +29,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 #include <QtCore/QUrlQuery>
+#include <QtCore/QLocale>
 #include <QtGui/QColor>
 #include <QtPositioning/QGeoCoordinate>
 #include <QtNetwork/QNetworkAccessManager>

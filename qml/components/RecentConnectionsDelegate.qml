@@ -53,7 +53,7 @@ ListItem {
         }
 
         Label {
-            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width
             truncationMode: TruncationMode.Fade
             font.capitalization: Font.SmallCaps
             font.bold: true
@@ -61,7 +61,7 @@ ListItem {
         }
 
         Label {
-            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width
             truncationMode: TruncationMode.Fade
             font.capitalization: Font.SmallCaps
             font.bold: true

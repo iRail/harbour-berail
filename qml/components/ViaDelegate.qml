@@ -122,7 +122,7 @@ ListItem {
             truncationMode: TruncationMode.Fade
             font.pixelSize: Theme.fontSizeExtraSmall
             visible: !model.stop.walking
-            color: model.willMissVia? red: Theme.primaryColor
+            color: model.willMissVia? Theme.highlightColor: Theme.primaryColor
             text: (page.isPortrait? Utils.filterId(model.vehicleId.split(".")[2]): model.vehicleId.split(".")[2]) + ": " + model.stop.departureDirection
         }
 

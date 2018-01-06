@@ -51,10 +51,7 @@ Page {
             SectionHeader { text: qsTrId("berail-privacy-licensing") }
 
             TextLabel {
-                //% "%0 will never collect any personal information about the user,"
-                // "but this can't be guaranteed from any third-party company used in %0.\n"
-                // "This application is released under GPLv3.
-                // "The source code and the license is available in the Github repo of %0."
+                //% "%0 will never collect any personal information about the user, but this can't be guaranteed from any third-party company used in %0. This application is released under GPLv3. The source code and the license is available in the Github repo of %0."
                 text: qsTrId("berail-privacy-licensing-text").arg(sfos.appNamePretty)
             }
 
@@ -70,7 +67,7 @@ Page {
             GlassButton {
                 link: "https://paypal.me/minitreintje"
                 source: "qrc:///icons/icon-paypal.png"
-                //% "Donate with %1"
+                //% "Donate with %0"
                 text: qsTrId("berail-donate-with").arg("PayPal")
             }
 
