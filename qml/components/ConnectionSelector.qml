@@ -35,10 +35,14 @@ Column {
     signal timeSelected()
 
     on_ChangeStations: {
-        var temp = to.text;
-        to.text = from.text;
-        from.text = temp;
+        if(to.valid && from.valid) {
+            var temp = to.text;
+            to.text = from.text;
+            from.text = temp;
+        }
     }
+
+    Component.onCompleted: new Date().getHours() >= 12? _changeStations(): undefined // Switch stations when in the afternoon
 
     Row {
         width: parent.width
@@ -165,10 +169,10 @@ Column {
             }
             settings.recentConnections = JSON.stringify(history) // Nemo.Configuration can't handle JS values without JSON.stringify
             pageStack.push(Qt.resolvedUrl("../pages/TripPage.qml"), {
-                                      from: from.text,
-                                      to: to.text,
-                                      date: currentDate,
-                                  })
+                               from: from.text,
+                               to: to.text,
+                               date: currentDate,
+                           })
         }
     }
 
