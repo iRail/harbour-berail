@@ -50,6 +50,8 @@ https://www.transifex.com/dylanvanassche/harbour-berail/
 
 The translations are automatically updated on Transifex when a Pull Request has been merged in this repo.
 
+<img src="https://chart.googleapis.com/chart?chxt=y%2Cr&chd=e%3A....bgAA&chco=B7E1FF%2C73E6D2%2CF4F6FB&chbh=9&chs=350x66&cht=bhs&chxl=0%3A%7CFrench%7CGerman%7CEnglish+%28United+Kingdom%29%7CDutch%7C1%3A%7C0%25%7C43%25%7C100%25%7C100%25%7C" alt="Translations status">
+
 ## Powered by
 - [Qt5](https://www.qt.io)
 - [Transifex](https://www.transifex.com)
