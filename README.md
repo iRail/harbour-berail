@@ -29,10 +29,12 @@ BeRail is available in the official Jolla Store and on [Openrepos.net](https://o
 BeRail is an open source project licensed under the GPLv3 license and is open for contributions.
 
 ## How to contribute
-- Fork this repo
-- Add your changes
-- Test if everything works
-- Make a Pull request
+1. Fork and clone this repo
+2. Open your [Sailfish SDK](https://sailfishos.org/wiki/Application_SDK_Installation) and load the `harbour-berail.pro` file
+3. Add both targets in the SDK project setup (`armv7hl` and `i486`)
+3. Implement your changes
+4. Test and build if everything works
+5. Make a Pull request following the PR template
 
 ## Architecture overview
 A class diagram for the C++ back end and the QML UI is available in this repo under the folder '[docs](https://github.com/iRail/harbour-berail/tree/develop/docs)'.
