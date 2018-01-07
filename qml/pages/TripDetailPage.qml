@@ -6,56 +6,90 @@
 *   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Foobar is distributed in the hope that it will be useful,
+*   BeRail is distributed in the hope that it will be useful,
 *   but WITHOUT ANY WARRANTY; without even the implied warranty of
 *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
+*   along with BeRail. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.2
+import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "./components"
+import "../components"
 
 Page {
-    property var tripModel
-    property int indexModel
+    property string vehicleId
+    property date date
+    property var _vehicle
+
+    // For performance reasons we wait until the Page is fully loaded before doing an API request
+    onStatusChanged: status===PageStatus.Active? getData(): undefined
+
+    function getData() {
+        api.getVehicle(vehicleId, date)
+    }
+
+    Connections {
+        target: app
+        onNetworkStatusChanged: app.networkStatus? getData(): undefined
+    }
+
+    Connections {
+        target: api
+        onVehicleChanged: {
+            placeholder.enabled = false
+            _vehicle = api.vehicle
+            detailedTripListView.model = _vehicle.stopListModel
+            header.vehicle = _vehicle.id.split(".")[2]
+            header.alertsCount = _vehicle.alertListModel.count()
+        }
+        onErrorOccurred: placeholder.enabled = true
+    }
 
     SilicaFlickable {
         anchors.fill: parent
-        contentHeight: tripDetailColumn.height
-
-        VerticalScrollDecorator {}
+        contentHeight: column.height
 
         Column {
-            id: tripDetailColumn
+            id: column
             width: parent.width
-            spacing: Theme.paddingLarge
 
-            PageHeader { title: qsTr("Trip detail") }
+            TripDetailHeader {
+                id: header
+            }
 
-            TripItem {
-                departStation: tripModel.get(indexModel).depart.station
-                departTime: tripModel.get(indexModel).depart.time.time
-                departDelay: tripModel.get(indexModel).depart.delay
-                departTrain: tripModel.get(indexModel).depart.train
-                departTrack: tripModel.get(indexModel).depart.platform
-                departTrackChanged: tripModel.get(indexModel).depart.platformChanged
-                arriveStation: tripModel.get(indexModel).arrival.station
-                arriveTime: tripModel.get(indexModel).arrival.time.time
-                arriveDelay: tripModel.get(indexModel).arrival.delay
-                arriveTrain: tripModel.get(indexModel).arrival.train
-                arriveTrack: tripModel.get(indexModel).arrival.platform
-                arriveTrackChanged: tripModel.get(indexModel).arrival.platformChanged
-                canceled: tripModel.get(indexModel).depart.canceled || tripModel.get(indexModel).arrival.canceled? true: false // When arrive or depart is canceled then this connection is not valid
-                vias: tripModel.get(indexModel).vias.number
-                viasModel: tripModel.get(indexModel).vias.via
-                alerts: tripModel.get(indexModel).alerts.alert
-                showAlerts: false
-                Component.onCompleted: expanded = true
+            SilicaListView {
+                id: detailedTripListView
+                width: parent.width
+                height: contentHeight
+                opacity: api.busy? fadeOutValue: fadeInValue
+                visible: !placeholder.enabled
+                Behavior on opacity { FadeAnimator {} }
+                delegate: TripDetailDelegate {
+                    width: ListView.view.width
+                    enabled: false // Nothing to click on
+                    isLastItem: index >= detailedTripListView.count-1
+                    isFirstItem: index == 0
+                }
             }
         }
+
+        ViewPlaceholder {
+            id: placeholder
+            enabled: false
+            //: To acknowledging a minor mistake 'Oops' is used
+            //% "Oops!"
+            text: qsTrId("berail-oops")
+            //% "Something went wrong, please try again later"
+            hintText: qsTrId("berail-oops-hint")
+        }
+    }
+
+    BusyIndicator {
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: Qt.application.active && api.busy
     }
 }

@@ -6,7 +6,7 @@
 *   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Foobar is distributed in the hope that it will be useful,
+*   BeRail is distributed in the hope that it will be useful,
 *   but WITHOUT ANY WARRANTY; without even the implied warranty of
 *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *   GNU General Public License for more details.
@@ -17,40 +17,103 @@
 
 import QtQuick 2.2
 import Sailfish.Silica 1.0
-import "./components"
+import Harbour.BeRail.SFOS 1.0
+import "../components"
 
 Page {
+    SFOS {
+        id: sfos
+    }
+
     SilicaFlickable {
         anchors.fill: parent
-        contentHeight: aboutColumn.height
+        contentHeight: column.height
 
         VerticalScrollDecorator {}
 
         Column {
-            id: aboutColumn
+            id: column
             width: parent.width
-            spacing: Theme.paddingLarge
+            spacing: Theme.paddingMedium
 
-            PageHeader { title: qsTr("About %1 V%2").arg(app.name).arg(app.version) }
+            //% "About %0 V%1"
+            PageHeader { title: qsTrId("berail-version").arg(sfos.appNamePretty).arg(sfos.appVersion) }
 
-            SectionHeader { text: qsTr("What's %1 ?").arg(app.name) }
-            TextLabel { labelText: qsTr("%1 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!").arg(app.name) }
+            //% "What's %0 ?"
+            SectionHeader { text: qsTrId("berail-what-is").arg(sfos.appNamePretty) }
 
-            SectionHeader { text: qsTr("Privacy & licensing") }
-            TextLabel { labelText: qsTr("%1 will never collect any personal information about the user, but this can't be guaranteed from any third-party company used in %1").arg(app.name) }
-            TextLabel { labelText: qsTr("This application is released under GPLv3. The source code and the license is available in the Github repo of %1").arg(app.name) }
+            TextLabel {
+                //% "%0 is an opensource application to plan your NMBS/SNCB railway journeys on your Sailfish OS smartphone!"
+                text: qsTrId("berail-what-is-text").arg(sfos.appNamePretty)
+            }
 
-            SectionHeader { text: qsTr("Developer & source code") }
-            GlassButton { link: "https://github.com/modulebaan"; iconSource: "qrc:///icons/icon-github.png"; iconText: "Dylan Van Assche"; itemScale: 0.75 }
-            GlassButton { link: "https://paypal.me/minitreintje"; iconSource: "qrc:///icons/icon-paypal.png"; iconText: qsTr("Donate with %1").arg("PayPal"); itemScale: 0.75 }
-            GlassButton { link: "https://github.com/iRail/harbour-berail"; iconSource: "qrc:///icons/icon-code.png"; iconText: qsTr("Source code"); itemScale: 0.75 }
-            TextLabel { labelText: qsTr("%1 can be translated into your language but for that we need your help! You can translate this app on %2").arg(app.name).arg("Transifex:") }
-            GlassButton { link: "https://www.transifex.com/dylanvanassche/harbour-berail"; iconSource: "qrc:///icons/icon-translate.png"; iconText: qsTr("%1 project").arg("Transifex"); itemScale: 0.75 }
+            //% "Privacy & licensing"
+            SectionHeader { text: qsTrId("berail-privacy-licensing") }
 
-            SectionHeader { text: qsTr("Powered by") }
-            GlassButton { link: "http://irail.be/"; iconSource: "qrc:///icons/icon-irail.png"; iconText: "iRail"; itemScale: 0.75 }
-            GlassButton { link: "http://fontawesome.io/"; iconSource: "qrc:///icons/icon-fontawesome.png"; iconText: "FontAwesome icons"; itemScale: 0.75 }
-            GlassButton { link: "https://twitter.com/eLtMosen"; iconSource: "qrc:///icons/icon-twitter.png"; iconText: qsTr("Icon by %1").arg("Timo Könnecke"); itemScale: 0.75 }
+            TextLabel {
+                //% "%0 will never collect any personal information about the user, but this can't be guaranteed from any third-party company used in %0. This application is released under GPLv3. The source code and the license is available in the Github repo of %0."
+                text: qsTrId("berail-privacy-licensing-text").arg(sfos.appNamePretty)
+            }
+
+            //% "Developer & source code"
+            SectionHeader { text: qsTrId("berail-developer-source") }
+
+            GlassButton {
+                link: "https://github.com/dylanvanassche"
+                source: "qrc:///icons/icon-github.png"
+                text: "Dylan Van Assche"
+            }
+
+            GlassButton {
+                link: "https://paypal.me/minitreintje"
+                source: "qrc:///icons/icon-paypal.png"
+                //% "Donate with %0"
+                text: qsTrId("berail-donate-with").arg("PayPal")
+            }
+
+            GlassButton {
+                link: "https://github.com/iRail/harbour-berail"
+                source: "qrc:///icons/icon-code.png"
+                //% "Source code"
+                text: qsTrId("berail-source")
+            }
+
+            //% "Translations"
+            SectionHeader { text: qsTrId("berail-translations") }
+
+            TextLabel {
+                //% "%0 can be translated into your language but for that we need your help! You can translate this app on %1"
+                text: qsTrId("berail-translations-text").arg(sfos.appNamePretty).arg("Transifex:")
+            }
+
+            GlassButton {
+                link: "https://www.transifex.com/dylanvanassche/harbour-berail"
+                source: "qrc:///icons/icon-translate.png"
+                //% "%0 project"
+                text: qsTrId("berail-translations-project").arg("Transifex")
+            }
+
+            //% "Powered by"
+            SectionHeader { text: qsTrId("berail-powered-by") }
+
+            GlassButton {
+                link: "https://irail.be/"
+                source: "qrc:///icons/icon-irail.png"
+                text: "iRail"
+            }
+
+            GlassButton {
+                link: "https://fontawesome.io/"
+                source: "qrc:///icons/icon-fontawesome.png"
+                text: "FontAwesome icons"
+            }
+
+            GlassButton {
+                link: "https://twitter.com/eLtMosen"
+                source: "qrc:///icons/icon-twitter.png"
+                //% "%0 icon by %1"
+                text: qsTrId("berail-powered-by-icon").arg(sfos.appNamePretty).arg("Timo Könnecke")
+            }
         }
     }
 }
