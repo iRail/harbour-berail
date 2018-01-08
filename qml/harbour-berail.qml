@@ -56,7 +56,7 @@ ApplicationWindow
         path: "/apps/harbour-berail/settings"
 
         property int timeIs
-        property int transportFilter
+        property int transportFilter: 1 // Default only locale trains (iRail API bug #335)
         property bool favouriteStationsEnabled
         property string favouriteFromStation
         property string favouriteToStation

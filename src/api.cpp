@@ -291,13 +291,14 @@ void API::refreshAll()
  */
 void API::finished (QNetworkReply *reply)
 {
+    qInfo() << "Request finished:" << reply->url();
     if(!this->networkEnabled()) {
-        qWarning() << "Network inaccesible, can't retrieve API request!";
+        qCritical() << "Network inaccesible, can't retrieve API request!";
     }
     else if(reply->error()) {
         if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 500)
         {
-            qWarning() << reply->errorString();
+            qCritical() << reply->errorString();
             //: Error shown to the user when the iRail API failed to retrieve the requested data
             //% "iRail API couldn't complete your request"
             emit this->errorOccurred(qtTrId("berail-api-error"));
@@ -308,7 +309,7 @@ void API::finished (QNetworkReply *reply)
         }
     }
     else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301 || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 302) {
-        qDebug() << "HTTP 301/302: Moved, following redirect...";
+        qWarning() << "HTTP 301/302: Moved, following redirect...";
     }
     else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 304) {
         qDebug() << "HTTP 304: Not-Modified";
@@ -358,6 +359,9 @@ void API::finished (QNetworkReply *reply)
             }
             else if(reply->url().toString().contains("logs", Qt::CaseInsensitive)) {
                 qInfo() << "iRail log data received";
+            }
+            else {
+                qCritical() << "Unknown JSON data object received";
             }
         }
         else {

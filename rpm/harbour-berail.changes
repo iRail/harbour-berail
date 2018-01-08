@@ -8,7 +8,10 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
-* Mon Jan 7 2018 Dylan Van Assche <dylan.van.assche@protonmail.com> 2.0-1
+* Mon Jan 8 2018 Dylan Van Assche <dylan.van.assche@protonmail.com> 2.0-2
+- [MINOR BUGFIX] Workaround for iRail API issue #335
+
+* Sun Jan 7 2018 Dylan Van Assche <dylan.van.assche@protonmail.com> 2.0-1
 - [NEW] C++ backend with automatically caching and concurrent HTTPS requests
 - [NEW] Refreshed QML UI following the Model-Delegate-View principles by Qt
 - [NEW] Enforced Sailfish OS coding convention

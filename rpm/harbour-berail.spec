@@ -14,7 +14,7 @@ Name:       harbour-berail
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    BeRail
 Version:    2.0
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    GPLv3
 URL:        http://dylanvanassche.be/
