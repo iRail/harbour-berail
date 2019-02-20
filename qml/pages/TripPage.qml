@@ -32,7 +32,14 @@ Page {
     onStatusChanged: status===PageStatus.Active? getData(): undefined
 
     function getData() {
-        api.getConnections(from, to, IRail.Arrival, date, Utils.convertTransportType(settings.transportFilter))
+        var arrdep;
+        if(settings.timeIs === 0) {
+            arrdep = IRail.Departure
+        }
+        else {
+            arrdep = IRail.Arrival;
+        }
+        api.getConnections(from, to, arrdep, date, Utils.convertTransportType(settings.transportFilter))
     }
 
     Connections {
