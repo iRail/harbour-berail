@@ -102,7 +102,7 @@ QString API::parseTime(QDateTime time)
 }
 
 QString API::parseArrdep(IRail::ArrDep arrdep) {
-    if(arrdep == IRail::ArrDep::Arrival)
+   if(arrdep == IRail::ArrDep::Arrival)
     {
         return "arrival";
     }
@@ -221,7 +221,7 @@ void API::getLiveboard(QString stationName, QDateTime time, IRail::ArrDep arrdep
     parameters.addQueryItem("station", stationName);
     parameters.addQueryItem("date", this->parseDate(time));
     parameters.addQueryItem("time", this->parseTime(time));
-    parameters.addQueryItem("arrdep", this->parseArrdep(arrdep));
+    parameters.addQueryItem("timesel", this->parseArrdep(arrdep));
     parameters.addQueryItem("alerts", "true");
 
     // Prepare & do request

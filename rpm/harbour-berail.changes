@@ -8,6 +8,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Mon Jan 8 2018 Dylan Van Assche <dylan.van.assche@protonmail.com> 2.1-1
+- [MAJOR BUGFIX] Time selection for route planner works again.
+
 * Mon Jan 8 2018 Dylan Van Assche <dylan.van.assche@protonmail.com> 2.0-2
 - [MINOR BUGFIX] Workaround for iRail API issue #335
 
