@@ -73,7 +73,8 @@ DISTFILES += \
     qml/pages/DisturbancesPage.qml \
     qml/pages/SettingsPage.qml \
     qml/components/GlassStationButton.qml \
-    qml/pages/TripDetailHeader.qml
+    qml/pages/TripDetailHeader.qml \
+    translations/harbour-berail-nl_BE.ts
 
 RESOURCES += \
     qml/resources/resources.qrc
