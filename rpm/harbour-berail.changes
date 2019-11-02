@@ -8,6 +8,10 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sat Nov 3 2019 Dylan Van Assche <dylan.van.assche@protonmail.com> 2.2-1
+- [HOUSEKEEPING] Moved TripDetailHeader.qml to the right directory (Github issue #42).
+
+
 * Wed Feb 20 2019 Dylan Van Assche <dylan.van.assche@protonmail.com> 2.1-2
 - [UPGRADE] Adapt to import syntax changes for Nemo libs (Github issue #27).
 - [TRANSLATIONS] Updated translations from Transifex.
