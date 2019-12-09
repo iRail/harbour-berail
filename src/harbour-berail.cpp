@@ -29,6 +29,7 @@
 #include "logger.h"
 #include "os.h"
 #include "api.h"
+#include "connectiontracker.h"
 #include "models/station.h"
 
 // Add toString() method to all custom method
@@ -71,6 +72,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<IRail>("Harbour.BeRail.Models", 1, 0, "IRail", "read only");
     qmlRegisterType<API>("Harbour.BeRail.API", 1, 0, "API");
     qmlRegisterType<OS>("Harbour.BeRail.SFOS", 1, 0, "SFOS");
+    qmlRegisterType<ConnectionTracker>("Harbour.BeRail.ConnectionTracker", 1, 0, "ConnectionTracker");
 
     // Start the application.
     view->setSource(SailfishApp::pathTo("qml/harbour-berail.qml"));

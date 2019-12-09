@@ -16,6 +16,9 @@
 */
 #include "connection.h"
 
+#include <QDebug>
+#include <QCryptographicHash>
+
 Connection::Connection(int id, Stop* fromStation, Stop* toStation, QString fromVehicleId, QString toVehicleId, Disturbances* alerts, Remarks* remarks, IRail::Occupancy occupancy, int duration, ViaListModel* vias, QDateTime timestamp)
 {
     this->setId(id);
@@ -29,6 +32,8 @@ Connection::Connection(int id, Stop* fromStation, Stop* toStation, QString fromV
     this->setDuration(duration);
     this->setVias(vias);
     this->setTimestamp(timestamp);
+
+    computeUuid();
 }
 
 /*********************
@@ -151,4 +156,35 @@ void Connection::setTimestamp(const QDateTime &value)
 {
     m_timestamp = value;
     emit this->timestampChanged();
+}
+
+QUuid Connection::uuid() const
+{
+    return m_uuid;
+}
+
+void Connection::computeUuid()
+{
+    QCryptographicHash hash(QCryptographicHash::Sha3_512);
+
+    // Scheduled departure time, station and vehicle uniquely identify starting point
+    hash.addData(from()->scheduledDepartureTime().toString(Qt::ISODate).toUtf8());
+    hash.addData(from()->station()->name().toUtf8());
+    hash.addData(m_fromVehicleId.toUtf8());
+
+    auto viaModel = vias();
+    foreach(Via *via, viaModel->viaList()) {
+        qDebug() << "via" << via->stop()->station()->name();
+        hash.addData("via");
+        hash.addData(via->stop()->station()->name().toUtf8());
+        hash.addData(via->vehicleId().toUtf8());
+        hash.addData(via->arrivalTime().toString(Qt::ISODate).toUtf8());
+    }
+
+    hash.addData("to");
+    hash.addData(to()->station()->name().toUtf8());
+    hash.addData(to()->scheduledArrivalTime().toString(Qt::ISODate).toUtf8());
+
+    auto bytes = hash.result();
+    m_uuid = QUuid::fromRfc4122(bytes.left(16)); // XXX: abuse of RFC4122
 }

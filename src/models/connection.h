@@ -20,6 +20,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QString>
+#include <QUuid>
 #include "stop.h"
 #include "disturbances.h"
 #include "remarks.h"
@@ -37,6 +38,7 @@ class Connection: public QObject
     Q_PROPERTY(int duration READ duration WRITE setDuration NOTIFY durationChanged)
     Q_PROPERTY(ViaListModel* vias READ vias WRITE setVias NOTIFY viasChanged)
     Q_PROPERTY(QDateTime timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
+    Q_PROPERTY(QUuid uuid READ uuid)
 
 public:
     explicit Connection(int id,
@@ -75,6 +77,7 @@ public:
     void setVias(ViaListModel *vias);
     QDateTime timestamp() const;
     void setTimestamp(const QDateTime &value);
+    QUuid uuid() const;
 
 signals:
     void idChanged();
@@ -89,6 +92,8 @@ signals:
     void timestampChanged();
 
 private:
+    void computeUuid();
+
     int m_id;
     Stop* m_from;
     Stop* m_to;
@@ -100,6 +105,7 @@ private:
     int m_duration;
     ViaListModel* m_vias;
     QDateTime m_timestamp;
+    QUuid m_uuid;
 };
 
 #endif // CONNECTION_H
