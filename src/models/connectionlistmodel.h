@@ -41,14 +41,14 @@ public:
         TimestampRole = Qt::UserRole + 11
     };
 
-    explicit ConnectionListModel(QList<Connection *> connectionList);
+    explicit ConnectionListModel(QList<QSharedPointer<Connection>> connectionList);
     explicit ConnectionListModel();
     ~ConnectionListModel();
 
     virtual int rowCount(const QModelIndex&) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
-    QList<Connection *> connectionList() const;
-    void setConnectionList(const QList<Connection *> &connectionList);
+    QList<QSharedPointer<Connection>> connectionList() const;
+    void setConnectionList(const QList<QSharedPointer<Connection>> &connectionList);
 
     Station *from() const;
     void setFrom(Station *from);
@@ -65,7 +65,7 @@ protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    QList<Connection *> m_connectionList;
+    QList<QSharedPointer<Connection>> m_connectionList;
     Station* m_from;
     Station* m_to;
     QDateTime m_time;

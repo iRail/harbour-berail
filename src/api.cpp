@@ -650,7 +650,7 @@ Liveboard *API::parseLiveboard(QJsonObject json)
 ConnectionListModel* API::parseConnections(QJsonObject json)
 {
     qDebug() << "Parsing connections";
-    QList<Connection*> connectionList;
+    QList<QSharedPointer<Connection>> connectionList;
     QJsonArray connectionArray = json["connection"].toArray();
     QDateTime timestampConnections;
     timestampConnections.setTime_t(json["timestamp"].toString().toInt());
@@ -827,7 +827,7 @@ ConnectionListModel* API::parseConnections(QJsonObject json)
 
         IRail::Occupancy connectionOccupancy = this->parseOccupancy(connectionOccupancyObj["name"].toString());
         // TO DO: enable disturbances and remarks for the whole connection
-        Connection* connection = new Connection(connectionId, fromStop, toStop, fromVehicleId, toVehicleId, disturbancesConnection, remarksConnection, connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections);
+        QSharedPointer<Connection> connection(new Connection(connectionId, fromStop, toStop, fromVehicleId, toVehicleId, disturbancesConnection, remarksConnection, connectionOccupancy, connectionDuration, new ViaListModel(viaList), timestampConnections));
         connectionList.append(connection);
         qDebug() << "CONNECTION:";
         qDebug() << "\tFrom:" << connection->from()->station()->name();
