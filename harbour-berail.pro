@@ -80,6 +80,7 @@ RESOURCES += \
     qml/resources/resources.qrc
 
 HEADERS += \
+    src/connectiontracker.h \
     src/logger.h \
     src/os.h \
     src/api.h \
@@ -105,6 +106,7 @@ HEADERS += \
     src/models/stopabstract.h
 
 SOURCES += src/harbour-berail.cpp \
+    src/connectiontracker.cpp \
     src/logger.cpp \
     src/os.cpp \
     src/api.cpp \

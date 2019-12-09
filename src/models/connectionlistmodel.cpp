@@ -15,19 +15,15 @@
 *   along with BeRail.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "connectionlistmodel.h"
+#include <QSharedPointer>
 
-ConnectionListModel::ConnectionListModel(QList<Connection *> connectionList)
+ConnectionListModel::ConnectionListModel(QList<QSharedPointer<Connection>> connectionList)
 {
     this->setConnectionList(connectionList);
 }
 
 ConnectionListModel::~ConnectionListModel()
 {
-    if(!this->connectionList().isEmpty()) {
-        foreach(Connection* item, this->connectionList()) {
-            item->deleteLater();
-        }
-    }
 }
 
 int ConnectionListModel::rowCount(const QModelIndex &) const
@@ -136,12 +132,12 @@ QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
     }
 }
 
-QList<Connection *> ConnectionListModel::connectionList() const
+QList<QSharedPointer<Connection>> ConnectionListModel::connectionList() const
 {
     return m_connectionList;
 }
 
-void ConnectionListModel::setConnectionList(const QList<Connection *> &connectionList)
+void ConnectionListModel::setConnectionList(const QList<QSharedPointer<Connection>> &connectionList)
 {
     m_connectionList = connectionList;
 }

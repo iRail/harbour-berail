@@ -34,6 +34,7 @@ ListItem {
         anchors.fill: parent
         z: 1
         onClicked: _showVias == true? _showVias = false: _showVias = true
+        onPressAndHold: connectionTracker.toggleTracked(model.id)
         enabled: vias.count() > 0
     }
 

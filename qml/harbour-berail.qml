@@ -16,11 +16,13 @@
 */
 
 import QtQuick 2.2
+import QtQml.Models 2.2
 import Sailfish.Silica 1.0
 import Nemo.Configuration 1.0
 import Nemo.DBus 2.0
 import Harbour.BeRail.API 1.0
 import Harbour.BeRail.SFOS 1.0
+import Harbour.BeRail.ConnectionTracker 1.0
 import "pages"
 import "components"
 
@@ -71,6 +73,21 @@ ApplicationWindow
     API {
         id: api
         onErrorOccurred: sfos.createToaster(errorText, "icon-s-high-importance", "x-harbour-berail")
+    }
+
+    ConnectionTracker {
+        id: connectionTracker
+        api: api
+    }
+
+    Connections {
+        target: connectionTracker
+        onConnectionTracked: {
+            sfos.createToaster("Added to tracked routes", "icon-s-new", "x-harbour-berail")
+        }
+        onConnectionUntracked: {
+            sfos.createToaster("Deleted from tracked routes", "icon-m-input-remove", "x-harbour-berail")
+        }
     }
 
     DBusInterface {
